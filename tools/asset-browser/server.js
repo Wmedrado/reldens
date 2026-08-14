@@ -26,12 +26,14 @@ const THEME_SPRITES_DIR = path.resolve(__dirname, '../../theme/default/assets/cu
 const THEME_MAPS_DIR = path.resolve(__dirname, '../../theme/default/assets/maps');
 const THEME_FONTS_DIR = path.resolve(__dirname, '../../theme/default/assets/fonts');
 const THEME_DATA_DIR = path.resolve(__dirname, '../../theme/default/assets/cc0-data');
+const THEME_ASSETS_DIR = path.resolve(__dirname, '../../theme/default/assets');
+const DIST_ASSETS_DIR = path.resolve(__dirname, '../../dist/assets');
 
 const IMAGE_EXTS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp']);
 const AUDIO_EXTS = new Set(['.ogg', '.wav', '.mp3', '.m4a', '.flac', '.aac']);
 const MAP_EXTS = new Set(['.json', '.tmj']);
 const FONT_EXTS = new Set(['.ttf', '.otf', '.woff', '.woff2']);
-const MUSIC_PACKS = new Set(['music-jingles', 'rpg-audio', 'digital-audio']);
+const MUSIC_PACKS = new Set(['kenney/music-jingles', 'kenney/rpg-audio', 'kenney/digital-audio']);
 
 const MIME = {
     '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
@@ -59,11 +61,18 @@ let scanCache = null;
 let scanCacheTime = 0;
 const SCAN_TTL = 30000;
 
+function groupFor(rel, pack)
+{
+    let parts = rel.split('/');
+    return parts.length > 2 ? pack + '/' + parts[1] : pack;
+}
+
 function scan()
 {
     let now = Date.now();
     if(scanCache && (now - scanCacheTime) < SCAN_TTL){ return scanCache; }
     let packs = [];
+    let groups = {};
     let entries = [];
     let topLevels = fs.readdirSync(ROOT, {withFileTypes: true})
         .filter(d => d.isDirectory() && !d.name.startsWith('_') && d.name !== 'generated');
@@ -85,9 +94,11 @@ function scan()
                 counts[type] = (counts[type] || 0) + 1;
                 counts.total++;
                 let stat = fs.statSync(full);
+                let group = groupFor(rel, packDir.name);
                 entries.push({
                     relPath: rel,
                     pack: packDir.name,
+                    group,
                     name: ent.name,
                     type,
                     ext: ext.slice(1),
@@ -98,7 +109,14 @@ function scan()
         walk(packRoot);
         packs.push({name: packDir.name, counts});
     }
-    scanCache = {packs, entries};
+    for(let entry of entries){
+        if(!groups[entry.group]){
+            groups[entry.group] = {name: entry.group, pack: entry.pack, counts: {image: 0, audio: 0, map: 0, font: 0, data: 0, total: 0}};
+        }
+        groups[entry.group].counts[entry.type]++;
+        groups[entry.group].counts.total++;
+    }
+    scanCache = {packs, groups: Object.values(groups), entries};
     scanCacheTime = now;
     return scanCache;
 }
@@ -140,9 +158,9 @@ function generateAudioSql(selection, entries)
         if(!entry || entry.type !== 'audio'){ continue; }
         let audioKey = slugify(entry.pack + '-' + entry.name);
         if(!audioKey){ continue; }
-        let categoryId = MUSIC_PACKS.has(entry.pack) ? 1 : 3;
+        let categoryId = MUSIC_PACKS.has(entry.group) ? 1 : 3;
         let relDir = path.posix.dirname(relPath);
-        let filesName = relDir === '.' ? entry.name : relDir + '/' + entry.name;
+        let filesName = 'cc0/' + (relDir === '.' ? entry.name : relDir + '/' + entry.name);
         lines.push(
             `INSERT INTO \`audio\` (\`audio_key\`, \`files_name\`, \`category_id\`, \`enabled\`) VALUES ` +
             `('${escapeSql(audioKey)}', '${escapeSql(filesName)}', ${categoryId}, 1) ` +
@@ -176,8 +194,12 @@ function applySelection(selection, entries)
         let destFile = path.join(destDir, entry.name);
         fs.mkdirSync(destDir, {recursive: true});
         fs.copyFileSync(path.join(ROOT, relPath), destFile);
-        written.push({relPath, type: entry.type, to: path.relative(path.resolve(__dirname, '../../theme'), destFile)});
-        manifest.files.push({relPath, to: path.relative(path.resolve(__dirname, '../../theme'), destFile), type: entry.type});
+        let themeRel = path.relative(THEME_ASSETS_DIR, destFile).split(path.sep).join('/');
+        let distFile = path.join(DIST_ASSETS_DIR, themeRel);
+        fs.mkdirSync(path.dirname(distFile), {recursive: true});
+        fs.copyFileSync(path.join(ROOT, relPath), distFile);
+        written.push({relPath, type: entry.type, to: 'assets/' + themeRel});
+        manifest.files.push({relPath, to: 'assets/' + themeRel, type: entry.type});
     }
     fs.writeFileSync(MANIFEST_FILE, JSON.stringify(manifest, null, 2));
     let sql = generateAudioSql(selection, entries);
@@ -198,6 +220,11 @@ function cleanupApplied()
         let full = path.join(themeRoot, file.to);
         if(fs.existsSync(full)){
             fs.unlinkSync(full);
+            removed++;
+        }
+        let distFull = path.join(DIST_ASSETS_DIR, file.to.replace(/^assets\//, ''));
+        if(fs.existsSync(distFull)){
+            fs.unlinkSync(distFull);
             removed++;
         }
     }
@@ -266,19 +293,21 @@ const server = http.createServer(async (req, res) => {
 
         // API
         if(pathname === '/api/packs'){
-            let {packs} = scan();
-            return sendJson(res, 200, {packs});
+            let {packs, groups} = scan();
+            return sendJson(res, 200, {packs, groups});
         }
 
         if(pathname === '/api/assets'){
             let {entries} = scan();
             let selection = loadSelection();
+            let group = url.searchParams.get('group') || '';
             let pack = url.searchParams.get('pack') || '';
             let type = url.searchParams.get('type') || '';
             let q = (url.searchParams.get('q') || '').toLowerCase();
             let page = parseInt(url.searchParams.get('page') || '1', 10);
             let pageSize = parseInt(url.searchParams.get('pageSize') || '48', 10);
             let filtered = entries.filter(e => {
+                if(group && e.group !== group){ return false; }
                 if(pack && e.pack !== pack){ return false; }
                 if(type && e.type !== type){ return false; }
                 if(q && e.relPath.toLowerCase().indexOf(q) === -1){ return false; }
@@ -287,7 +316,7 @@ const server = http.createServer(async (req, res) => {
             let total = filtered.length;
             let start = (page - 1) * pageSize;
             let slice = filtered.slice(start, start + pageSize).map(e => ({
-                relPath: e.relPath, pack: e.pack, name: e.name,
+                relPath: e.relPath, pack: e.pack, group: e.group, name: e.name,
                 type: e.type, ext: e.ext, size: e.size,
                 selected: !!selection[e.relPath]
             }));
@@ -341,7 +370,7 @@ const server = http.createServer(async (req, res) => {
                 totalAssets: entries.length,
                 selected,
                 selectedAudio,
-                packs: scan().packs.length
+                groups: scan().groups.length
             });
         }
 

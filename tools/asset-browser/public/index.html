@@ -4,56 +4,116 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vibecraft — Asset Browser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <h1>Vibecraft Asset Browser</h1>
-    <div class="toolbar">
-        <button id="save-btn" title="Salvar seleções em selection.json">Salvar</button>
-        <span id="stats" class="stats"></span>
-        <label>Tile <input id="tile-size" type="number" value="16" min="1" max="256"> px</label>
-        <label>Offset X <input id="offset-x" type="number" value="0"> </label>
-        <label>Offset Y <input id="offset-y" type="number" value="0"> </label>
-        <button id="grid-toggle" class="on">Grid</button>
-        <button id="sel-all">Sel. todos</button>
-        <button id="sel-none">Limpar</button>
-        <label>Filtro
-            <select id="filter">
-                <option value="">todos</option>
-                <option value="use">marcado USAR</option>
-                <option value="skip">marcado pular</option>
-                <option value="fav">favorito</option>
-                <option value="unset">sem decisão</option>
-            </select>
-        </label>
-    </div>
-</header>
-<div class="layout">
-    <aside id="sidebar"><div class="tree" id="tree"></div></aside>
-    <main id="main">
-        <div id="file-grid"></div>
-        <div id="viewer" class="hidden">
-            <div class="viewer-head">
-                <button id="back-btn">← voltar</button>
-                <span id="viewer-title"></span>
-                <span id="viewer-dims"></span>
-            </div>
-            <div class="viewer-body">
-                <canvas id="viewer-canvas"></canvas>
-                <div id="audio-box" class="hidden"><audio id="audio-player" controls></audio></div>
-            </div>
-            <div class="viewer-actions">
-                <button class="state use" data-state="use">USAR</button>
-                <button class="state skip" data-state="skip">Pular</button>
-                <button class="state fav" data-state="fav">Favorito</button>
-                <button class="state clear" data-state="">Limpar estado</button>
-                <span id="frame-info"></span>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="logo">V</div>
+            <div>
+                <h1>Asset Browser</h1>
+                <span class="brand-sub">Vibecraft · CC0</span>
             </div>
         </div>
+        <div class="search-wrap">
+            <input id="search" type="search" placeholder="Buscar por nome de arquivo..." autocomplete="off">
+        </div>
+        <nav class="tree" id="tree"></nav>
+    </aside>
+
+    <main class="content">
+        <header class="topbar">
+            <div class="crumbs" id="crumbs">home</div>
+            <div class="top-actions">
+                <span class="stats" id="stats"></span>
+                <button id="save-btn" class="btn primary">Salvar</button>
+            </div>
+        </header>
+
+        <section id="gallery" class="gallery"></section>
+
+        <section id="viewer" class="viewer hidden">
+            <div class="viewer-toolbar">
+                <button id="back-btn" class="btn ghost">← Galeria</button>
+                <div class="viewer-title" id="viewer-title"></div>
+                <div class="viewer-controls">
+                    <label>Tile
+                        <select id="tile-size">
+                            <option value="8">8</option>
+                            <option value="16" selected>16</option>
+                            <option value="24">24</option>
+                            <option value="32">32</option>
+                            <option value="0">auto</option>
+                        </select>
+                    </label>
+                    <label>Offset X <input id="offset-x" type="number" value="0"></label>
+                    <label>Offset Y <input id="offset-y" type="number" value="0"></label>
+                    <button id="grid-toggle" class="btn toggle on">Grid</button>
+                    <button id="anim-toggle" class="btn toggle">▶ Anim</button>
+                    <button id="zoom-in" class="btn">＋</button>
+                    <button id="zoom-out" class="btn">－</button>
+                    <button id="fit-btn" class="btn">Ajustar</button>
+                    <button id="edit-tile-btn" class="btn accent">✎ Editar tile</button>
+                </div>
+            </div>
+            <div class="viewer-body">
+                <div class="stage" id="stage">
+                    <canvas id="viewer-canvas"></canvas>
+                    <div id="audio-box" class="hidden"><audio id="audio-player" controls></audio></div>
+                </div>
+            </div>
+            <div class="statusbar" id="statusbar"></div>
+            <div class="legend">
+                <span class="legend-item use">usar</span>
+                <span class="legend-item skip">pular</span>
+                <span class="legend-item fav">favorito</span>
+                <span class="legend-item edit">editado</span>
+                <span class="legend-hint">clique no tile: cicla estado · 1/2/3/0 no hover · editar abre pixel editor</span>
+            </div>
+        </section>
     </main>
 </div>
-<div id="hint" class="hidden"></div>
+
+<div id="editor-modal" class="modal hidden">
+    <div class="modal-panel">
+        <div class="modal-head">
+            <div class="modal-title" id="editor-title"></div>
+            <button id="editor-close" class="btn ghost">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="editor-canvas-wrap">
+                <canvas id="editor-canvas" width="256" height="256"></canvas>
+                <div class="editor-grid-overlay"></div>
+            </div>
+            <div class="editor-tools">
+                <div class="tool-row">
+                    <button class="tool-btn active" data-tool="pencil" title="Lápis">✏️</button>
+                    <button class="tool-btn" data-tool="eraser" title="Borracha">🧽</button>
+                    <button class="tool-btn" data-tool="fill" title="Balde">🪣</button>
+                    <button class="tool-btn" data-tool="eyedropper" title="Conta-gotas">💉</button>
+                </div>
+                <div class="tool-row">
+                    <button id="undo-btn" class="btn ghost" title="Desfazer">↩ Desfazer</button>
+                    <button id="redo-btn" class="btn ghost" title="Refazer">↪ Refazer</button>
+                    <button id="reset-tile-btn" class="btn ghost">Restaurar original</button>
+                </div>
+                <div class="palette" id="palette"></div>
+                <label class="color-pick">Cor <input type="color" id="color-pick" value="#ffffff"></label>
+                <label>Zoom <input type="range" id="editor-zoom" min="4" max="32" value="16"></label>
+                <div class="editor-status" id="editor-status"></div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <button id="editor-cancel" class="btn ghost">Cancelar</button>
+            <button id="editor-save" class="btn primary">Salvar tile</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="hidden"></div>
 <script src="app.js"></script>
 </body>
 </html>

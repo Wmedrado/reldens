@@ -6,16 +6,17 @@ import sharp from 'sharp';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ASSETS_ROOT = path.resolve(__dirname, '../../assets-cc0');
+const EDITED_ROOT = path.join(ASSETS_ROOT, '_edited');
 const SELECTION_FILE = path.join(ASSETS_ROOT, 'selection.json');
 const PORT = process.env.ASSET_BROWSER_PORT || 4300;
 
 const app = express();
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '20mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const IMAGE_EXT = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp']);
 const AUDIO_EXT = new Set(['.mp3', '.ogg', '.wav', '.flac']);
-const SKIP_DIRS = new Set(['_staging', '.git']);
+const SKIP_DIRS = new Set(['_staging', '_edited', '.git']);
 
 function walk(dir, rel = '') {
     const entries = [];
@@ -40,9 +41,7 @@ function walk(dir, rel = '') {
     return entries;
 }
 
-app.get('/api/tree', (_req, res) => {
-    res.json({ root: 'assets-cc0', tree: walk(ASSETS_ROOT) });
-});
+app.get('/api/tree', (_req, res) => res.json({ root: 'assets-cc0', tree: walk(ASSETS_ROOT) }));
 
 app.get('/api/image', async (req, res) => {
     const rel = req.query.p;
@@ -68,11 +67,47 @@ app.get('/api/file', (req, res) => {
     res.sendFile(full);
 });
 
+function safeEditDir(relPath) {
+    return path.join(EDITED_ROOT, relPath.split('/').join('_'));
+}
+
+app.get('/api/edited', (req, res) => {
+    const rel = req.query.p;
+    if (!rel) return res.json([]);
+    const dir = safeEditDir(rel);
+    if (!fs.existsSync(dir)) return res.json([]);
+    const tiles = fs.readdirSync(dir).filter((f) => f.endsWith('.png'));
+    res.json(tiles.map((f) => {
+        const m = f.match(/^t(\d+)_(\d+)\.png$/);
+        return m ? { x: Number(m[1]), y: Number(m[2]), file: `_edited/${rel.split('/').join('_')}/${f}` } : null;
+    }).filter(Boolean));
+});
+
+app.post('/api/edit', async (req, res) => {
+    const { path: rel, x, y, tileSize, dataUrl } = req.body || {};
+    if (!rel || typeof x !== 'number' || typeof y !== 'number' || !tileSize || !dataUrl) return res.status(400).send('bad body');
+    const dir = safeEditDir(rel);
+    fs.mkdirSync(dir, { recursive: true });
+    const b64 = dataUrl.replace(/^data:image\/\w+;base64,/, '');
+    await sharp(Buffer.from(b64, 'base64')).ensureAlpha().raw().toBuffer()
+        .then(() => {});
+    fs.writeFileSync(path.join(dir, `t${x}_${y}.png`), Buffer.from(b64, 'base64'));
+    res.json({ ok: true, file: `_edited/${rel.split('/').join('_')}/t${x}_${y}.png` });
+});
+
+app.post('/api/edit-delete', (req, res) => {
+    const { path: rel, x, y } = req.body || {};
+    const dir = safeEditDir(rel);
+    const f = path.join(dir, `t${x}_${y}.png`);
+    if (fs.existsSync(f)) fs.unlinkSync(f);
+    res.json({ ok: true });
+});
+
 function loadSelection() {
     try {
         return JSON.parse(fs.readFileSync(SELECTION_FILE, 'utf8'));
     } catch {
-        return { version: 1, frames: {}, files: {} };
+        return { version: 2, frames: {}, files: {}, tags: {} };
     }
 }
 
@@ -81,7 +116,7 @@ app.get('/api/selection', (_req, res) => res.json(loadSelection()));
 app.put('/api/selection', (req, res) => {
     const sel = req.body;
     if (!sel || typeof sel !== 'object') return res.status(400).send('bad body');
-    sel.version = 1;
+    sel.version = 2;
     fs.writeFileSync(SELECTION_FILE, JSON.stringify(sel, null, 2));
     res.json({ ok: true });
 });

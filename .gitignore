@@ -23,5 +23,9 @@ winpty.exe.stackdump
 /install.lock
 
 /server.log
+/server-run.*
 /tests/_q*.js
 /tests/_quota-trace.js
+
+/assets-cc0/_edited/
+/assets-cc0/_staging/

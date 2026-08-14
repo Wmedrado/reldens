@@ -1,12 +1,12 @@
 const PAGE_SIZE = 48;
 
 const state = {
-    pack: '',
+    group: '',
     type: '',
     q: '',
     page: 1,
     selected: {},
-    packs: [],
+    groups: [],
     pageAssets: [],
     total: 0
 };
@@ -54,54 +54,55 @@ async function loadStats()
     }
 }
 
-async function loadPacks()
+async function loadGroups()
 {
     let data = await api('/api/packs');
-    state.packs = data.packs;
+    state.groups = data.groups;
     let list = $('pack-list');
     list.innerHTML = '';
-    for(let pack of data.packs){
-        let c = pack.counts;
+    for(let group of data.groups){
+        let c = group.counts;
         let item = document.createElement('div');
-        item.className = 'pack-item' + (state.pack === pack.name ? ' active' : '');
+        item.className = 'pack-item' + (state.group === group.name ? ' active' : '');
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.checked = state.pack === pack.name;
+        checkbox.checked = state.group === group.name;
         checkbox.addEventListener('click', ev => {
             ev.stopPropagation();
-            togglePack(pack.name);
+            toggleGroup(group.name);
         });
         let name = document.createElement('span');
         name.className = 'pack-name';
-        name.textContent = pack.name;
+        name.textContent = group.name;
+        name.title = group.name;
         let count = document.createElement('span');
         count.className = 'pack-count';
         count.textContent = c.total;
         item.append(checkbox, name, count);
         item.addEventListener('click', () => {
-            state.pack = state.pack === pack.name ? '' : pack.name;
+            state.group = state.group === group.name ? '' : group.name;
             state.page = 1;
-            renderPacks();
+            renderGroups();
             loadAssets();
         });
         list.appendChild(item);
     }
 }
 
-function renderPacks()
+function renderGroups()
 {
     let items = $('pack-list').children;
     for(let item of items){
         let checkbox = item.querySelector('input');
         let name = item.querySelector('.pack-name').textContent;
-        item.classList.toggle('active', state.pack === name);
-        checkbox.checked = state.pack === name;
+        item.classList.toggle('active', state.group === name);
+        checkbox.checked = state.group === name;
     }
 }
 
-async function togglePack(packName)
+async function toggleGroup(groupName)
 {
-    let data = await api('/api/assets?pack=' + encodeURIComponent(packName) + '&pageSize=100000');
+    let data = await api('/api/assets?group=' + encodeURIComponent(groupName) + '&pageSize=100000');
     let rels = data.assets.map(a => a.relPath);
     let anyUnselected = rels.some(r => !state.selected[r]);
     await api('/api/selection/bulk', {
@@ -117,14 +118,14 @@ async function togglePack(packName)
     }
     loadStats();
     renderGrid();
-    toast((anyUnselected ? 'Selecionados' : 'Desmarcados') + ' ' + rels.length + ' assets de ' + packName);
+    toast((anyUnselected ? 'Selecionados' : 'Desmarcados') + ' ' + rels.length + ' assets de ' + groupName);
 }
 
 async function loadAssets()
 {
     $('grid').innerHTML = '<div class="loading">Carregando...</div>';
     let params = new URLSearchParams({page: state.page, pageSize: PAGE_SIZE});
-    if(state.pack){ params.set('pack', state.pack); }
+    if(state.group){ params.set('group', state.group); }
     if(state.type){ params.set('type', state.type); }
     if(state.q){ params.set('q', state.q); }
     let data = await api('/api/assets?' + params.toString());
@@ -287,7 +288,7 @@ function setupEvents()
 {
     setupEvents();
     try {
-        await loadPacks();
+        await loadGroups();
         await loadAssets();
         await loadStats();
     } catch (e) {
