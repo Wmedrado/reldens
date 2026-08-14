@@ -2,9 +2,20 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ PROCESSO DE DESENVOLVIMENTO (MULTI-IA) — LER PRIMEIRO
+
+Este repo é desenvolvido por **muitas IAs em paralelo**. Leia `docs/06-development-process.md` antes de qualquer tarefa. Regras críticas:
+
+1. **NUNCA inicie o servidor manualmente.** Existe UM runner oficial: `start-game.bat` (executa `dev.mjs`). Ele sobe game server (API + front, porta 8080) + asset browser (4300) **numa única janela**, com hot reload (`lib/`, `bin/`, `index.js`, `server.js`) e anti-duplicata de portas.
+2. Se o runner recusar ("uma instância já está rodando"), **não force** — mate a instância existente (`taskkill /PID <pid> /T /F`) e só então rode de novo.
+3. **Nunca mate processos que você não iniciou** — podem ser de outra IA. Em dúvida, pergunte ao usuário.
+4. Não abra terminais extras. Todos os logs ficam na janela do runner.
+5. Hot reload: código JS → restart automático; assets → Ctrl+F5; config de banco → `RELDENS_HOT_PLUG=1` (sem restart).
+6. Commite apenas seus arquivos; não mexa em mudanças de outras IAs no working tree.
+
 ## Project Overview
 
-Reldens is an MMORPG Platform (v4.0.0-beta.39) built on Node.js, designed for developers to create multiplayer games. The platform integrates:
+Reldens is an MMORPG Platform (v4.0.0-beta.39.8) built on Node.js, designed for developers to create multiplayer games. The platform integrates:
 - **Server**: Colyseus 0.16 for multiplayer game server
 - **Client**: Phaser 3 for game engine, Parcel for bundling
 - **Database**: Supports multiple storage drivers (objection-js, mikro-orm, prisma)

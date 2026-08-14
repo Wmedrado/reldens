@@ -37,3 +37,8 @@ winpty.exe.stackdump
 
 /server4300.log
 /tools/asset-browser/*.log
+
+/dev-test*.log
+/dev-test*.err.log
+
+/*.log
