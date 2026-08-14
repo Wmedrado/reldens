@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibecraft — Asset Browser</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Vibecraft Asset Browser</h1>
+    <div class="toolbar">
+        <button id="save-btn" title="Salvar seleções em selection.json">Salvar</button>
+        <span id="stats" class="stats"></span>
+        <label>Tile <input id="tile-size" type="number" value="16" min="1" max="256"> px</label>
+        <label>Offset X <input id="offset-x" type="number" value="0"> </label>
+        <label>Offset Y <input id="offset-y" type="number" value="0"> </label>
+        <button id="grid-toggle" class="on">Grid</button>
+        <button id="sel-all">Sel. todos</button>
+        <button id="sel-none">Limpar</button>
+        <label>Filtro
+            <select id="filter">
+                <option value="">todos</option>
+                <option value="use">marcado USAR</option>
+                <option value="skip">marcado pular</option>
+                <option value="fav">favorito</option>
+                <option value="unset">sem decisão</option>
+            </select>
+        </label>
+    </div>
+</header>
+<div class="layout">
+    <aside id="sidebar"><div class="tree" id="tree"></div></aside>
+    <main id="main">
+        <div id="file-grid"></div>
+        <div id="viewer" class="hidden">
+            <div class="viewer-head">
+                <button id="back-btn">← voltar</button>
+                <span id="viewer-title"></span>
+                <span id="viewer-dims"></span>
+            </div>
+            <div class="viewer-body">
+                <canvas id="viewer-canvas"></canvas>
+                <div id="audio-box" class="hidden"><audio id="audio-player" controls></audio></div>
+            </div>
+            <div class="viewer-actions">
+                <button class="state use" data-state="use">USAR</button>
+                <button class="state skip" data-state="skip">Pular</button>
+                <button class="state fav" data-state="fav">Favorito</button>
+                <button class="state clear" data-state="">Limpar estado</button>
+                <span id="frame-info"></span>
+            </div>
+        </div>
+    </main>
+</div>
+<div id="hint" class="hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
