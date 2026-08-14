@@ -15,10 +15,12 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **42/42 PASS, 0 FAIL** (42 arquivos; 3 admin exigem servidor vivo).
-- T2.3 + T2.4 + T2.5 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b, 9435ffb2):
-  curva de XP 1-100 (beta.48), kill XP via rewards verificado (test-kill-xp),
-  questline inicial de 6 missoes na capital (beta.49), wiki expandida.
+- Suite de testes puros: **44/44 PASS, 0 FAIL** (44 arquivos; 3 admin exigem servidor vivo).
+- T2.3 + T2.4 + T2.5 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b, 9435ffb2,
+  d85a6fb1, 9cd50a17): curva de XP 1-100 (beta.48), kill XP via rewards verificado (test-kill-xp),
+  questline inicial de 6 missoes na capital (beta.49), loop de quest verificado ponta a ponta
+  (test-quest-tracking: kill/craft avancam objetivo sem falso positivo; test-quest-rewards:
+  turn-in concede item + reward_exp e marca claimed), wiki expandida.
 - Working tree: trabalho em voo das IAs (professions XP, VIP, daily-tasks, drop-boost,
   shop, land gate, achievements, bank, pets, enchant, energy-regen) — testado verde,
   NAO commitado (dono = IAs que o criaram; T1.1).
@@ -119,7 +121,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
-| Quest system | 21 quests / 82 stages (talk/kill/door/cooking/tree/fish) | `lib/quests` (maquina kill/gather/craft) + questline inicial 6 missoes (beta.49) | PARTIAL | mais quests + tipos talk/door (T2.4/T4.1) |
+| Quest system | 21 quests / 82 stages (talk/kill/door/cooking/tree/fish) | `lib/quests` (maquina kill/gather/craft) + questline inicial 6 missoes (beta.49); loop verificado ponta a ponta (test-quest-tracking + test-quest-rewards) | PARTIAL | mais quests + tipos talk/door (T2.4/T4.1) |
 | Farming | - (nao no kaetram core) | `lib/farming` (crops/timers/yields) | DONE | vantagem nossa (T4.1 balance) |
 | Gathering | 4 skills lvl-gated: fishing/foraging/lumberjacking/mining | `lib/gathering` (resources) | PARTIAL | nivelar skills de coleta (T3.3/T4.1) |
 | Crafting | 7 profissoes / 93 receitas, level gate 1-62 | `lib/crafting` (receitas) + `lib/professions` (XP) | PARTIAL | volume de receitas + gating por skill (T4.1) |
