@@ -99,16 +99,35 @@ function renderTree() {
 
 function galleryFiles() {
     const out = [];
+    const depth = state.currentDir ? state.currentDir.split('/').length : 0;
     for (const n of flatten(state.tree, '', [], 0)) {
-        if (n.isDir) continue;
-        if (state.currentDir && !n.path.startsWith(state.currentDir + '/')) continue;
-        if (!state.currentDir && n.path.includes('/')) continue;
-        out.push(n);
+        if (n.isDir) {
+            if (n.path === state.currentDir) continue;
+            const d = n.path.split('/').length;
+            if (state.currentDir && !(n.path.startsWith(state.currentDir + '/') && d === depth + 1)) continue;
+            if (!state.currentDir && n.path.includes('/')) continue;
+            out.push(n);
+        } else {
+            if (state.currentDir && !n.path.startsWith(state.currentDir + '/')) continue;
+            if (!state.currentDir && n.path.includes('/')) continue;
+            out.push(n);
+        }
     }
     return out;
 }
 
 /* ---------------- Gallery ---------------- */
+
+function firstImageIn(nodes) {
+    for (const n of nodes || []) {
+        if (n.type === 'image') return n.path;
+        if (n.type === 'dir') {
+            const r = firstImageIn(n.children);
+            if (r) return r;
+        }
+    }
+    return null;
+}
 
 function renderGallery() {
     const gal = $('#gallery');
@@ -118,11 +137,23 @@ function renderGallery() {
     const q = state.search.trim().toLowerCase();
     for (const f of files) {
         if (q && !f.path.toLowerCase().includes(q)) continue;
+        if (f.isDir && f.count === 0) continue;
         const card = document.createElement('div');
         card.className = 'card' + (state.edited[f.path] ? ' edited' : '');
         const thumb = document.createElement('div');
         thumb.className = 'card-thumb' + (f.type === 'audio' ? ' audio' : '');
-        if (f.type === 'image') {
+        if (f.isDir) {
+            const first = firstImageIn(findNodeChildren(state.tree, f.path));
+            if (first) {
+                const img = document.createElement('img');
+                img.src = `/api/file?p=${encodeURIComponent(first)}`;
+                img.loading = 'lazy';
+                img.onerror = () => { thumb.textContent = '🗂'; };
+                thumb.appendChild(img);
+            } else {
+                thumb.textContent = '🗂';
+            }
+        } else if (f.type === 'image') {
             const img = document.createElement('img');
             img.src = `/api/file?p=${encodeURIComponent(f.path)}`;
             img.loading = 'lazy';
@@ -130,25 +161,50 @@ function renderGallery() {
             thumb.appendChild(img);
         } else if (f.type === 'audio') {
             thumb.textContent = '🎵';
-        } else { thumb.textContent = '📄'; }
+        }
         const body = document.createElement('div');
         body.className = 'card-body';
         const name = document.createElement('span');
         name.className = 'card-name';
-        name.textContent = f.name;
+        name.textContent = f.isDir ? `📁 ${f.name}` : f.name;
         body.appendChild(name);
+        if (f.isDir) {
+            const c = document.createElement('span');
+            c.className = 'size';
+            c.textContent = f.count;
+            body.appendChild(c);
+        }
         card.append(thumb, body);
         const st = frameState(f.path);
-        if (st) {
+        if (st && !f.isDir) {
             const b = document.createElement('span');
             b.className = 'badge ' + st;
             b.textContent = st;
             card.appendChild(b);
         }
-        card.onclick = () => openViewer(f);
+        card.onclick = () => f.isDir ? openDir(f) : openViewer(f);
         gal.appendChild(card);
     }
     updateStats();
+}
+
+function findNodeChildren(nodes, path) {
+    for (const n of nodes) {
+        if (n.path === path) return n.children || [];
+        if (n.type === 'dir') {
+            const r = findNodeChildren(n.children, path);
+            if (r) return r;
+        }
+    }
+    return null;
+}
+
+function openDir(f) {
+    state.currentDir = f.path;
+    state.currentFile = null;
+    renderTree();
+    renderGallery();
+    renderCrumbs();
 }
 
 /* ---------------- Viewer ---------------- */

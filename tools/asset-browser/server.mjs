@@ -28,9 +28,9 @@ function walk(dir, rel = '') {
             entries.push({ type: 'dir', path: relPath, name: entry.name, children: walk(full, relPath) });
         } else {
             const ext = path.extname(entry.name).toLowerCase();
-            if (IMAGE_EXT.has(ext) || AUDIO_EXT.has(ext) || ext === '.json' || ext === '.txt' || ext === '.md') {
+            if (IMAGE_EXT.has(ext) || AUDIO_EXT.has(ext)) {
                 entries.push({
-                    type: IMAGE_EXT.has(ext) ? 'image' : AUDIO_EXT.has(ext) ? 'audio' : 'text',
+                    type: IMAGE_EXT.has(ext) ? 'image' : 'audio',
                     path: relPath,
                     name: entry.name,
                     size: fs.statSync(full).size

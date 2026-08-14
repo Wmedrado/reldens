@@ -29,3 +29,8 @@ winpty.exe.stackdump
 
 /assets-cc0/_edited/
 /assets-cc0/_staging/
+
+/server-run.log
+/server-run.err.log
+/assets-browser.log
+/server.log
