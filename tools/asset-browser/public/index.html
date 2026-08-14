@@ -22,22 +22,56 @@
             <input id="search" type="search" placeholder="Buscar por nome de arquivo..." autocomplete="off">
         </div>
         <nav class="tree" id="tree"></nav>
+        <div class="sidebar-foot">
+            <span class="stats" id="tree-stats"></span>
+        </div>
     </aside>
 
     <main class="content">
         <header class="topbar">
             <div class="crumbs" id="crumbs">home</div>
             <div class="top-actions">
+                <button id="select-mode" class="btn">☑ Selecionar vários</button>
                 <span class="stats" id="stats"></span>
                 <button id="save-btn" class="btn primary">Salvar</button>
             </div>
         </header>
+
+        <div class="filterbar" id="filterbar">
+            <label>Tipo
+                <select id="type-filter">
+                    <option value="">tudo</option>
+                    <option value="image">imagens</option>
+                    <option value="audio">áudio</option>
+                    <option value="dir">pastas</option>
+                </select>
+            </label>
+            <label>Estado
+                <select id="state-filter">
+                    <option value="">todos</option>
+                    <option value="use">usar</option>
+                    <option value="skip">pular</option>
+                    <option value="fav">favorito</option>
+                    <option value="unset">sem decisão</option>
+                </select>
+            </label>
+            <label>Miniaturas <input id="thumb-size" type="range" min="80" max="280" value="150"></label>
+            <div id="batch-bar" class="batch-bar hidden">
+                <span id="batch-count"></span>
+                <button class="btn b-use" data-b="use">USAR</button>
+                <button class="btn b-skip" data-b="skip">Pular</button>
+                <button class="btn b-fav" data-b="fav">Fav</button>
+                <button class="btn b-clear" data-b="">Limpar</button>
+            </div>
+        </div>
 
         <section id="gallery" class="gallery"></section>
 
         <section id="viewer" class="viewer hidden">
             <div class="viewer-toolbar">
                 <button id="back-btn" class="btn ghost">← Galeria</button>
+                <button id="prev-btn" class="btn ghost" title="Anterior (seta ←)">◀</button>
+                <button id="next-btn" class="btn ghost" title="Próximo (seta →)">▶</button>
                 <div class="viewer-title" id="viewer-title"></div>
                 <div class="viewer-controls">
                     <label>Tile
@@ -53,15 +87,25 @@
                     <label>Offset Y <input id="offset-y" type="number" value="0"></label>
                     <button id="grid-toggle" class="btn toggle on">Grid</button>
                     <button id="anim-toggle" class="btn toggle">▶ Anim</button>
+                    <label>Linha <input id="anim-row" type="number" value="0" min="0" style="width:50px"></label>
+                    <label>FPS <input id="anim-fps" type="number" value="7" min="1" max="60" style="width:50px"></label>
                     <button id="zoom-in" class="btn">＋</button>
                     <button id="zoom-out" class="btn">－</button>
                     <button id="fit-btn" class="btn">Ajustar</button>
                     <button id="edit-tile-btn" class="btn accent">✎ Editar tile</button>
                 </div>
             </div>
+            <div class="viewer-toolbar row2">
+                <span class="mini-label">Marcar todos os frames:</span>
+                <button class="btn b-use" data-b="use">USAR</button>
+                <button class="btn b-skip" data-b="skip">Pular</button>
+                <button class="btn b-fav" data-b="fav">Fav</button>
+                <button class="btn b-clear" data-b="">Limpar</button>
+            </div>
             <div class="viewer-body">
                 <div class="stage" id="stage">
                     <canvas id="viewer-canvas"></canvas>
+                    <div id="frame-preview" class="hidden"><canvas id="preview-canvas" width="96" height="96"></canvas><span id="preview-label"></span></div>
                     <div id="audio-box" class="hidden"><audio id="audio-player" controls></audio></div>
                 </div>
             </div>
@@ -71,7 +115,7 @@
                 <span class="legend-item skip">pular</span>
                 <span class="legend-item fav">favorito</span>
                 <span class="legend-item edit">editado</span>
-                <span class="legend-hint">clique no tile: cicla estado · 1/2/3/0 no hover · editar abre pixel editor</span>
+                <span class="legend-hint">clique no tile: cicla estado · 1/2/3/0 no hover · duplo clique: editar · ←/→: navegar arquivo</span>
             </div>
         </section>
     </main>
@@ -86,7 +130,6 @@
         <div class="modal-body">
             <div class="editor-canvas-wrap">
                 <canvas id="editor-canvas" width="256" height="256"></canvas>
-                <div class="editor-grid-overlay"></div>
             </div>
             <div class="editor-tools">
                 <div class="tool-row">

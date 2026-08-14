@@ -14,11 +14,17 @@ const state = {
     showGrid: true,
     animOn: false,
     animTimer: null,
+    animRow: 0,
+    animFps: 7,
     zoom: 1,
     panX: 0,
     panY: 0,
     hoverFrame: null,
-    edited: {}          // path -> {x:file}
+    edited: {},
+    typeFilter: '',
+    stateFilter: '',
+    selMode: false,
+    selected: new Set()
 };
 
 async function api(url, opts) {
@@ -68,6 +74,7 @@ function renderTree() {
     el.innerHTML = '';
     const flat = flatten(state.tree, '', [], 0);
     const q = state.search.trim().toLowerCase();
+    let total = 0;
     for (const n of flat) {
         if (q && !n.path.toLowerCase().includes(q)) continue;
         if (q && n.isDir && n.count === 0) continue;
@@ -82,8 +89,9 @@ function renderTree() {
             c.className = 'count';
             c.textContent = n.count;
             div.append(span, c);
-            div.onclick = () => { state.currentDir = n.path; renderTree(); renderGallery(); };
+            div.onclick = () => { state.currentDir = n.path; state.selected.clear(); renderTree(); renderGallery(); };
         } else {
+            total++;
             div.title = n.path;
             const st = frameState(n.path);
             const span = document.createElement('span');
@@ -95,7 +103,10 @@ function renderTree() {
         }
         el.appendChild(div);
     }
+    $('#tree-stats').textContent = `${total} arquivos visíveis`;
 }
+
+/* ---------------- Gallery ---------------- */
 
 function galleryFiles() {
     const out = [];
@@ -106,23 +117,38 @@ function galleryFiles() {
             const d = n.path.split('/').length;
             if (state.currentDir && !(n.path.startsWith(state.currentDir + '/') && d === depth + 1)) continue;
             if (!state.currentDir && n.path.includes('/')) continue;
+            if (state.typeFilter && state.typeFilter !== 'dir') continue;
+            if (n.count === 0) continue;
             out.push(n);
         } else {
             if (state.currentDir && !n.path.startsWith(state.currentDir + '/')) continue;
             if (!state.currentDir && n.path.includes('/')) continue;
+            if (state.typeFilter === 'dir') continue;
+            if (state.typeFilter && n.type !== state.typeFilter) continue;
+            if (state.stateFilter === 'unset' && frameState(n.path)) continue;
+            if (state.stateFilter && frameState(n.path) !== state.stateFilter) continue;
             out.push(n);
         }
     }
     return out;
 }
 
-/* ---------------- Gallery ---------------- */
-
 function firstImageIn(nodes) {
     for (const n of nodes || []) {
         if (n.type === 'image') return n.path;
         if (n.type === 'dir') {
             const r = firstImageIn(n.children);
+            if (r) return r;
+        }
+    }
+    return null;
+}
+
+function findNodeChildren(nodes, path) {
+    for (const n of nodes) {
+        if (n.path === path) return n.children || [];
+        if (n.type === 'dir') {
+            const r = findNodeChildren(n.children, path);
             if (r) return r;
         }
     }
@@ -137,9 +163,15 @@ function renderGallery() {
     const q = state.search.trim().toLowerCase();
     for (const f of files) {
         if (q && !f.path.toLowerCase().includes(q)) continue;
-        if (f.isDir && f.count === 0) continue;
+        const isSel = state.selected.has(f.path);
         const card = document.createElement('div');
-        card.className = 'card' + (state.edited[f.path] ? ' edited' : '');
+        card.className = 'card' + (state.edited[f.path] ? ' edited' : '') + (isSel ? ' selected' : '');
+        if (state.selMode) {
+            const chk = document.createElement('div');
+            chk.className = 'sel-check';
+            chk.textContent = isSel ? '✓' : '';
+            card.appendChild(chk);
+        }
         const thumb = document.createElement('div');
         thumb.className = 'card-thumb' + (f.type === 'audio' ? ' audio' : '');
         if (f.isDir) {
@@ -182,32 +214,44 @@ function renderGallery() {
             b.textContent = st;
             card.appendChild(b);
         }
-        card.onclick = () => f.isDir ? openDir(f) : openViewer(f);
+        card.onclick = () => {
+            if (state.selMode) {
+                isSel ? state.selected.delete(f.path) : state.selected.add(f.path);
+                renderGallery();
+            } else if (f.isDir) {
+                openDir(f);
+            } else {
+                openViewer(f);
+            }
+        };
         gal.appendChild(card);
     }
     updateStats();
 }
 
-function findNodeChildren(nodes, path) {
-    for (const n of nodes) {
-        if (n.path === path) return n.children || [];
-        if (n.type === 'dir') {
-            const r = findNodeChildren(n.children, path);
-            if (r) return r;
-        }
-    }
-    return null;
-}
-
 function openDir(f) {
     state.currentDir = f.path;
     state.currentFile = null;
+    state.selected.clear();
     renderTree();
     renderGallery();
     renderCrumbs();
 }
 
 /* ---------------- Viewer ---------------- */
+
+function viewerFiles() {
+    return galleryFiles().filter((f) => !f.isDir);
+}
+
+function navigate(delta) {
+    const files = viewerFiles();
+    if (!files.length) return;
+    let idx = files.findIndex((f) => state.currentFile && f.path === state.currentFile.path);
+    if (idx < 0) idx = 0;
+    idx = (idx + delta + files.length) % files.length;
+    openViewer(files[idx]);
+}
 
 async function openViewer(f) {
     state.currentFile = f;
@@ -238,7 +282,6 @@ async function openViewer(f) {
 
 function autoTileSize() {
     const { width, height } = state.imageMeta;
-    const g = (a, b) => (b ? g(b, a % b) : a);
     const candidates = [16, 8, 24, 32, 48, 64];
     for (const c of candidates) {
         if (width % c === 0 && height % c === 0) { state.tileSize = c; $('#tile-size').value = c; return; }
@@ -286,7 +329,7 @@ function drawCanvas() {
                 ctx.fillStyle = st === 'use' ? 'rgba(47,125,50,0.42)' : st === 'skip' ? 'rgba(141,59,59,0.42)' : 'rgba(201,162,39,0.38)';
                 ctx.fillRect((state.offsetX + fx * state.tileSize) * state.zoom, (state.offsetY + fy * state.tileSize) * state.zoom, state.tileSize * state.zoom, state.tileSize * state.zoom);
             }
-            if (state.edited[f.path] && state.edited[f.path].find((e) => e.x === fx && e.y === fy)) {
+            if (state.edited[state.currentFile.path] && state.edited[state.currentFile.path].find((e) => e.x === fx && e.y === fy)) {
                 ctx.strokeStyle = 'rgba(78,157,230,0.9)';
                 ctx.lineWidth = 2;
                 ctx.strokeRect((state.offsetX + fx * state.tileSize) * state.zoom + 1, (state.offsetY + fy * state.tileSize) * state.zoom + 1, state.tileSize * state.zoom - 2, state.tileSize * state.zoom - 2);
@@ -302,6 +345,26 @@ function drawCanvas() {
     ctx.translate(-state.panX, -state.panY);
 }
 
+function drawFramePreview() {
+    const box = $('#frame-preview');
+    if (!state.imageMeta || !state.img || !state.hoverFrame) { box.classList.add('hidden'); return; }
+    const { x, y } = state.hoverFrame;
+    const ts = state.tileSize;
+    const sx = state.offsetX + x * ts;
+    const sy = state.offsetY + y * ts;
+    const canvas = $('#preview-canvas');
+    const ctx = canvas.getContext('2d');
+    const scale = 96 / ts;
+    canvas.width = ts * scale;
+    canvas.height = ts * scale;
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(state.img, sx, sy, ts, ts, 0, 0, ts * scale, ts * scale);
+    const st = frameState(state.currentFile.path, x, y);
+    $('#preview-label').textContent = `(${x},${y}) · ${st || '—'}`;
+    box.classList.remove('hidden');
+}
+
 function frameFromEvent(ev) {
     const canvas = $('#viewer-canvas');
     const rect = canvas.getBoundingClientRect();
@@ -309,10 +372,10 @@ function frameFromEvent(ev) {
     const my = ev.clientY - rect.top;
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    const px = (mx - state.panX / scaleX) * scaleX;
-    const py = (my - state.panY / scaleY) * scaleY;
-    const fx = Math.floor((px / scaleX - state.offsetX) / state.tileSize);
-    const fy = Math.floor((py / scaleY - state.offsetY) / state.tileSize);
+    const px = mx * scaleX;
+    const py = my * scaleY;
+    const fx = Math.floor((px - state.offsetX * state.zoom) / (state.tileSize * state.zoom));
+    const fy = Math.floor((py - state.offsetY * state.zoom) / (state.tileSize * state.zoom));
     if (fx < 0 || fy < 0) return null;
     return { x: fx, y: fy };
 }
@@ -338,16 +401,19 @@ function startAnim() {
     if (!meta) return;
     const cols = Math.ceil((meta.width - state.offsetX) / state.tileSize);
     const rows = Math.ceil((meta.height - state.offsetY) / state.tileSize);
-    if (rows < 2 && cols < 2) return;
+    const row = Math.min(state.animRow, rows - 1);
+    if (cols < 2) return;
     state.animOn = true;
     $('#anim-toggle').classList.add('on');
     let frame = 0;
+    const interval = 1000 / state.animFps;
     state.animTimer = setInterval(() => {
         frame = (frame + 1) % cols;
-        state.hoverFrame = { x: frame, y: 0 };
+        state.hoverFrame = { x: frame, y: row };
         drawCanvas();
+        drawFramePreview();
         updateStatus();
-    }, 150);
+    }, interval);
 }
 
 function fitView() {
@@ -363,12 +429,53 @@ function fitView() {
     drawCanvas();
 }
 
+/* ---------------- Batch ops ---------------- */
+
+function applyBatch(filePaths, value) {
+    for (const p of filePaths) {
+        if (p.split('.').pop().toLowerCase() === 'png' || p.split('.').pop().toLowerCase() === 'jpg' || p.split('.').pop().toLowerCase() === 'webp' || p.split('.').pop().toLowerCase() === 'gif' || p.split('.').pop().toLowerCase() === 'bmp') {
+            setFileState(p, value);
+        } else {
+            setFileState(p, value);
+        }
+    }
+    renderTree();
+    renderGallery();
+    if (state.currentFile) { drawCanvas(); }
+    toast(value ? `Marcados como "${value}": ${filePaths.length} arquivo(s)` : 'Estados limpos');
+}
+
+document.querySelectorAll('.b-use, .b-skip, .b-fav, .b-clear').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const value = btn.dataset.b;
+        if (state.selMode && state.selected.size) {
+            applyBatch([...state.selected], value);
+            state.selected.clear();
+            renderGallery();
+        } else if (state.currentFile && !$('#viewer').classList.contains('hidden')) {
+            const p = state.currentFile.path;
+            if (state.imageMeta) {
+                const cols = Math.ceil((state.imageMeta.width - state.offsetX) / state.tileSize);
+                const rows = Math.ceil((state.imageMeta.height - state.offsetY) / state.tileSize);
+                for (let fy = 0; fy < rows; fy++) for (let fx = 0; fx < cols; fx++) setFrameState(p, fx, fy, value);
+                drawCanvas();
+                toast(value ? `Todos os frames de ${state.currentFile.name} marcados como "${value}"` : 'Frames limpos');
+            } else {
+                setFileState(p, value);
+                toast(value ? `Arquivo marcado como "${value}"` : 'Estado limpo');
+            }
+        } else {
+            toast('Use a seleção múltipla ou abra um arquivo primeiro');
+        }
+    });
+});
+
 /* ---------------- Pixel editor ---------------- */
 
 const editor = {
     tileSize: 16,
-    data: null,          // Uint8Array RGBA tileSize*tileSize
-    backup: null,        // original for restore
+    data: null,
+    backup: null,
     undoStack: [],
     redoStack: [],
     tool: 'pencil',
@@ -408,10 +515,9 @@ function renderEditor() {
     canvas.width = editor.tileSize * editor.zoom;
     canvas.height = editor.tileSize * editor.zoom;
     ctx.imageSmoothingEnabled = false;
-    const img = new ImageData(new Uint8ClampedArray(editor.data), editor.tileSize, editor.tileSize);
     const off = document.createElement('canvas');
     off.width = editor.tileSize; off.height = editor.tileSize;
-    off.getContext('2d').putImageData(img, 0, 0);
+    off.getContext('2d').putImageData(new ImageData(new Uint8ClampedArray(editor.data), editor.tileSize, editor.tileSize), 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
     if (editor.zoom >= 12) {
@@ -438,7 +544,7 @@ function buildPalette() {
         const sw = document.createElement('div');
         sw.className = 'swatch' + (k === editor.color ? ' active' : '');
         sw.style.background = v === 'rgba(0,0,0,0)' ? 'repeating-conic-gradient(#444 0 25%, #222 0 50%) 0 0/10px 10px' : v;
-        sw.onclick = () => { editor.color = k; setActiveTool('eyedropper'); $('#color-pick').value = k === 'transparent' ? '#ffffff' : k; $('#palette').querySelectorAll('.swatch').forEach((s) => s.classList.toggle('active', s === sw)); };
+        sw.onclick = () => { editor.color = k; $('#color-pick').value = k === 'transparent' ? '#ffffff' : k; $('#palette').querySelectorAll('.swatch').forEach((s) => s.classList.toggle('active', s === sw)); };
         pal.appendChild(sw);
     }
 }
@@ -471,19 +577,16 @@ function setPixel(px, py, color) {
 }
 
 function floodFill(px, py, color) {
-    const target = [...editor.data.slice((py * editor.tileSize + px) * 4, (py * editor.tileSize + px) * 4 + 4)];
+    const start = (py * editor.tileSize + px) * 4;
+    const target = [editor.data[start], editor.data[start + 1], editor.data[start + 2], editor.data[start + 3]];
     const stack = [[px, py]];
     const seen = new Set();
-    const match = (idx) => {
-        for (let i = 0; i < 4; i++) if (editor.data[idx + i] !== target[i]) return false;
-        return true;
-    };
     while (stack.length) {
         const [x, y] = stack.pop();
         const k = `${x},${y}`;
         if (seen.has(k) || x < 0 || y < 0 || x >= editor.tileSize || y >= editor.tileSize) continue;
         const idx = (y * editor.tileSize + x) * 4;
-        if (!match(idx)) continue;
+        if (editor.data[idx] !== target[0] || editor.data[idx + 1] !== target[1] || editor.data[idx + 2] !== target[2] || editor.data[idx + 3] !== target[3]) continue;
         seen.add(k);
         setPixel(x, y, color);
         stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
@@ -575,7 +678,13 @@ $('#viewer-canvas').addEventListener('mousemove', (ev) => {
     if (!state.imageMeta) return;
     state.hoverFrame = frameFromEvent(ev);
     drawCanvas();
+    drawFramePreview();
     updateStatus();
+});
+$('#viewer-canvas').addEventListener('mouseleave', () => {
+    state.hoverFrame = null;
+    drawCanvas();
+    $('#frame-preview').classList.add('hidden');
 });
 $('#viewer-canvas').addEventListener('click', (ev) => {
     if (!state.imageMeta) return;
@@ -585,6 +694,7 @@ $('#viewer-canvas').addEventListener('click', (ev) => {
     const next = cur === '' ? 'use' : cur === 'use' ? 'skip' : cur === 'skip' ? 'fav' : '';
     setFrameState(state.currentFile.path, f.x, f.y, next);
     drawCanvas();
+    drawFramePreview();
     updateStatus();
     updateStats();
 });
@@ -599,13 +709,17 @@ $('#viewer-canvas').addEventListener('dblclick', () => {
     if (!state.imageMeta || !state.hoverFrame) return;
     openEditor(state.hoverFrame.x, state.hoverFrame.y);
 });
+
 document.addEventListener('keydown', (ev) => {
     if (!$('#editor-modal').classList.contains('hidden')) return;
+    if ($('#viewer').classList.contains('hidden')) return;
     if (!state.currentFile || !state.imageMeta || !state.hoverFrame) return;
+    if (ev.key === 'ArrowLeft') { navigate(-1); return; }
+    if (ev.key === 'ArrowRight') { navigate(1); return; }
     const map = { '1': 'use', '2': 'skip', '3': 'fav', '0': '' };
     if (map[ev.key] !== undefined) {
         setFrameState(state.currentFile.path, state.hoverFrame.x, state.hoverFrame.y, map[ev.key]);
-        drawCanvas(); updateStatus(); updateStats();
+        drawCanvas(); drawFramePreview(); updateStatus(); updateStats();
     }
 });
 
@@ -617,6 +731,8 @@ $('#back-btn').onclick = () => {
     renderGallery();
     renderCrumbs();
 };
+$('#prev-btn').onclick = () => navigate(-1);
+$('#next-btn').onclick = () => navigate(1);
 $('#save-btn').onclick = async () => {
     await api('/api/selection', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state.selection) });
     toast('Seleção salva em assets-cc0/selection.json');
@@ -626,10 +742,24 @@ $('#offset-x').onchange = (ev) => { state.offsetX = Number(ev.target.value) || 0
 $('#offset-y').onchange = (ev) => { state.offsetY = Number(ev.target.value) || 0; drawCanvas(); };
 $('#grid-toggle').onclick = () => { state.showGrid = !state.showGrid; $('#grid-toggle').classList.toggle('on', state.showGrid); drawCanvas(); };
 $('#anim-toggle').onclick = () => { state.animOn ? stopAnim() : startAnim(); };
+$('#anim-row').onchange = (ev) => { state.animRow = Number(ev.target.value) || 0; };
+$('#anim-fps').onchange = (ev) => { state.animFps = Math.min(60, Math.max(1, Number(ev.target.value) || 7)); $('#anim-fps').value = state.animFps; if (state.animOn) { stopAnim(); startAnim(); } };
 $('#zoom-in').onclick = () => { state.zoom = Math.min(8, state.zoom * 1.4); drawCanvas(); };
 $('#zoom-out').onclick = () => { state.zoom = Math.max(0.1, state.zoom / 1.4); drawCanvas(); };
 $('#fit-btn').onclick = fitView;
 $('#search').oninput = (ev) => { state.search = ev.target.value; renderTree(); renderGallery(); };
+$('#type-filter').onchange = (ev) => { state.typeFilter = ev.target.value; renderGallery(); };
+$('#state-filter').onchange = (ev) => { state.stateFilter = ev.target.value; renderGallery(); };
+$('#thumb-size').oninput = (ev) => {
+    document.documentElement.style.setProperty('--thumb', ev.target.value + 'px');
+};
+$('#select-mode').onclick = (ev) => {
+    state.selMode = !state.selMode;
+    ev.target.classList.toggle('on', state.selMode);
+    $('#batch-bar').classList.toggle('hidden', !state.selMode);
+    if (!state.selMode) { state.selected.clear(); }
+    renderGallery();
+};
 
 function renderCrumbs() {
     const c = $('#crumbs');
@@ -647,7 +777,7 @@ function makeCrumb(label, path, upTo) {
     const s = document.createElement('span');
     s.className = 'crumb';
     s.textContent = label;
-    s.onclick = () => { state.currentDir = path; state.currentFile = null; $('#viewer').classList.add('hidden'); $('#gallery').classList.remove('hidden'); renderTree(); renderGallery(); renderCrumbs(); };
+    s.onclick = () => { state.currentDir = path; state.currentFile = null; state.selected.clear(); $('#viewer').classList.add('hidden'); $('#gallery').classList.remove('hidden'); renderTree(); renderGallery(); renderCrumbs(); };
     return s;
 }
 
@@ -657,6 +787,7 @@ function updateStats() {
     for (const v of Object.values(state.selection.files)) counts[v] = (counts[v] || 0) + 1;
     counts.total = Object.keys(state.selection.frames).length + Object.keys(state.selection.files).length;
     $('#stats').textContent = `marcados: ${counts.total} · usar: ${counts.use} · pular: ${counts.skip} · fav: ${counts.fav}`;
+    $('#tree-stats').textContent = `marcados: ${counts.total}`;
 }
 
 let toastTimer;
