@@ -178,27 +178,27 @@ function renderGallery() {
             const first = firstImageIn(findNodeChildren(state.tree, f.path));
             if (first) {
                 const img = document.createElement('img');
-                img.src = `/api/file?p=${encodeURIComponent(first)}`;
+                img.src = `api/file?p=${encodeURIComponent(first)}`;
                 img.loading = 'lazy';
-                img.onerror = () => { thumb.textContent = '🗂'; };
+                img.onerror = () => { thumb.textContent = '[?]'; };
                 thumb.appendChild(img);
             } else {
-                thumb.textContent = '🗂';
+                thumb.textContent = '[?]';
             }
         } else if (f.type === 'image') {
             const img = document.createElement('img');
-            img.src = `/api/file?p=${encodeURIComponent(f.path)}`;
+            img.src = `api/file?p=${encodeURIComponent(f.path)}`;
             img.loading = 'lazy';
-            img.onerror = () => { thumb.textContent = '⚠'; };
+            img.onerror = () => { thumb.textContent = '[!]'; };
             thumb.appendChild(img);
         } else if (f.type === 'audio') {
-            thumb.textContent = '🎵';
+            thumb.textContent = '[audio]';
         }
         const body = document.createElement('div');
         body.className = 'card-body';
         const name = document.createElement('span');
         name.className = 'card-name';
-        name.textContent = f.isDir ? `📁 ${f.name}` : f.name;
+        name.textContent = f.isDir ? `dir  ${f.name}` : f.name;
         body.appendChild(name);
         if (f.isDir) {
             const c = document.createElement('span');
@@ -265,15 +265,15 @@ async function openViewer(f) {
     $('#viewer').classList.remove('hidden');
     $('#gallery').classList.add('hidden');
     $('#viewer-title').textContent = f.path;
-    state.edited[f.path] = await api(`/api/edited?p=${encodeURIComponent(f.path)}`);
+    state.edited[f.path] = await api(`api/edited?p=${encodeURIComponent(f.path)}`);
     if (f.type === 'image') {
-        state.imageMeta = await api(`/api/image?p=${encodeURIComponent(f.path)}`);
+        state.imageMeta = await api(`api/image?p=${encodeURIComponent(f.path)}`);
         if (state.tileSize === 0) autoTileSize();
         $('#audio-box').classList.add('hidden');
         loadImage(f);
     } else if (f.type === 'audio') {
         $('#audio-box').classList.remove('hidden');
-        $('#audio-player').src = `/api/file?p=${encodeURIComponent(f.path)}`;
+        $('#audio-player').src = `api/file?p=${encodeURIComponent(f.path)}`;
         $('#audio-player').play();
         fitView();
     }
@@ -293,7 +293,7 @@ function autoTileSize() {
 function loadImage(f) {
     const img = new Image();
     img.onload = () => { state.img = img; fitView(); drawCanvas(); };
-    img.src = `/api/file?p=${encodeURIComponent(f.path)}`;
+    img.src = `api/file?p=${encodeURIComponent(f.path)}`;
 }
 
 function drawCanvas() {
@@ -361,7 +361,7 @@ function drawFramePreview() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(state.img, sx, sy, ts, ts, 0, 0, ts * scale, ts * scale);
     const st = frameState(state.currentFile.path, x, y);
-    $('#preview-label').textContent = `(${x},${y}) · ${st || '—'}`;
+    $('#preview-label').textContent = `(${x},${y}) · ${st || '-'}`;
     box.classList.remove('hidden');
 }
 
@@ -386,8 +386,8 @@ function updateStatus() {
     if (!state.imageMeta) { sb.textContent = ''; return; }
     if (!f) { sb.textContent = `${state.imageMeta.width}x${state.imageMeta.height} · tile ${state.tileSize}px · zoom ${Math.round(state.zoom * 100)}%`; return; }
     const st = frameState(state.currentFile.path, f.x, f.y);
-    const edited = state.edited[state.currentFile.path] && state.edited[state.currentFile.path].find((e) => e.x === f.x && e.y === f.y) ? ' · ✎ editado' : '';
-    sb.textContent = `frame (${f.x},${f.y}) · estado: ${st || '—'}${edited} · [1]usar [2]pular [3]fav [0]limpar`;
+    const edited = state.edited[state.currentFile.path] && state.edited[state.currentFile.path].find((e) => e.x === f.x && e.y === f.y) ? ' · * editado' : '';
+    sb.textContent = `frame (${f.x},${f.y}) · estado: ${st || '-'}${edited} · [1]usar [2]pular [3]fav [0]limpar`;
 }
 
 function stopAnim() {
@@ -503,7 +503,7 @@ function openEditor(fx, fy) {
     octx.drawImage(state.img, (state.offsetX + fx * ts), (state.offsetY + fy * ts), ts, ts, 0, 0, ts, ts);
     editor.data = octx.getImageData(0, 0, ts, ts).data.slice();
     editor.backup = editor.data.slice();
-    $('#editor-title').textContent = `Editar tile (${fx},${fy}) — ${p}`;
+    $('#editor-title').textContent = `Editar tile (${fx},${fy}) - ${p}`;
     $('#editor-modal').classList.remove('hidden');
     buildPalette();
     renderEditor();
@@ -651,12 +651,12 @@ async function saveTile() {
     const octx = off.getContext('2d');
     octx.putImageData(new ImageData(new Uint8ClampedArray(editor.data), ts, ts), 0, 0);
     const dataUrl = off.toDataURL('image/png');
-    await api('/api/edit', {
+    await api('api/edit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ path: editor.path, x: editor.fx, y: editor.fy, tileSize: ts, dataUrl })
     });
-    state.edited[editor.path] = await api(`/api/edited?p=${encodeURIComponent(editor.path)}`);
+    state.edited[editor.path] = await api(`api/edited?p=${encodeURIComponent(editor.path)}`);
     $('#editor-modal').classList.add('hidden');
     drawCanvas();
     renderGallery();
@@ -734,7 +734,7 @@ $('#back-btn').onclick = () => {
 $('#prev-btn').onclick = () => navigate(-1);
 $('#next-btn').onclick = () => navigate(1);
 $('#save-btn').onclick = async () => {
-    await api('/api/selection', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state.selection) });
+    await api('api/selection', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(state.selection) });
     toast('Seleção salva em assets-cc0/selection.json');
 };
 $('#tile-size').onchange = (ev) => { state.tileSize = Number(ev.target.value) || 16; stopAnim(); drawCanvas(); updateStatus(); };
@@ -800,7 +800,7 @@ function toast(msg) {
 }
 
 async function init() {
-    const [treeRes, selRes] = await Promise.all([api('/api/tree'), api('/api/selection')]);
+    const [treeRes, selRes] = await Promise.all([api('api/tree'), api('api/selection')]);
     state.tree = treeRes.tree;
     state.selection = selRes;
     renderTree();
