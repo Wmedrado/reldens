@@ -130,6 +130,22 @@ class ServerPlugin extends PluginInterface
         customClasses.objects['capital_tree_1'] = GatheringObject;
         customClasses.objects['capital_tree_2'] = GatheringObject;
         customClasses.objects['capital_tree_3'] = GatheringObject;
+        // vibecraft (rooms 102 vibecraft-town / 103 vibecraft-farm) - unique
+        // object_class_key per objects.object_class_key UNIQUE constraint:
+        customClasses.objects['vibecraft_town_healer'] = Healer;
+        customClasses.objects['vibecraft_town_blacksmith'] = WeaponsMaster;
+        customClasses.objects['vibecraft_town_quest'] = QuestNpc;
+        customClasses.objects['vibecraft_town_craft'] = CraftingObject;
+        customClasses.objects['vibecraft_town_banker'] = BankObject;
+        customClasses.objects['vibecraft_town_enchanter'] = EnchantObject;
+        customClasses.objects['vibecraft_town_dailytask'] = DailyTaskBoardObject;
+        customClasses.objects['vibecraft_farm_plot_1'] = FarmObject;
+        customClasses.objects['vibecraft_farm_plot_2'] = FarmObject;
+        customClasses.objects['vibecraft_farm_plot_3'] = FarmObject;
+        customClasses.objects['vibecraft_farm_tree_1'] = GatheringObject;
+        customClasses.objects['vibecraft_farm_tree_2'] = GatheringObject;
+        customClasses.objects['vibecraft_farm_tree_3'] = GatheringObject;
+        customClasses.objects['vibecraft_farm_chest'] = ChestObject;
     }
 
 }
