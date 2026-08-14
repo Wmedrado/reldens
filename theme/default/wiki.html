@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <title>VibeCraft Wiki | Guias do jogo</title>
+    <meta name="description" content="Wiki do VibeCraft: guias de farming, crafting, exploração e perguntas frequentes do MMORPG pixel de fazenda."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root{
+            --bg:#070b16; --bg-alt:#0c1424; --panel:#111b30; --border:#22304d;
+            --text:#e8eef7; --muted:#8ea0bd; --accent:#43d17c; --accent-alt:#ffcf6b;
+            --danger:#ff6b6b; --link:#6fc6ff;
+        }
+        *{box-sizing:border-box; margin:0; padding:0;}
+        body{
+            font-family:'Space Grotesk',system-ui,sans-serif;
+            background:var(--bg); color:var(--text); line-height:1.6;
+        }
+        .px-grid{
+            position:fixed; inset:0; pointer-events:none; z-index:0;
+            background-image:
+                radial-gradient(circle at 25% 20%, rgba(67,209,124,.06), transparent 40%),
+                radial-gradient(circle at 75% 75%, rgba(111,198,255,.05), transparent 40%),
+                linear-gradient(rgba(120,150,200,.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(120,150,200,.035) 1px, transparent 1px);
+            background-size:auto,auto,32px 32px,32px 32px;
+        }
+        .page{position:relative; z-index:1; max-width:860px; margin:0 auto; padding:32px 20px 64px;}
+        header{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:28px; padding-bottom:18px; border-bottom:1px solid var(--border);}
+        .brand{font-family:'Press Start 2P',monospace; font-size:14px; letter-spacing:.5px;}
+        .brand-accent{color:var(--accent);}
+        .back-link{color:var(--link); text-decoration:none; font-size:14px; font-weight:600;}
+        .back-link:hover{text-decoration:underline;}
+        h1{font-family:'Press Start 2P',monospace; font-size:20px; line-height:1.5; margin-bottom:8px;}
+        .subtitle{color:var(--muted); font-size:16px; margin-bottom:32px;}
+        h2{
+            font-family:'Press Start 2P',monospace; font-size:13px; line-height:1.6;
+            color:var(--accent); margin:40px 0 14px; scroll-margin-top:24px;
+        }
+        h2::before{content:"▸ "; color:var(--accent-alt);}
+        p{margin-bottom:12px;}
+        ul,ol{margin:0 0 16px 22px;}
+        li{margin-bottom:6px;}
+        a{color:var(--link);}
+        .card{
+            background:var(--panel); border:1px solid var(--border); border-radius:10px;
+            padding:18px 20px; margin-bottom:14px;
+        }
+        .card h3{font-size:16px; margin-bottom:8px; color:var(--accent-alt);}
+        .card p{margin-bottom:6px;}
+        .toc{
+            background:var(--bg-alt); border:1px solid var(--border); border-radius:10px;
+            padding:16px 20px; margin-bottom:8px;
+        }
+        .toc ul{list-style:none; margin:0;}
+        .toc li{margin-bottom:8px;}
+        .toc a{color:var(--text); text-decoration:none; font-weight:600;}
+        .toc a:hover{color:var(--accent);}
+        .toc .tag{color:var(--muted); font-size:13px;}
+        footer{
+            margin-top:48px; padding-top:18px; border-top:1px solid var(--border);
+            color:var(--muted); font-size:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+        }
+        code{background:var(--bg-alt); border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:13px;}
+        @media (max-width:600px){
+            h1{font-size:15px;} .brand{font-size:11px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="px-grid" aria-hidden="true"></div>
+    <div class="page">
+        <header>
+            <span class="brand">VIBE<span class="brand-accent">CRAFT</span> WIKI</span>
+            <a class="back-link" href="./index.html">← Voltar ao jogo</a>
+        </header>
+
+        <h1>Guia do agricultor espacial</h1>
+        <p class="subtitle">Tudo o que você precisa saber para plantar, coletar, craftear e prosperar no VibeCraft.</p>
+
+        <nav class="toc" aria-label="Sumário">
+            <ul>
+                <li><a href="#farming">Farming e colheitas</a> <span class="tag">- do plantio à colheita</span></li>
+                <li><a href="#gathering">Coleta e recursos</a> <span class="tag">- madeira, minério, peixes</span></li>
+                <li><a href="#crafting">Crafting</a> <span class="tag">- receitas e experiência</span></li>
+                <li><a href="#energy">Energia</a> <span class="tag">- gastando e regenerando</span></li>
+                <li><a href="#combat">Combate e fraquezas</a> <span class="tag">- tipos de dano e criaturas</span></li>
+                <li><a href="#faq">Perguntas frequentes</a> <span class="tag">- dúvidas comuns</span></li>
+            </ul>
+        </nav>
+
+        <section id="farming">
+            <h2>Farming e colheitas</h2>
+            <div class="card">
+                <h3>Como começar</h3>
+                <p>Encontre os canteiros na cidade, prepare o solo e plante as sementes. Cada cultura tem um tempo de crescimento até ficar pronta para a colheita.</p>
+            </div>
+            <div class="card">
+                <h3>Experiência</h3>
+                <p>Colher plantas e derrubar árvores concede <b>experiência de profissão</b>. Quanto mais você colhe, mais níveis ganha e mais receitas e eficiência desbloqueia.</p>
+            </div>
+        </section>
+
+        <section id="gathering">
+            <h2>Coleta e recursos</h2>
+            <div class="card">
+                <h3>Árvores, minérios e peixes</h3>
+                <p>Derrube árvores para madeira, mine pedras para minério e pesque nos pontos d'água. Cada recurso alimenta o sistema de crafting e a economia do jogo.</p>
+            </div>
+            <div class="card">
+                <h3>Banco e estoque</h3>
+                <p>Guarde seus recursos em um banco para não lotar o inventário. Itens guardados ficam seguros e podem ser usados depois no crafting.</p>
+            </div>
+        </section>
+
+        <section id="crafting">
+            <h2>Crafting</h2>
+            <div class="card">
+                <h3>Receitas</h3>
+                <p>Combine ingredientes em bancadas de crafting para criar ferramentas, consumíveis e equipamentos. Cada receita exige um <b>nível de habilidade</b> mínimo.</p>
+            </div>
+            <div class="card">
+                <h3>Experiência de crafting</h3>
+                <p>Concluir uma receita concede <b>experiência de profissão</b> (crafting ou culinária), progressão própria independente do nível do personagem.</p>
+            </div>
+        </section>
+
+        <section id="energy">
+            <h2>Energia</h2>
+            <div class="card">
+                <h3>Gaste com sabedoria</h3>
+                <p>Plantar, colher e craftear gastam energia. Fique sem energia e não conseguirá mais trabalhar até regenerar.</p>
+            </div>
+            <div class="card">
+                <h3>Regeneração</h3>
+                <p>A energia regenera com o tempo. Jogadores VIP regeneram mais rápido, o que ajuda a manter a produção em dia.</p>
+            </div>
+        </section>
+
+        <section id="combat">
+            <h2>Combate e fraquezas</h2>
+            <div class="card">
+                <h3>Tipos de dano</h3>
+                <p>Ataques têm um <b>tipo de dano</b> e criaturas têm fraquezas e resistências. Usar o tipo certo contra a fraqueza certa aumenta o dano - e usar o errado reduz.</p>
+            </div>
+            <div class="card">
+                <h3>Drops</h3>
+                <p>Criaturas derrotadas deixam drops valiosos. Quanto mais forte a criatura, melhores as recompensas.</p>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2>Perguntas frequentes</h2>
+            <div class="card">
+                <h3>Como faço para começar?</h3>
+                <p>Entre no jogo, complete a introdução na cidade e siga as quests iniciais. Elas ensinam farming, coleta e crafting passo a passo.</p>
+            </div>
+            <div class="card">
+                <h3>O que são as tarefas diárias?</h3>
+                <p>São objetivos que resetam todo dia e concedem recompensas extras. Cheque o quadro de tarefas na cidade.</p>
+            </div>
+            <div class="card">
+                <h3>Existe um jeito de acelerar meu progresso?</h3>
+                <p>O VIP oferece bônus de experiência e regeneração de energia. Complete tarefas e quests para ganhar experiência sem depender só da coleta.</p>
+            </div>
+        </section>
+
+        <footer>
+            <span>VibeCraft Wiki - beta</span>
+            <span><a href="./index.html">Voltar ao jogo</a></span>
+        </footer>
+    </div>
+</body>
+</html>

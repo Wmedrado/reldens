@@ -41,4 +41,9 @@ winpty.exe.stackdump
 /dev-test*.log
 /dev-test*.err.log
 
+/dev-runner.log
+/dev-runner.pid
+/dev-reload.marker
+/dev-test.out
+
 /*.log
