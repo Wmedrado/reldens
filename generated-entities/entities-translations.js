@@ -6,6 +6,7 @@
 
 module.exports.entitiesTranslations = {
     labels: {
+        'achievements': 'Achievements',
         'ads_banner': 'Ads Banner',
         'ads': 'Ads',
         'ads_event_video': 'Ads Event Video',
@@ -16,8 +17,16 @@ module.exports.entitiesTranslations = {
         'audio': 'Audio',
         'audio_markers': 'Audio Markers',
         'audio_player_config': 'Audio Player Config',
+        'bank_items': 'Bank Items',
+        'blockchain_faucet_claims': 'Blockchain Faucet Claims',
+        'blockchain_nft_ops': 'Blockchain Nft Ops',
+        'blockchain_wallet_challenges': 'Blockchain Wallet Challenges',
+        'blockchain_wallets': 'Blockchain Wallets',
+        'blocked_ips': 'Blocked Ips',
         'chat': 'Chat',
         'chat_message_types': 'Chat Message Types',
+        'chat_mutes': 'Chat Mutes',
+        'chat_quotas': 'Chat Quotas',
         'clan': 'Clan',
         'clan_levels': 'Clan Levels',
         'clan_levels_modifiers': 'Clan Levels Modifiers',
@@ -26,16 +35,26 @@ module.exports.entitiesTranslations = {
         'config_types': 'Config Types',
         'crafting_recipes': 'Crafting Recipes',
         'crafting_recipes_items': 'Crafting Recipes Items',
+        'drop_tables': 'Drop Tables',
+        'drop_tables_items': 'Drop Tables Items',
         'drops_animations': 'Drops Animations',
+        'enchantments': 'Enchantments',
+        'farming_crops': 'Farming Crops',
+        'farming_plots': 'Farming Plots',
         'features': 'Features',
+        'gathering_resources': 'Gathering Resources',
         'items_group': 'Items Group',
         'items_inventory': 'Items Inventory',
         'items_item': 'Items Item',
         'items_item_modifiers': 'Items Item Modifiers',
         'items_types': 'Items Types',
+        'knex_migrations_dev': 'Knex Migrations Dev',
+        'knex_migrations_dev_lock': 'Knex Migrations Dev Lock',
         'locale': 'Locale',
         'objects_animations': 'Objects Animations',
         'objects_assets': 'Objects Assets',
+        'objects_damage_types': 'Objects Damage Types',
+        'objects_drop_tables': 'Objects Drop Tables',
         'objects': 'Objects',
         'objects_items_inventory': 'Objects Items Inventory',
         'objects_items_requirements': 'Objects Items Requirements',
@@ -44,7 +63,11 @@ module.exports.entitiesTranslations = {
         'objects_stats': 'Objects Stats',
         'objects_types': 'Objects Types',
         'operation_types': 'Operation Types',
+        'pets': 'Pets',
+        'players_achievements': 'Players Achievements',
+        'players_energy': 'Players Energy',
         'players': 'Players',
+        'players_pets': 'Players Pets',
         'players_quests': 'Players Quests',
         'players_state': 'Players State',
         'players_stats': 'Players Stats',
@@ -88,9 +111,21 @@ module.exports.entitiesTranslations = {
         'users': 'Users',
         'users_locale': 'Users Locale',
         'users_login': 'Users Login',
-        'players_energy': 'Players Energy'
+        'players_profession_skills': 'Players Profession Skills'
     },
     fields: {
+        'achievements': {
+            'id': 'ID',
+            'code': 'Code',
+            'label': 'Label',
+            'description': 'Description',
+            'type': 'Type',
+            'target_key': 'Target Key',
+            'quantity': 'Quantity',
+            'reward_item_id': 'Reward Item ID',
+            'reward_exp': 'Reward Exp',
+            'is_active': 'Is Active'
+        },
         'ads_banner': {
             'id': 'ID',
             'ads_id': 'Ads ID',
@@ -169,6 +204,50 @@ module.exports.entitiesTranslations = {
             'category_id': 'Category ID',
             'enabled': 'Enabled'
         },
+        'bank_items': {
+            'id': 'ID',
+            'player_id': 'Player ID',
+            'item_key': 'Item Key',
+            'qty': 'Qty'
+        },
+        'blockchain_faucet_claims': {
+            'id': 'ID',
+            'user_id': 'User ID',
+            'last_claim_at': 'Last Claim At',
+            'created_at': 'Created At'
+        },
+        'blockchain_nft_ops': {
+            'id': 'ID',
+            'user_id': 'User ID',
+            'item_key': 'Item Key',
+            'mint': 'Mint',
+            'op': 'Op',
+            'status': 'Status',
+            'created_at': 'Created At'
+        },
+        'blockchain_wallet_challenges': {
+            'id': 'ID',
+            'user_id': 'User ID',
+            'nonce': 'Nonce',
+            'address': 'Address',
+            'message': 'Message',
+            'expires_at': 'Expires At',
+            'consumed': 'Consumed'
+        },
+        'blockchain_wallets': {
+            'id': 'ID',
+            'user_id': 'User ID',
+            'pubkey': 'Pubkey',
+            'linked_at': 'Linked At'
+        },
+        'blocked_ips': {
+            'id': 'ID',
+            'ip': 'Ip',
+            'reason': 'Reason',
+            'created_by_user_id': 'Created By User ID',
+            'created_at': 'Created At',
+            'expires_at': 'Expires At'
+        },
         'chat': {
             'id': 'ID',
             'player_id': 'Player ID',
@@ -183,6 +262,22 @@ module.exports.entitiesTranslations = {
             'key': 'Key',
             'show_tab': 'Show Tab',
             'also_show_in_type': 'Also Show In Type'
+        },
+        'chat_mutes': {
+            'id': 'ID',
+            'account_id': 'Account ID',
+            'mute_until': 'Mute Until',
+            'mute_reason': 'Mute Reason',
+            'strikes': 'Strikes',
+            'updated_at': 'Updated At'
+        },
+        'chat_quotas': {
+            'id': 'ID',
+            'account_id': 'Account ID',
+            'window_start': 'Window Start',
+            'count': 'Count',
+            'max_per_window': 'Max Per Window',
+            'updated_at': 'Updated At'
         },
         'clan': {
             'id': 'ID',
@@ -245,6 +340,26 @@ module.exports.entitiesTranslations = {
             'quantity': 'Quantity',
             'type': 'Type'
         },
+        'drop_tables': {
+            'id': 'ID',
+            'key': 'Key',
+            'label': 'Label',
+            'created_at': 'Created At',
+            'updated_at': 'Updated At'
+        },
+        'drop_tables_items': {
+            'id': 'ID',
+            'drop_table_id': 'Drop Table ID',
+            'item_id': 'Item ID',
+            'chance': 'Chance',
+            'quantity': 'Quantity',
+            'min_player_level': 'Min Player Level',
+            'required_quest_key': 'Required Quest Key',
+            'required_quest_status': 'Required Quest Status',
+            'required_achievement_key': 'Required Achievement Key',
+            'created_at': 'Created At',
+            'updated_at': 'Updated At'
+        },
         'drops_animations': {
             'id': 'ID',
             'item_id': 'Item ID',
@@ -253,11 +368,57 @@ module.exports.entitiesTranslations = {
             'file': 'File',
             'extra_params': 'Extra Params'
         },
+        'enchantments': {
+            'id': 'ID',
+            'code': 'Code',
+            'label': 'Label',
+            'input_item_id': 'Input Item ID',
+            'catalyst_item_id': 'Catalyst Item ID',
+            'output_item_id': 'Output Item ID',
+            'output_qty': 'Output Qty',
+            'is_active': 'Is Active'
+        },
+        'farming_crops': {
+            'id': 'ID',
+            'key': 'Key',
+            'label': 'Label',
+            'description': 'Description',
+            'seed_item_id': 'Seed Item ID',
+            'harvest_item_id': 'Harvest Item ID',
+            'growth_time_seconds': 'Growth Time Seconds',
+            'exp_reward': 'Exp Reward',
+            'energy_cost': 'Energy Cost',
+            'harvests': 'Harvests',
+            'is_active': 'Is Active'
+        },
+        'farming_plots': {
+            'id': 'ID',
+            'object_id': 'Object ID',
+            'player_id': 'Player ID',
+            'crop_id': 'Crop ID',
+            'planted_at': 'Planted At',
+            'harvests_remaining': 'Harvests Remaining'
+        },
         'features': {
             'id': 'ID',
             'code': 'Code',
             'title': 'Title',
             'is_enabled': 'Is Enabled'
+        },
+        'gathering_resources': {
+            'id': 'ID',
+            'code': 'Code',
+            'label': 'Label',
+            'object_id': 'Object ID',
+            'item_id': 'Item ID',
+            'experience': 'Experience',
+            'difficulty': 'Difficulty',
+            'level_requirement': 'Level Requirement',
+            'max_yields': 'Max Yields',
+            'respawn_time': 'Respawn Time',
+            'min_qty': 'Min Qty',
+            'max_qty': 'Max Qty',
+            'is_active': 'Is Active'
         },
         'items_group': {
             'id': 'ID',
@@ -305,6 +466,16 @@ module.exports.entitiesTranslations = {
             'id': 'ID',
             'key': 'Key'
         },
+        'knex_migrations_dev': {
+            'id': 'ID',
+            'name': 'Name',
+            'batch': 'Batch',
+            'migration_time': 'Migration Time'
+        },
+        'knex_migrations_dev_lock': {
+            'index': 'Index',
+            'is_locked': 'Is Locked'
+        },
         'locale': {
             'id': 'ID',
             'locale': 'Locale',
@@ -325,6 +496,22 @@ module.exports.entitiesTranslations = {
             'asset_key': 'Asset Key',
             'asset_file': 'Asset File',
             'extra_params': 'Extra Params'
+        },
+        'objects_damage_types': {
+            'id': 'ID',
+            'object_id': 'Object ID',
+            'damage_type': 'Damage Type',
+            'defense_value': 'Defense Value',
+            'multiplier': 'Multiplier',
+            'created_at': 'Created At',
+            'updated_at': 'Updated At'
+        },
+        'objects_drop_tables': {
+            'id': 'ID',
+            'object_id': 'Object ID',
+            'drop_table_id': 'Drop Table ID',
+            'created_at': 'Created At',
+            'updated_at': 'Updated At'
         },
         'objects': {
             'id': 'ID',
@@ -387,12 +574,37 @@ module.exports.entitiesTranslations = {
             'label': 'Label',
             'key': 'Key'
         },
+        'pets': {
+            'id': 'ID',
+            'key': 'Key',
+            'label': 'Label',
+            'adopt_item_id': 'Adopt Item ID',
+            'is_active': 'Is Active'
+        },
+        'players_achievements': {
+            'id': 'ID',
+            'player_id': 'Player ID',
+            'achievement_id': 'Achievement ID',
+            'status': 'Status',
+            'progress': 'Progress'
+        },
+        'players_energy': {
+            'player_id': 'Player ID',
+            'last_regen_at': 'Last Regen At'
+        },
         'players': {
             'id': 'ID',
             'user_id': 'User ID',
             'name': 'Name',
             'created_at': 'Created At',
             'updated_at': 'Updated At'
+        },
+        'players_pets': {
+            'id': 'ID',
+            'player_id': 'Player ID',
+            'pet_key': 'Pet Key',
+            'level': 'Level',
+            'exp': 'Exp'
         },
         'players_quests': {
             'id': 'ID',
@@ -758,7 +970,9 @@ module.exports.entitiesTranslations = {
             'created_at': 'Created At',
             'updated_at': 'Updated At',
             'played_time': 'Played Time',
-            'login_count': 'Login Count'
+            'login_count': 'Login Count',
+            'totp_secret': 'Totp Secret',
+            'totp_enabled': 'Totp Enabled'
         },
         'users_locale': {
             'id': 'ID',
@@ -771,9 +985,14 @@ module.exports.entitiesTranslations = {
             'login_date': 'Login Date',
             'logout_date': 'Logout Date'
         },
-        'players_energy': {
+        'players_profession_skills': {
+            'id': 'ID',
             'player_id': 'Player ID',
-            'last_regen_at': 'Last Regen At'
+            'skill_key': 'Skill Key',
+            'current_level': 'Current Level',
+            'current_exp': 'Current Exp',
+            'created_at': 'Created At',
+            'updated_at': 'Updated At'
         }
     }
 };

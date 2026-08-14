@@ -3,8 +3,8 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE IF NOT EXISTS `blockchain_wallets` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL,
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` int unsigned NOT NULL,
     `pubkey` varchar(44) NOT NULL,
     `linked_at` datetime NOT NULL,
     PRIMARY KEY (`id`),
@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `blockchain_wallets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `blockchain_wallet_challenges` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `user_id` int(11) NOT NULL,
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` int unsigned NOT NULL,
     `nonce` varchar(64) NOT NULL,
     `address` varchar(44) NOT NULL,
     `message` text NOT NULL,

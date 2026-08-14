@@ -1,0 +1,15 @@
+{
+    "name": "reldens-economy-service",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Minimal reference implementation of the external soft-currency economy service for Reldens. Separate deployable process, zero dependencies.",
+    "main": "server.js",
+    "type": "commonjs",
+    "scripts": {
+        "start": "node server.js",
+        "test": "node test.js"
+    },
+    "engines": {
+        "node": ">=20.0.0"
+    }
+}

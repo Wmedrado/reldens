@@ -22,8 +22,10 @@ class PlayersModel extends ObjectionJsRawModel
         const { ChatModel } = require('./chat-model');
         const { ClanModel } = require('./clan-model');
         const { ClanMembersModel } = require('./clan-members-model');
+        const { FarmingPlotsModel } = require('./farming-plots-model');
         const { ItemsInventoryModel } = require('./items-inventory-model');
         const { PlayersEnergyModel } = require('./players-energy-model');
+        const { PlayersProfessionSkillsModel } = require('./players-profession-skills-model');
         const { PlayersQuestsModel } = require('./players-quests-model');
         const { PlayersStateModel } = require('./players-state-model');
         const { PlayersStatsModel } = require('./players-stats-model');
@@ -88,6 +90,14 @@ class PlayersModel extends ObjectionJsRawModel
                     to: ClanMembersModel.tableName+'.player_id'
                 }
             },
+            related_farming_plots: {
+                relation: this.HasManyRelation,
+                modelClass: FarmingPlotsModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: FarmingPlotsModel.tableName+'.player_id'
+                }
+            },
             related_items_inventory: {
                 relation: this.HasManyRelation,
                 modelClass: ItemsInventoryModel,
@@ -102,6 +112,14 @@ class PlayersModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.id',
                     to: PlayersEnergyModel.tableName+'.player_id'
+                }
+            },
+            related_players_profession_skills: {
+                relation: this.HasManyRelation,
+                modelClass: PlayersProfessionSkillsModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: PlayersProfessionSkillsModel.tableName+'.player_id'
                 }
             },
             related_players_quests: {

@@ -55,6 +55,13 @@ class UsersEntity extends EntityProperties
             login_count: {
                 type: 'number',
                 dbType: 'int'
+            },
+            totp_secret: {
+                dbType: 'varchar'
+            },
+            totp_enabled: {
+                type: 'boolean',
+                dbType: 'tinyint'
             }
         };
         let propertiesKeys = Object.keys(properties);

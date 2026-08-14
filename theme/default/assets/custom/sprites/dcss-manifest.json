@@ -1,0 +1,30 @@
+{
+  "monsters": {
+    "goblin": "goblin.png",
+    "kobold": "kobold.png",
+    "gnoll": "gnoll.png",
+    "hobgoblin": "hobgoblin.png",
+    "orc": "orc.png",
+    "jelly": "jelly.png",
+    "rat": "rat.png",
+    "human": "human.png"
+  },
+  "items": {
+    "wooden_sword": "wooden_sword.png",
+    "battle_axe": "battle_axe.png",
+    "dcss_axe": "dcss_axe.png",
+    "health_potion": "health_potion.png",
+    "magic_potion": "magic_potion.png",
+    "dcss_coins": "dcss_coins.png",
+    "key": "key.png",
+    "crystal_shard": "crystal_shard.png",
+    "apple": "apple.png",
+    "cheese": "cheese.png"
+  },
+  "props": {
+    "prop_closed_door": "prop_closed_door.png",
+    "prop_runed_door": "prop_runed_door.png",
+    "prop_gas_trap": "prop_gas_trap.png",
+    "prop_statue": "prop_statue.png"
+  }
+}

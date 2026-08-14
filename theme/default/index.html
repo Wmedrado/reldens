@@ -1,30 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <title>Reldens | MMORPG Platform | By DwDeveloper</title>
-    <meta name="description" content="Reldens, an open source MMORPG platform"/>
-    <meta property="og:title" content="Reldens | MMORPG Platform"/>
-    <meta property="og:description" content="Reldens, an open source MMORPG platform"/>
+    <meta charset="utf-8"/>
+    <title>VibeCraft | MMORPG Pixel de Fazenda</title>
+    <meta name="description" content="VibeCraft, um MMORPG pixel de fazenda direto do navegador. Plante, colete, crafte, faça guildas e prospere no seu próprio pedaço de mundo."/>
+    <meta property="og:title" content="VibeCraft | MMORPG Pixel de Fazenda"/>
+    <meta property="og:description" content="Plante, colete, crafte e prospere no seu próprio pedaço de mundo pixel."/>
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://demo.reldens.com/"/>
-    <meta property="og:site_name" content="Reldens"/>
-    <meta property="og:locale" content="en_US"/>
-    <meta property="og:image" content="https://cdn.dwdeveloper.com/assets/web/reldens-check.png"/>
-    <meta property="og:image:width" content="460"/>
-    <meta property="og:image:height" content="394"/>
-    <meta property="og:image:alt" content="Reldens MMORPG Platform Logo"/>
-    <meta property="og:image:type" content="image/png"/>
+    <meta property="og:site_name" content="VibeCraft"/>
+    <meta property="og:locale" content="pt_BR"/>
     <meta name="twitter:card" content="summary_large_image"/>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Play:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png"/>
-    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#000000"/>
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#43d17c"/>
     <link rel="manifest" href="./site.webmanifest"/>
-    <meta name="apple-mobile-web-app-title" content="Reldens"/>
-    <meta name="application-name" content="Reldens"/>
-    <meta name="msapplication-TileColor" content="#37517e"/>
-    <meta name="theme-color" content="#37517e"/>
+    <meta name="application-name" content="VibeCraft"/>
+    <meta name="theme-color" content="#070b16"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <script type="text/javascript" id="reldens-initial-config" src="./config.js"></script>
     <script type="module" src="./index.js"></script>
@@ -32,158 +27,204 @@
 </head>
 <body>
     <div class="wrapper">
-        <div class="header">
-            <div class="header-content">
-                <img id="your-logo" src="./assets/web/reldens-your-logo-mage.png" alt="reldens"/>
-                <h1 class="title">
-                    - <strong>reldens</strong> <span id="current-version">demo -</span>
-                    <br/>- your logo here -
-                </h1>
-            </div>
+        <div class="px-bg" aria-hidden="true">
+            <div class="px-grid"></div>
+            <div class="px-stars"></div>
+            <div class="px-cloud cloud-a"></div>
+            <div class="px-cloud cloud-b"></div>
+            <div class="px-sun"></div>
+            <div class="px-hills"></div>
+            <div class="px-float float-a"></div>
+            <div class="px-float float-b"></div>
+            <div class="px-float float-c"></div>
         </div>
-        <div class="content">
-            <div class="row row-disclaimer">
-                <div class="disclaimer">
-                    Disclaimer: Reldens is not just a game, is a platform to create games.
-                    <br/>This is a demo to show how many features are available on the platform.
+        <header class="header site-header">
+            <div class="header-inner">
+                <a class="brand" href="/">
+                    <span class="brand-mark" aria-hidden="true"></span>
+                    <span class="brand-name">VIBE<span class="brand-accent">CRAFT</span></span>
+                </a>
+                <div class="header-right">
+                    <span class="server-badge"><span class="server-dot" aria-hidden="true"></span> beta <span id="current-version"></span></span>
+                    <button type="button" id="open-editor" class="editor-open-button" title="Abrir o editor de assets e mapas">Editor</button>
                 </div>
             </div>
-            <div class="forms-container">
-                <div class="col-2 col-left">
-                    <div class="row wooden-box">
-                        <form name="login-form" id="login-form" class="login-form" action="#" method="post">
-                            <h3 class="form-title">Login</h3>
-                            <div class="input-box login-username">
-                                <input type="text" name="username" id="username" class="required" required autocomplete="on" placeholder="Username"/>
-                            </div>
-                            <div class="input-box login-password">
-                                <input type="password" name="password" id="password" class="required" required autocomplete="off" placeholder="Password"/>
-                            </div>
-                            <div class="input-box submit-container login-submit">
-                                <input type="submit" value="Submit"/>
-                                <div class="loading-container hidden">
-                                    <img src="./assets/web/loading.gif" alt="Loading..."/>
-                                </div>
-                            </div>
-                            <div class="input-box response-error"></div>
-                        </form>
-                    </div>
-                    <div class="row wooden-box">
-                        <form name="guest-form" id="guest-form" class="guest-form" action="#" method="post">
-                            <h3 class="form-title">Play as a Guest</h3>
-                            <!-- enable the config general/users/allowGuestUserName and uncomment the following to allow guest usernames:
-                            <div class="input-box guest-username">
-                                <input type="text" name="guest-username" id="guest-username" class="required" required placeholder="Username"/>
-                            </div>
-                            -->
-                            <div class="input-box submit-container guest-submit">
-                                <input type="submit" value="Play"/>
-                                <div class="loading-container hidden">
-                                    <img src="./assets/web/loading.gif" alt="Loading..."/>
-                                </div>
-                            </div>
-                            <div class="input-box response-error"></div>
-                        </form>
-                    </div>
-                    <div class="row wooden-box forgot-password-container hidden">
-                        <form name="forgot-form" id="forgot-form" class="forgot-form" action="#" method="post">
-                            <h3 class="form-title">Forgot password</h3>
-                            <div class="input-box forgot-email">
-                                <input type="email" name="forgot-email" id="forgot-email" class="required email" required autocomplete="off" placeholder="Email"/>
-                            </div>
-                            <div class="input-box submit-container forgot-submit">
-                                <input type="submit" value="Request"/>
-                                <div class="loading-container hidden">
-                                    <img src="./assets/web/loading.gif" alt="Loading..."/>
-                                </div>
-                            </div>
-                            <div class="input-box response-error"></div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-2 col-right">
-                    <div class="row wooden-box firebase-row-container hidden">
-                        <form name="firebase-login" id="firebase-login" class="firebase-login" action="#" method="post">
-                            <h3 class="form-title">Firebase Registration</h3>
-                            <div class="input-box firebase-username">
-                                <input type="text" name="firebase-username" id="firebase-username" class="required" required placeholder="Username"/>
-                            </div>
-                            <div class="input-box response-error"></div>
-                        </form>
-                        <div class="firebase-container">
-                            <div id="firebase-auth-container" class="firebase-auth-container"></div>
+        </header>
+        <main class="content">
+            <section class="forms-container auth-wrap">
+                <div class="auth-layout">
+                    <div class="auth-hero">
+                        <div class="hero-kicker">MMORPG PIXEL &middot; FARMING &middot; NA WEB</div>
+                        <h1 class="game-title">VIBE<span class="title-accent">CRAFT</span></h1>
+                        <p class="game-tagline">
+                            Plante, colete, crafte e prospere no seu próprio pedaço de mundo.
+                            Um MMORPG pixel completo, direto do navegador.
+                        </p>
+                        <ul class="feature-chips">
+                            <li class="chip chip-green">Farming</li>
+                            <li class="chip chip-gold">Crafting</li>
+                            <li class="chip chip-cyan">PvE</li>
+                            <li class="chip chip-purple">Guildas</li>
+                            <li class="chip chip-pink">NFT</li>
+                        </ul>
+                        <div class="hero-stats">
+                            <div class="stat"><span class="stat-value">3</span><span class="stat-label">mundos abertos</span></div>
+                            <div class="stat"><span class="stat-value">12+</span><span class="stat-label">profissões</span></div>
+                            <div class="stat"><span class="stat-value">100%</span><span class="stat-label">grátis p/ jogar</span></div>
                         </div>
                     </div>
-                    <div class="row wooden-box">
-                        <form name="register-form" id="register-form" class="register-form" action="#" method="post">
-                            <h3 class="form-title">Create Account</h3>
-                            <div class="input-box reg-email">
-                                <input type="email" name="reg-email" id="reg-email" class="required email" required placeholder="Email"/>
+                    <div class="auth-panel-wrap">
+                        <div class="auth-panel">
+                            <div class="auth-tabs" role="tablist" aria-label="Autenticação">
+                                <button type="button" class="auth-tab active" data-auth-tab="login" role="tab" aria-selected="true">Entrar</button>
+                                <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">Criar Conta</button>
                             </div>
-                            <div class="input-box reg-username">
-                                <input type="text" name="reg-username" id="reg-username" class="required" required placeholder="Username"/>
-                            </div>
-                            <div class="input-box reg-password">
-                                <input type="password" name="reg-password" id="reg-password" class="required" required autocomplete="off" placeholder="Password"/>
-                            </div>
-                            <div class="input-box reg-re-password">
-                                <input type="password" name="reg-re-password" id="reg-re-password" class="required" required autocomplete="off" placeholder="Re-type password"/>
-                            </div>
-                            <div class="input-box hidden terms-and-conditions-link-container">
-                                <p class="terms-and-conditions-link">Accept our Terms and Conditions (click here).</p>
-                            </div>
-                            <div class="input-box submit-container reg-submit">
-                                <input type="submit" value="Register"/>
-                                <div class="loading-container hidden">
-                                    <img src="./assets/web/loading.gif" alt="Loading..."/>
+                            <div class="auth-panels">
+                                <div class="auth-panel-body active" data-auth-panel="login" role="tabpanel">
+                                    <form name="login-form" id="login-form" class="login-form" action="#" method="post">
+                                        <div class="field login-username">
+                                            <label for="username">Usuário</label>
+                                            <div class="field-control">
+                                                <input type="text" name="username" id="username" class="required" required autocomplete="on" placeholder="Seu usuário"/>
+                                            </div>
+                                        </div>
+                                        <div class="field login-password">
+                                            <label for="password">Senha</label>
+                                            <div class="field-control">
+                                                <input type="password" name="password" id="password" class="required" required autocomplete="off" placeholder="Sua senha"/>
+                                                <button type="button" class="reveal-password" data-target="#password" aria-label="Mostrar ou ocultar senha">ver</button>
+                                            </div>
+                                        </div>
+                                        <div class="field login-totp hidden">
+                                            <label for="totp-code">Código de verificação</label>
+                                            <div class="field-control">
+                                                <input type="text" name="totp-code" id="totp-code" class="totp-code-input" autocomplete="one-time-code" inputmode="numeric" placeholder="Código de dois fatores"/>
+                                            </div>
+                                        </div>
+                                        <div class="field wallet-connect-box">
+                                            <button type="button" id="wallet-connect-button" class="wallet-connect-button">Connect Wallet</button>
+                                            <div id="wallet-connect-status" class="wallet-connect-status"></div>
+                                        </div>
+                                        <div class="field auth-submit login-submit">
+                                            <button type="submit" class="btn btn-primary btn-block">Entrar no Jogo</button>
+                                            <div class="loading-container hidden"><div class="pixel-spinner"></div></div>
+                                        </div>
+                                        <div class="field response-error"></div>
+                                    </form>
+                                    <div class="forgot-password-container hidden forgot-collapsed">
+                                        <button type="button" class="forgot-trigger">Esqueci minha senha</button>
+                                        <form name="forgot-form" id="forgot-form" class="forgot-form" action="#" method="post">
+                                            <div class="field forgot-email">
+                                                <label for="forgot-email">Email</label>
+                                                <div class="field-control">
+                                                    <input type="email" name="forgot-email" id="forgot-email" class="required email" required autocomplete="off" placeholder="Seu email"/>
+                                                </div>
+                                            </div>
+                                            <div class="field auth-submit forgot-submit">
+                                                <button type="submit" class="btn btn-secondary btn-block">Enviar link de recuperação</button>
+                                                <div class="loading-container hidden"><div class="pixel-spinner"></div></div>
+                                            </div>
+                                            <div class="field response-error"></div>
+                                        </form>
+                                    </div>
+                                    <div class="auth-divider"><span>ou</span></div>
+                                    <form name="guest-form" id="guest-form" class="guest-form" action="#" method="post">
+                                        <div class="field guest-username hidden">
+                                            <label for="guest-username">Nome de convidado</label>
+                                            <div class="field-control">
+                                                <input type="text" name="guest-username" id="guest-username" placeholder="Nome de convidado"/>
+                                            </div>
+                                        </div>
+                                        <div class="field auth-submit guest-submit">
+                                            <button type="submit" class="btn btn-ghost btn-block">Jogar como Convidado</button>
+                                            <div class="loading-container hidden"><div class="pixel-spinner"></div></div>
+                                        </div>
+                                        <div class="field response-error"></div>
+                                    </form>
+                                </div>
+                                <div class="auth-panel-body" data-auth-panel="register" role="tabpanel">
+                                    <form name="register-form" id="register-form" class="register-form" action="#" method="post">
+                                        <div class="field reg-email">
+                                            <label for="reg-email">Email</label>
+                                            <div class="field-control">
+                                                <input type="email" name="reg-email" id="reg-email" class="required email" required placeholder="Seu email"/>
+                                            </div>
+                                        </div>
+                                        <div class="field reg-username">
+                                            <label for="reg-username">Usuário</label>
+                                            <div class="field-control">
+                                                <input type="text" name="reg-username" id="reg-username" class="required" required placeholder="Escolha um usuário"/>
+                                            </div>
+                                        </div>
+                                        <div class="field reg-password">
+                                            <label for="reg-password">Senha</label>
+                                            <div class="field-control">
+                                                <input type="password" name="reg-password" id="reg-password" class="required" required autocomplete="off" placeholder="Crie uma senha"/>
+                                                <button type="button" class="reveal-password" data-target="#reg-password" aria-label="Mostrar ou ocultar senha">ver</button>
+                                            </div>
+                                        </div>
+                                        <div class="field reg-re-password">
+                                            <label for="reg-re-password">Confirmar senha</label>
+                                            <div class="field-control">
+                                                <input type="password" name="reg-re-password" id="reg-re-password" class="required" required autocomplete="off" placeholder="Repita a senha"/>
+                                                <button type="button" class="reveal-password" data-target="#reg-re-password" aria-label="Mostrar ou ocultar senha">ver</button>
+                                            </div>
+                                        </div>
+                                        <div class="field hidden terms-and-conditions-link-container">
+                                            <p class="terms-and-conditions-link">Li e aceito os Termos e Condições (clique aqui).</p>
+                                        </div>
+                                        <div class="field auth-submit reg-submit">
+                                            <button type="submit" class="btn btn-primary btn-block">Criar Conta</button>
+                                            <div class="loading-container hidden"><div class="pixel-spinner"></div></div>
+                                        </div>
+                                        <div class="field response-error"></div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="input-box response-error"></div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="terms-and-conditions" class="hidden wooden-box">
+            </section>
+            <div id="terms-and-conditions" class="hidden wooden-box terms-modal">
                 <div class="terms-and-conditions-text">
-                    <h3 class="terms-heading">Terms and conditions</h3>
+                    <h3 class="terms-heading">Termos e Condições</h3>
                     <div class="terms-body"></div>
                 </div>
                 <div class="terms-box">
                     <input type="checkbox" id="accept-terms-and-conditions">
                     <label class="accept-terms-and-conditions-label" for="accept-terms-and-conditions">
-                        I agree to these Terms and Conditions
+                        Concordo com estes Termos e Condições
                     </label>
                     <div class="input-box">
-                        <button class="terms-and-conditions-accept-close">Close</button>
+                        <button class="terms-and-conditions-accept-close btn btn-secondary">Fechar</button>
                     </div>
                 </div>
-                <img id="terms-and-conditions-close" class="box-close terms-and-conditions-accept-close" src="./assets/game-ui/corner-x.png" alt="close"/>
+                <img id="terms-and-conditions-close" class="box-close terms-and-conditions-accept-close" src="./assets/game-ui/corner-x.png" alt="fechar"/>
             </div>
             <div id="instructions" class="hidden">
                 <div class="instructions-content">
-                    <h3>Instructions</h3>
+                    <h3>Instruções</h3>
                     <ul>
-                        <li>Move with the arrows or using W-A-S-D.</li>
-                        <li>
-                            Use left click to follow a path but for now to change to another scene you need to walk
-                            through the change point (like the bridge at the top, or the houses doors).
-                        </li>
-                        <li>Use right-click or TAB to target near enemies or players.</li>
-                        <li>You must have a target to execute a skill/action.</li>
-                        <li>Use the screen-buttons to activate the different player skills/actions.</li>
+                        <li>Mova com as setas ou com W-A-S-D.</li>
+                        <li>Clique esquerdo para seguir um caminho; para trocar de cena, atravesse o ponto de troca (como a ponte no topo ou as portas das casas).</li>
+                        <li>Use o clique direito ou TAB para mirar inimigos ou jogadores próximos.</li>
+                        <li>Você precisa de um alvo para usar uma skill/ação.</li>
+                        <li>Use os botões da tela para ativar as skills/ações do seu personagem.</li>
                     </ul>
-                    <img id="instructions-close" class="box-close" src="./assets/game-ui/corner-x.png" alt="close"/>
+                    <img id="instructions-close" class="box-close" src="./assets/game-ui/corner-x.png" alt="fechar"/>
                 </div>
             </div>
             <div id="game-over" class="hidden">
                 <div class="game-over-content">
                     <h3>
-                        You died!<br/><br/>
-                        Just wait...<br/><br/>
-                        You will be automatically revived for this demo!
+                        Você morreu!<br/><br/>
+                        Só um instante...<br/><br/>
+                        Você será revivido automaticamente!
                     </h3>
                 </div>
             </div>
+            <div id="wallet-link-area" class="hidden"></div>
+            <div id="holder-tier-badge" class="hidden"></div>
             <div id="player-selection" class="hidden">
                 <div class="selection-forms-container">
                     <form
@@ -193,7 +234,7 @@
                         action="#"
                         method="post">
                         <h3 class="form-title">
-                            <label for="player-select-element">Select Player</label>
+                            <label for="player-select-element">Selecionar Personagem</label>
                         </h3>
                         <div class="input-box player-select-box">
                             <select
@@ -204,28 +245,25 @@
                         </div>
                         <div class="player-selection-additional-info"></div>
                         <div class="input-box submit-container player-select-submit">
-                            <input type="submit" value="Start"/>
-                            <div class="loading-container hidden">
-                                <img src="./assets/web/loading.gif" alt="Loading..."/>
-                            </div>
+                            <input type="submit" value="Começar" class="btn btn-primary"/>
+                            <div class="loading-container hidden"><div class="pixel-spinner"></div></div>
                         </div>
                         <div class="player-selection-form-errors"></div>
                     </form>
-                    <form name="player-create-form"
+                    <form
+                        name="player-create-form"
                         id="player-create-form"
                         class="player-create-form wooden-box hidden"
                         action="#"
                         method="post">
-                        <h3 class="form-title">Create Player</h3>
+                        <h3 class="form-title">Criar Personagem</h3>
                         <div class="input-box player-create-name">
-                            <input type="text" name="new-player-name" id="new-player-name" class="required" required placeholder="Player Name"/>
+                            <input type="text" name="new-player-name" id="new-player-name" class="required" required placeholder="Nome do Personagem"/>
                         </div>
                         <div class="player-creation-additional-info"></div>
                         <div class="input-box submit-container player-create-submit">
-                            <input type="submit" value="Create & Start"/>
-                            <div class="loading-container hidden">
-                                <img src="./assets/web/loading.gif" alt="Loading..."/>
-                            </div>
+                            <input type="submit" value="Criar e Começar" class="btn btn-primary"/>
+                            <div class="loading-container hidden"><div class="pixel-spinner"></div></div>
                         </div>
                         <div class="input-box response-error"></div>
                     </form>
@@ -233,17 +271,53 @@
             </div>
             <div class="game-container hidden">
                 <!--
-                @NOTE: if you change the "reldens" ID also make sure to update the RELDENS_CLIENT_PARENT and the
-                RELDENS_CLIENT_SCALE_PARENT variables in the .env file.
+                @NOTE: se você alterar o id "reldens", atualize também as variáveis RELDENS_CLIENT_PARENT e
+                RELDENS_CLIENT_SCALE_PARENT no arquivo .env.
                 -->
                 <div id="reldens"></div>
             </div>
-        </div>
-        <div class="footer">
-            <div class="copyright">
-                <a href="https://www.dwdeveloper.com/" alt="DwDeveloper" target="_blank">by DwDeveloper</a>
+        </main>
+        <footer class="footer">
+            <div class="footer-inner">
+                <span>&copy; 2026 Vibecraft</span>
+                <span>Feito sobre a plataforma <a href="https://www.dwdeveloper.com/" alt="DwDeveloper" target="_blank" rel="noopener">Reldens</a></span>
+            </div>
+        </footer>
+        <div class="px-scene" aria-hidden="true">
+            <div class="px-scene-inner">
+                <div class="px-ground"></div>
+                <div class="px-tree-line">
+                    <img src="./assets/web/scene/tree_pineTallB.png" style="left:4%; height:190px" alt=""/>
+                    <img src="./assets/web/scene/tree_blocks.png" style="left:15%; height:150px" alt=""/>
+                    <img src="./assets/web/scene/tree_cone.png" style="left:24%; height:175px" alt=""/>
+                    <img src="./assets/web/scene/tree_default.png" style="left:36%; height:185px" alt=""/>
+                    <img src="./assets/web/scene/tree_oak.png" style="left:48%; height:160px" alt=""/>
+                    <img src="./assets/web/scene/tree_pineSmallA.png" style="left:58%; height:130px" alt=""/>
+                    <img src="./assets/web/scene/tree_blocks.png" style="left:70%; height:170px" alt=""/>
+                    <img src="./assets/web/scene/tree_pineTallB.png" style="left:82%; height:195px" alt=""/>
+                    <img src="./assets/web/scene/tree_cone.png" style="left:92%; height:150px" alt=""/>
+                </div>
+                <div class="px-details">
+                    <img src="./assets/web/scene/plant_bushLarge.png" style="left:8%; height:46px" alt=""/>
+                    <img src="./assets/web/scene/flower_redA.png" style="left:20%; height:30px" alt=""/>
+                    <img src="./assets/web/scene/mushroom_red.png" style="left:30%; height:26px" alt=""/>
+                    <img src="./assets/web/scene/log.png" style="left:33%; height:24px" alt=""/>
+                    <img src="./assets/web/scene/rock_smallA.png" style="left:43%; height:22px" alt=""/>
+                    <img src="./assets/web/scene/crops_wheatStageB.png" style="left:52%; height:56px" alt=""/>
+                    <img src="./assets/web/scene/stump_round.png" style="left:63%; height:30px" alt=""/>
+                    <img src="./assets/web/scene/flower_yellowA.png" style="left:75%; height:26px" alt=""/>
+                    <img src="./assets/web/scene/plant_bush.png" style="left:87%; height:30px" alt=""/>
+                    <img src="./assets/web/scene/flower_purpleA.png" style="left:95%; height:28px" alt=""/>
+                </div>
             </div>
         </div>
+    </div>
+    <div id="editor-overlay" class="hidden">
+        <div class="editor-overlay-bar">
+            <span class="editor-overlay-title">Editor de Assets e Mapas</span>
+            <button type="button" id="close-editor" class="editor-close-button" title="Fechar o editor">Fechar</button>
+        </div>
+        <iframe id="editor-frame" class="editor-frame" title="Editor de Assets e Mapas"></iframe>
     </div>
 </body>
 </html>

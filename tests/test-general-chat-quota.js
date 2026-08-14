@@ -215,9 +215,17 @@ function runPending()
     });
     (async() => {
         let resolveFirst;
-        repo.loadOneBy = async () => new Promise((resolve) => {
-            resolveFirst = resolve;
-        });
+        const originalLoadOneBy = repo.loadOneBy.bind(repo);
+        let deferred = true;
+        repo.loadOneBy = async (field, value) => {
+            if(deferred){
+                deferred = false;
+                return new Promise((resolve) => {
+                    resolveFirst = resolve;
+                });
+            }
+            return originalLoadOneBy(field, value);
+        };
         const first = coord.admit(1);
         const second = coord.admit(1);
         const s2 = await second;

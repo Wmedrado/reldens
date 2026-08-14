@@ -19,8 +19,12 @@ class ObjectsModel extends ObjectionJsRawModel
         const { RoomsModel } = require('./rooms-model');
         const { ObjectsTypesModel } = require('./objects-types-model');
         const { CraftingRecipesModel } = require('./crafting-recipes-model');
+        const { FarmingPlotsModel } = require('./farming-plots-model');
+        const { GatheringResourcesModel } = require('./gathering-resources-model');
         const { ObjectsAnimationsModel } = require('./objects-animations-model');
         const { ObjectsAssetsModel } = require('./objects-assets-model');
+        const { ObjectsDamageTypesModel } = require('./objects-damage-types-model');
+        const { ObjectsDropTablesModel } = require('./objects-drop-tables-model');
         const { ObjectsItemsInventoryModel } = require('./objects-items-inventory-model');
         const { ObjectsItemsRequirementsModel } = require('./objects-items-requirements-model');
         const { ObjectsItemsRewardsModel } = require('./objects-items-rewards-model');
@@ -54,6 +58,22 @@ class ObjectsModel extends ObjectionJsRawModel
                     to: CraftingRecipesModel.tableName+'.object_id'
                 }
             },
+            related_farming_plots: {
+                relation: this.HasOneRelation,
+                modelClass: FarmingPlotsModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: FarmingPlotsModel.tableName+'.object_id'
+                }
+            },
+            related_gathering_resources: {
+                relation: this.HasManyRelation,
+                modelClass: GatheringResourcesModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: GatheringResourcesModel.tableName+'.object_id'
+                }
+            },
             related_objects_animations: {
                 relation: this.HasManyRelation,
                 modelClass: ObjectsAnimationsModel,
@@ -68,6 +88,22 @@ class ObjectsModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.id',
                     to: ObjectsAssetsModel.tableName+'.object_id'
+                }
+            },
+            related_objects_damage_types: {
+                relation: this.HasManyRelation,
+                modelClass: ObjectsDamageTypesModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: ObjectsDamageTypesModel.tableName+'.object_id'
+                }
+            },
+            related_objects_drop_tables: {
+                relation: this.HasManyRelation,
+                modelClass: ObjectsDropTablesModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: ObjectsDropTablesModel.tableName+'.object_id'
                 }
             },
             related_objects_items_inventory: {

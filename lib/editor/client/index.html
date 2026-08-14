@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor - Assets e Mapas</title>
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<header class="ed-header">
+    <h1>Editor</h1>
+    <nav class="ed-tabs">
+        <button id="tab-assets" class="ed-tab active" type="button">Assets</button>
+        <button id="tab-maps" class="ed-tab" type="button">Mapas</button>
+    </nav>
+    <span class="ed-version" id="ed-version"></span>
+    <button id="ed-close" class="ed-close" type="button" title="Voltar ao jogo">X</button>
+</header>
+
+<section id="view-assets" class="ed-view active">
+    <iframe id="asset-frame" class="ed-asset-frame" src="/editor/asset-browser/"></iframe>
+</section>
+
+<section id="view-maps" class="ed-view">
+    <div class="map-toolbar">
+        <label>Nome <input id="map-name" type="text" value="novo-mapa"></label>
+        <label>Largura <input id="map-width" type="number" min="4" max="512" value="24"></label>
+        <label>Altura <input id="map-height" type="number" min="4" max="512" value="24"></label>
+        <label>Tile <input id="map-tile" type="number" min="4" max="256" value="32"></label>
+        <label>Tileset
+            <select id="map-tileset"></select>
+        </label>
+        <button id="btn-new" type="button" class="ed-btn">Novo</button>
+        <button id="btn-save" type="button" class="ed-btn primary">Salvar</button>
+        <span id="map-status" class="map-status"></span>
+    </div>
+    <div class="map-layout">
+        <div class="map-list-panel">
+            <h2>Mapas</h2>
+            <div id="map-list" class="map-list"></div>
+        </div>
+        <div class="map-canvas-panel">
+            <h2>Mapa</h2>
+            <div class="map-canvas-wrap">
+                <canvas id="map-canvas" width="768" height="768"></canvas>
+                <div id="map-hint" class="map-hint">Clique pinta, botao direito apaga</div>
+            </div>
+        </div>
+        <div class="palette-panel">
+            <h2>Tileset</h2>
+            <canvas id="palette-canvas" width="480" height="480"></canvas>
+            <div id="palette-info" class="palette-info"></div>
+        </div>
+    </div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>

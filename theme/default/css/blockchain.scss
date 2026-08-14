@@ -1,0 +1,118 @@
+/**
+ *
+ * Reldens - Blockchain Wallet UI Styles
+ *
+ * Wallet connect buttons on the login forms, the in-game wallet link area and
+ * the holder tier badge. Small and unobtrusive, consistent with the theme.
+ *
+ */
+
+@use "variables" as *;
+
+.wallet-connect-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.wallet-connect-button,
+.wallet-link-button {
+    border: 1px solid $cWhite;
+    background-color: $cGreyBlue60;
+    color: $cWhite;
+    padding: 8px 16px;
+    font-family: $normalFont;
+    font-size: 13px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $cReldens;
+    }
+}
+
+.wallet-connect-status,
+.wallet-link-status {
+    font-size: 11px;
+    text-align: center;
+}
+
+.wallet-connect-status {
+    color: $cGrey;
+    max-width: 220px;
+}
+
+.wallet-chooser-title {
+    font-size: 11px;
+    color: $cGrey;
+    margin-bottom: 4px;
+}
+
+.wallet-chooser {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+
+    button {
+        border: 1px solid $cLightGrey;
+        background-color: $cGreyBlue50;
+        color: $cWhite;
+        padding: 6px 12px;
+        font-family: $normalFont;
+        font-size: 12px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $cReldens;
+        }
+    }
+}
+
+#wallet-link-area {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    padding: 10px;
+    background-color: $cBlack60;
+    border: 1px solid $cReldens;
+    border-radius: 6px;
+
+    &.hidden {
+        display: none;
+    }
+}
+
+.wallet-link-status {
+    color: $cWhite;
+    max-width: 220px;
+}
+
+#holder-tier-badge {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1000;
+    display: inline-block;
+    border: 1px solid #e6c200;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(230, 194, 0, 0.35), rgba(6, 25, 44, 0.9));
+    color: $cWhite;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    box-shadow: 0 0 6px 1px rgba(230, 194, 0, 0.8);
+
+    &.hidden {
+        display: none;
+    }
+}

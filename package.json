@@ -51,7 +51,8 @@
     },
     "scripts": {
         "test": "node tests/manager.js",
-        "assets:browser": "node tools/asset-browser/server.mjs"
+        "assets:browser": "node tools/asset-browser/server.mjs",
+        "capital": "node tools/capital-builder/server.js"
     },
     "dependencies": {
         "@colyseus/core": "0.16.24",

@@ -4,6 +4,7 @@
  *
  */
 
+const { AchievementsEntity } = require('./entities/achievements-entity');
 const { AdsBannerEntity } = require('./entities/ads-banner-entity');
 const { AdsEntity } = require('./entities/ads-entity');
 const { AdsEventVideoEntity } = require('./entities/ads-event-video-entity');
@@ -14,8 +15,16 @@ const { AudioCategoriesEntity } = require('./entities/audio-categories-entity');
 const { AudioEntity } = require('./entities/audio-entity');
 const { AudioMarkersEntity } = require('./entities/audio-markers-entity');
 const { AudioPlayerConfigEntity } = require('./entities/audio-player-config-entity');
+const { BankItemsEntity } = require('./entities/bank-items-entity');
+const { BlockchainFaucetClaimsEntity } = require('./entities/blockchain-faucet-claims-entity');
+const { BlockchainNftOpsEntity } = require('./entities/blockchain-nft-ops-entity');
+const { BlockchainWalletChallengesEntity } = require('./entities/blockchain-wallet-challenges-entity');
+const { BlockchainWalletsEntity } = require('./entities/blockchain-wallets-entity');
+const { BlockedIpsEntity } = require('./entities/blocked-ips-entity');
 const { ChatEntity } = require('./entities/chat-entity');
 const { ChatMessageTypesEntity } = require('./entities/chat-message-types-entity');
+const { ChatMutesEntity } = require('./entities/chat-mutes-entity');
+const { ChatQuotasEntity } = require('./entities/chat-quotas-entity');
 const { ClanEntity } = require('./entities/clan-entity');
 const { ClanLevelsEntity } = require('./entities/clan-levels-entity');
 const { ClanLevelsModifiersEntity } = require('./entities/clan-levels-modifiers-entity');
@@ -24,16 +33,26 @@ const { ConfigEntity } = require('./entities/config-entity');
 const { ConfigTypesEntity } = require('./entities/config-types-entity');
 const { CraftingRecipesEntity } = require('./entities/crafting-recipes-entity');
 const { CraftingRecipesItemsEntity } = require('./entities/crafting-recipes-items-entity');
+const { DropTablesEntity } = require('./entities/drop-tables-entity');
+const { DropTablesItemsEntity } = require('./entities/drop-tables-items-entity');
 const { DropsAnimationsEntity } = require('./entities/drops-animations-entity');
+const { EnchantmentsEntity } = require('./entities/enchantments-entity');
+const { FarmingCropsEntity } = require('./entities/farming-crops-entity');
+const { FarmingPlotsEntity } = require('./entities/farming-plots-entity');
 const { FeaturesEntity } = require('./entities/features-entity');
+const { GatheringResourcesEntity } = require('./entities/gathering-resources-entity');
 const { ItemsGroupEntity } = require('./entities/items-group-entity');
 const { ItemsInventoryEntity } = require('./entities/items-inventory-entity');
 const { ItemsItemEntity } = require('./entities/items-item-entity');
 const { ItemsItemModifiersEntity } = require('./entities/items-item-modifiers-entity');
 const { ItemsTypesEntity } = require('./entities/items-types-entity');
+const { KnexMigrationsDevEntity } = require('./entities/knex-migrations-dev-entity');
+const { KnexMigrationsDevLockEntity } = require('./entities/knex-migrations-dev-lock-entity');
 const { LocaleEntity } = require('./entities/locale-entity');
 const { ObjectsAnimationsEntity } = require('./entities/objects-animations-entity');
 const { ObjectsAssetsEntity } = require('./entities/objects-assets-entity');
+const { ObjectsDamageTypesEntity } = require('./entities/objects-damage-types-entity');
+const { ObjectsDropTablesEntity } = require('./entities/objects-drop-tables-entity');
 const { ObjectsEntity } = require('./entities/objects-entity');
 const { ObjectsItemsInventoryEntity } = require('./entities/objects-items-inventory-entity');
 const { ObjectsItemsRequirementsEntity } = require('./entities/objects-items-requirements-entity');
@@ -42,7 +61,11 @@ const { ObjectsSkillsEntity } = require('./entities/objects-skills-entity');
 const { ObjectsStatsEntity } = require('./entities/objects-stats-entity');
 const { ObjectsTypesEntity } = require('./entities/objects-types-entity');
 const { OperationTypesEntity } = require('./entities/operation-types-entity');
+const { PetsEntity } = require('./entities/pets-entity');
+const { PlayersAchievementsEntity } = require('./entities/players-achievements-entity');
+const { PlayersEnergyEntity } = require('./entities/players-energy-entity');
 const { PlayersEntity } = require('./entities/players-entity');
+const { PlayersPetsEntity } = require('./entities/players-pets-entity');
 const { PlayersQuestsEntity } = require('./entities/players-quests-entity');
 const { PlayersStateEntity } = require('./entities/players-state-entity');
 const { PlayersStatsEntity } = require('./entities/players-stats-entity');
@@ -86,9 +109,10 @@ const { TargetOptionsEntity } = require('./entities/target-options-entity');
 const { UsersEntity } = require('./entities/users-entity');
 const { UsersLocaleEntity } = require('./entities/users-locale-entity');
 const { UsersLoginEntity } = require('./entities/users-login-entity');
-const { PlayersEnergyEntity } = require('./entities/players-energy-entity');
+const { PlayersProfessionSkillsEntity } = require('./entities/players-profession-skills-entity');
 
 let entitiesConfig = {
+    achievements: AchievementsEntity.propertiesConfig(),
     adsBanner: AdsBannerEntity.propertiesConfig(),
     ads: AdsEntity.propertiesConfig(),
     adsEventVideo: AdsEventVideoEntity.propertiesConfig(),
@@ -99,8 +123,16 @@ let entitiesConfig = {
     audio: AudioEntity.propertiesConfig(),
     audioMarkers: AudioMarkersEntity.propertiesConfig(),
     audioPlayerConfig: AudioPlayerConfigEntity.propertiesConfig(),
+    bankItems: BankItemsEntity.propertiesConfig(),
+    blockchainFaucetClaims: BlockchainFaucetClaimsEntity.propertiesConfig(),
+    blockchainNftOps: BlockchainNftOpsEntity.propertiesConfig(),
+    blockchainWalletChallenges: BlockchainWalletChallengesEntity.propertiesConfig(),
+    blockchainWallets: BlockchainWalletsEntity.propertiesConfig(),
+    blockedIps: BlockedIpsEntity.propertiesConfig(),
     chat: ChatEntity.propertiesConfig(),
     chatMessageTypes: ChatMessageTypesEntity.propertiesConfig(),
+    chatMutes: ChatMutesEntity.propertiesConfig(),
+    chatQuotas: ChatQuotasEntity.propertiesConfig(),
     clan: ClanEntity.propertiesConfig(),
     clanLevels: ClanLevelsEntity.propertiesConfig(),
     clanLevelsModifiers: ClanLevelsModifiersEntity.propertiesConfig(),
@@ -109,16 +141,26 @@ let entitiesConfig = {
     configTypes: ConfigTypesEntity.propertiesConfig(),
     craftingRecipes: CraftingRecipesEntity.propertiesConfig(),
     craftingRecipesItems: CraftingRecipesItemsEntity.propertiesConfig(),
+    dropTables: DropTablesEntity.propertiesConfig(),
+    dropTablesItems: DropTablesItemsEntity.propertiesConfig(),
     dropsAnimations: DropsAnimationsEntity.propertiesConfig(),
+    enchantments: EnchantmentsEntity.propertiesConfig(),
+    farmingCrops: FarmingCropsEntity.propertiesConfig(),
+    farmingPlots: FarmingPlotsEntity.propertiesConfig(),
     features: FeaturesEntity.propertiesConfig(),
+    gatheringResources: GatheringResourcesEntity.propertiesConfig(),
     itemsGroup: ItemsGroupEntity.propertiesConfig(),
     itemsInventory: ItemsInventoryEntity.propertiesConfig(),
     itemsItem: ItemsItemEntity.propertiesConfig(),
     itemsItemModifiers: ItemsItemModifiersEntity.propertiesConfig(),
     itemsTypes: ItemsTypesEntity.propertiesConfig(),
+    knexMigrationsDev: KnexMigrationsDevEntity.propertiesConfig(),
+    knexMigrationsDevLock: KnexMigrationsDevLockEntity.propertiesConfig(),
     locale: LocaleEntity.propertiesConfig(),
     objectsAnimations: ObjectsAnimationsEntity.propertiesConfig(),
     objectsAssets: ObjectsAssetsEntity.propertiesConfig(),
+    objectsDamageTypes: ObjectsDamageTypesEntity.propertiesConfig(),
+    objectsDropTables: ObjectsDropTablesEntity.propertiesConfig(),
     objects: ObjectsEntity.propertiesConfig(),
     objectsItemsInventory: ObjectsItemsInventoryEntity.propertiesConfig(),
     objectsItemsRequirements: ObjectsItemsRequirementsEntity.propertiesConfig(),
@@ -127,7 +169,11 @@ let entitiesConfig = {
     objectsStats: ObjectsStatsEntity.propertiesConfig(),
     objectsTypes: ObjectsTypesEntity.propertiesConfig(),
     operationTypes: OperationTypesEntity.propertiesConfig(),
+    pets: PetsEntity.propertiesConfig(),
+    playersAchievements: PlayersAchievementsEntity.propertiesConfig(),
+    playersEnergy: PlayersEnergyEntity.propertiesConfig(),
     players: PlayersEntity.propertiesConfig(),
+    playersPets: PlayersPetsEntity.propertiesConfig(),
     playersQuests: PlayersQuestsEntity.propertiesConfig(),
     playersState: PlayersStateEntity.propertiesConfig(),
     playersStats: PlayersStatsEntity.propertiesConfig(),
@@ -171,7 +217,7 @@ let entitiesConfig = {
     users: UsersEntity.propertiesConfig(),
     usersLocale: UsersLocaleEntity.propertiesConfig(),
     usersLogin: UsersLoginEntity.propertiesConfig(),
-    playersEnergy: PlayersEnergyEntity.propertiesConfig()
+    playersProfessionSkills: PlayersProfessionSkillsEntity.propertiesConfig()
 };
 
 module.exports.entitiesConfig = entitiesConfig;

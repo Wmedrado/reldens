@@ -4,6 +4,7 @@
  *
  */
 
+const { AchievementsModel } = require('./achievements-model');
 const { AdsBannerModel } = require('./ads-banner-model');
 const { AdsModel } = require('./ads-model');
 const { AdsEventVideoModel } = require('./ads-event-video-model');
@@ -14,8 +15,16 @@ const { AudioCategoriesModel } = require('./audio-categories-model');
 const { AudioModel } = require('./audio-model');
 const { AudioMarkersModel } = require('./audio-markers-model');
 const { AudioPlayerConfigModel } = require('./audio-player-config-model');
+const { BankItemsModel } = require('./bank-items-model');
+const { BlockchainFaucetClaimsModel } = require('./blockchain-faucet-claims-model');
+const { BlockchainNftOpsModel } = require('./blockchain-nft-ops-model');
+const { BlockchainWalletChallengesModel } = require('./blockchain-wallet-challenges-model');
+const { BlockchainWalletsModel } = require('./blockchain-wallets-model');
+const { BlockedIpsModel } = require('./blocked-ips-model');
 const { ChatModel } = require('./chat-model');
 const { ChatMessageTypesModel } = require('./chat-message-types-model');
+const { ChatMutesModel } = require('./chat-mutes-model');
+const { ChatQuotasModel } = require('./chat-quotas-model');
 const { ClanModel } = require('./clan-model');
 const { ClanLevelsModel } = require('./clan-levels-model');
 const { ClanLevelsModifiersModel } = require('./clan-levels-modifiers-model');
@@ -24,16 +33,26 @@ const { ConfigModel } = require('./config-model');
 const { ConfigTypesModel } = require('./config-types-model');
 const { CraftingRecipesModel } = require('./crafting-recipes-model');
 const { CraftingRecipesItemsModel } = require('./crafting-recipes-items-model');
+const { DropTablesModel } = require('./drop-tables-model');
+const { DropTablesItemsModel } = require('./drop-tables-items-model');
 const { DropsAnimationsModel } = require('./drops-animations-model');
+const { EnchantmentsModel } = require('./enchantments-model');
+const { FarmingCropsModel } = require('./farming-crops-model');
+const { FarmingPlotsModel } = require('./farming-plots-model');
 const { FeaturesModel } = require('./features-model');
+const { GatheringResourcesModel } = require('./gathering-resources-model');
 const { ItemsGroupModel } = require('./items-group-model');
 const { ItemsInventoryModel } = require('./items-inventory-model');
 const { ItemsItemModel } = require('./items-item-model');
 const { ItemsItemModifiersModel } = require('./items-item-modifiers-model');
 const { ItemsTypesModel } = require('./items-types-model');
+const { KnexMigrationsDevModel } = require('./knex-migrations-dev-model');
+const { KnexMigrationsDevLockModel } = require('./knex-migrations-dev-lock-model');
 const { LocaleModel } = require('./locale-model');
 const { ObjectsAnimationsModel } = require('./objects-animations-model');
 const { ObjectsAssetsModel } = require('./objects-assets-model');
+const { ObjectsDamageTypesModel } = require('./objects-damage-types-model');
+const { ObjectsDropTablesModel } = require('./objects-drop-tables-model');
 const { ObjectsModel } = require('./objects-model');
 const { ObjectsItemsInventoryModel } = require('./objects-items-inventory-model');
 const { ObjectsItemsRequirementsModel } = require('./objects-items-requirements-model');
@@ -42,7 +61,11 @@ const { ObjectsSkillsModel } = require('./objects-skills-model');
 const { ObjectsStatsModel } = require('./objects-stats-model');
 const { ObjectsTypesModel } = require('./objects-types-model');
 const { OperationTypesModel } = require('./operation-types-model');
+const { PetsModel } = require('./pets-model');
+const { PlayersAchievementsModel } = require('./players-achievements-model');
+const { PlayersEnergyModel } = require('./players-energy-model');
 const { PlayersModel } = require('./players-model');
+const { PlayersPetsModel } = require('./players-pets-model');
 const { PlayersQuestsModel } = require('./players-quests-model');
 const { PlayersStateModel } = require('./players-state-model');
 const { PlayersStatsModel } = require('./players-stats-model');
@@ -86,11 +109,12 @@ const { TargetOptionsModel } = require('./target-options-model');
 const { UsersModel } = require('./users-model');
 const { UsersLocaleModel } = require('./users-locale-model');
 const { UsersLoginModel } = require('./users-login-model');
-const { PlayersEnergyModel } = require('./players-energy-model');
+const { PlayersProfessionSkillsModel } = require('./players-profession-skills-model');
 const { entitiesConfig } = require('../../entities-config');
 const { entitiesTranslations } = require('../../entities-translations');
 
 let rawRegisteredEntities = {
+    achievements: AchievementsModel,
     adsBanner: AdsBannerModel,
     ads: AdsModel,
     adsEventVideo: AdsEventVideoModel,
@@ -101,8 +125,16 @@ let rawRegisteredEntities = {
     audio: AudioModel,
     audioMarkers: AudioMarkersModel,
     audioPlayerConfig: AudioPlayerConfigModel,
+    bankItems: BankItemsModel,
+    blockchainFaucetClaims: BlockchainFaucetClaimsModel,
+    blockchainNftOps: BlockchainNftOpsModel,
+    blockchainWalletChallenges: BlockchainWalletChallengesModel,
+    blockchainWallets: BlockchainWalletsModel,
+    blockedIps: BlockedIpsModel,
     chat: ChatModel,
     chatMessageTypes: ChatMessageTypesModel,
+    chatMutes: ChatMutesModel,
+    chatQuotas: ChatQuotasModel,
     clan: ClanModel,
     clanLevels: ClanLevelsModel,
     clanLevelsModifiers: ClanLevelsModifiersModel,
@@ -111,16 +143,26 @@ let rawRegisteredEntities = {
     configTypes: ConfigTypesModel,
     craftingRecipes: CraftingRecipesModel,
     craftingRecipesItems: CraftingRecipesItemsModel,
+    dropTables: DropTablesModel,
+    dropTablesItems: DropTablesItemsModel,
     dropsAnimations: DropsAnimationsModel,
+    enchantments: EnchantmentsModel,
+    farmingCrops: FarmingCropsModel,
+    farmingPlots: FarmingPlotsModel,
     features: FeaturesModel,
+    gatheringResources: GatheringResourcesModel,
     itemsGroup: ItemsGroupModel,
     itemsInventory: ItemsInventoryModel,
     itemsItem: ItemsItemModel,
     itemsItemModifiers: ItemsItemModifiersModel,
     itemsTypes: ItemsTypesModel,
+    knexMigrationsDev: KnexMigrationsDevModel,
+    knexMigrationsDevLock: KnexMigrationsDevLockModel,
     locale: LocaleModel,
     objectsAnimations: ObjectsAnimationsModel,
     objectsAssets: ObjectsAssetsModel,
+    objectsDamageTypes: ObjectsDamageTypesModel,
+    objectsDropTables: ObjectsDropTablesModel,
     objects: ObjectsModel,
     objectsItemsInventory: ObjectsItemsInventoryModel,
     objectsItemsRequirements: ObjectsItemsRequirementsModel,
@@ -129,7 +171,11 @@ let rawRegisteredEntities = {
     objectsStats: ObjectsStatsModel,
     objectsTypes: ObjectsTypesModel,
     operationTypes: OperationTypesModel,
+    pets: PetsModel,
+    playersAchievements: PlayersAchievementsModel,
+    playersEnergy: PlayersEnergyModel,
     players: PlayersModel,
+    playersPets: PlayersPetsModel,
     playersQuests: PlayersQuestsModel,
     playersState: PlayersStateModel,
     playersStats: PlayersStatsModel,
@@ -173,7 +219,7 @@ let rawRegisteredEntities = {
     users: UsersModel,
     usersLocale: UsersLocaleModel,
     usersLogin: UsersLoginModel,
-    playersEnergy: PlayersEnergyModel
+    playersProfessionSkills: PlayersProfessionSkillsModel
 };
 
 module.exports.rawRegisteredEntities = rawRegisteredEntities;

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `blocked_ips` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `ip` varchar(45) NOT NULL,
     `reason` varchar(500) NULL,
-    `created_by_user_id` int(11) NULL,
+    `created_by_user_id` int(11) UNSIGNED NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `expires_at` datetime NULL,
     PRIMARY KEY (`id`),

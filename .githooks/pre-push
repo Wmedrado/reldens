@@ -29,7 +29,15 @@ for test_file in \
     tests/test-msg-rate-limit.js \
     tests/test-blockchain-wallet-verify.js \
     tests/test-blockchain-token-balance.js \
-    tests/test-blockchain-holder-tier.js; do
+    tests/test-blockchain-holder-tier.js \
+    tests/test-economy-proxy.js \
+    tests/test-economy-telemetry.js \
+    tests/test-msg-lanes.js \
+    tests/test-general-chat-quota.js \
+    tests/test-linkdead.js \
+    tests/test-ip-block.js \
+    tests/test-oauth-pkce.js \
+    tests/test-turnstile.js; do
     if [ -f "$test_file" ]; then
         node "$test_file" || { echo "pre-push floor FAILED: $test_file" >&2; fail=1; }
     fi

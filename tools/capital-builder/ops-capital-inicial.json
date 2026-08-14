@@ -1,0 +1,13 @@
+[
+    {"type":"object-add","layer":"objects","object":{"name":"portal-central","type":"portal","x":720,"y":400,"width":96,"height":96,"src":"custom","path":"sprites/player-base.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"fonte-praca","type":"decor","x":720,"y":368,"width":96,"height":96,"src":"custom","path":"sprites/coins.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"npc_mercador","type":"npc","x":576,"y":336,"width":32,"height":32,"src":"custom","path":"sprites/journeyman.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"npc_ferreiro","type":"npc","x":864,"y":336,"width":32,"height":32,"src":"custom","path":"sprites/warrior.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"npc_quests","type":"npc","x":720,"y":240,"width":32,"height":32,"src":"custom","path":"sprites/people-quest-npc.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"craft_station","type":"crafting","x":864,"y":240,"width":48,"height":48,"src":"custom","path":"sprites/axe.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"quest_board","type":"quest","x":576,"y":240,"width":48,"height":48,"src":"custom","path":"sprites/branch.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"farm_plot_1","type":"farm","x":240,"y":256,"width":48,"height":48,"src":"custom","path":"sprites/heal-potion-20.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"farm_plot_2","type":"farm","x":304,"y":256,"width":48,"height":48,"src":"custom","path":"sprites/magic-potion-20.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"chest_tesouro","type":"chest","x":1088,"y":240,"width":32,"height":32,"src":"custom","path":"sprites/coins.png"}},
+    {"type":"object-add","layer":"objects","object":{"name":"spawn_jogador","type":"spawn","x":720,"y":480,"width":32,"height":32,"src":"custom","path":"sprites/player-base.png"}}
+]

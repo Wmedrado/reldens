@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capital Builder - Vibecraft</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+    <h1>Capital Builder</h1>
+    <div class="map-picker">
+        <label>Mapa
+            <select id="map-select"></select>
+        </label>
+    </div>
+    <div class="status">
+        <span id="peers" class="pill">offline</span>
+        <span id="save-status" class="pill muted">-</span>
+    </div>
+    <div class="actions">
+        <button id="btn-undo" class="btn" title="Desfaz última ação (Ctrl+Z)">Desfazer</button>
+        <button id="btn-save" class="btn primary">Salvar</button>
+        <button id="btn-play" class="btn primary" title="Abre o jogo nesta sala">Jogar</button>
+    </div>
+</header>
+
+<div class="layout">
+    <aside class="left">
+        <div class="tool-group">
+            <h3>Ferramenta</h3>
+            <div class="tools">
+                <button id="tool-tile" class="tool active" data-tool="tile">Pintar tile</button>
+                <button id="tool-object" class="tool" data-tool="object">Colocar objeto</button>
+                <button id="tool-move" class="tool" data-tool="move">Mover/remover</button>
+            </div>
+        </div>
+        <div class="tool-group">
+            <h3>Camadas</h3>
+            <div id="layer-list" class="layer-list"></div>
+        </div>
+        <div class="tool-group">
+            <h3>Tileset</h3>
+            <select id="tileset-select"></select>
+        </div>
+        <div class="tool-group palette-group" id="palette-group">
+            <h3>Paleta de tiles</h3>
+            <div id="tile-palette" class="palette-grid"></div>
+        </div>
+        <div class="tool-group sprite-group" id="sprite-group" style="display:none">
+            <h3>Objetos (assets)</h3>
+            <div id="sprite-palette" class="palette-grid"></div>
+        </div>
+    </aside>
+
+    <main class="canvas-wrap">
+        <canvas id="map-canvas"></canvas>
+        <div id="hint" class="hint"></div>
+    </main>
+
+    <aside class="right">
+        <h3>Mapa</h3>
+        <div class="map-meta">
+            <span id="map-size">-</span>
+            <span id="map-tile">-</span>
+        </div>
+        <div class="preview-title"><h3>Preview</h3></div>
+        <div class="preview-wrap">
+            <img id="preview-img" alt="preview do mapa">
+        </div>
+        <button id="btn-refresh-preview" class="btn" title="Renderiza o mapa atual">Atualizar preview</button>
+        <div class="shortcuts">
+            <h3>Atalhos</h3>
+            <ul>
+                <li>Esquerda: pintar/colocar</li>
+                <li>Direita: apagar tile</li>
+                <li>1/2/3: troca ferramenta</li>
+                <li>Ctrl+Z: desfazer</li>
+                <li>Del: remove objeto</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

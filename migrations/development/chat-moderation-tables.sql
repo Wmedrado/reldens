@@ -4,7 +4,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 CREATE TABLE IF NOT EXISTS `chat_mutes` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `account_id` int(11) NOT NULL,
+    `account_id` int unsigned NOT NULL,
     `mute_until` datetime DEFAULT NULL,
     `mute_reason` varchar(500) DEFAULT NULL,
     `strikes` int(11) NOT NULL DEFAULT 0,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `chat_mutes` (
 
 CREATE TABLE IF NOT EXISTS `chat_quotas` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `account_id` int(11) NOT NULL,
+    `account_id` int unsigned NOT NULL,
     `window_start` datetime NOT NULL,
     `count` int(11) NOT NULL DEFAULT 0,
     `max_per_window` int(11) NOT NULL DEFAULT 10,

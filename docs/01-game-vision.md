@@ -1,4 +1,4 @@
-# 01 — Visão do Jogo, Nome e Posicionamento
+# 01 - Visão do Jogo, Nome e Posicionamento
 
 > Camada de produto. Define **o que** é o jogo, **para quem**, **por que** existe e
 > **como se chama**. Complementa `02-game-mechanics.md` (mecânicas) e
@@ -27,25 +27,63 @@ direto. Resumo do modelo que queremos aproximar:
 
 ---
 
-## 2. Nome e branding (DECISÃO EM ABERTO)
+## 2. Nome e branding (DECISÃO DO DONO: VibeCraft)
 
 O nome precisa: ser curto, pronunciável em PT e EN, evocar pixel/fazenda, e ter
-domínio/social disponível (verificar antes de travar).
+domínio/social disponível.
 
-### Opções propostas
+### VibeCraft - nome final (decisão do dono, 2026-08-14)
+
+O nome já é usado em outros espaços, e isso foi documentado antes da decisão:
+
+- **CurseForge (Minecraft)**: 11+ modpacks com "VibeCraft" no nome.
+- **GitHub**: ~250 repositórios chamados "VibeCraft", incluindo
+  `Nearcyan/vibecraft` (~1.4k stars) e `amenti-labs/vibecraft` (ferramenta de IA).
+- **Associação ao termo "vibe coding"** dilui identidade própria.
+
+**Conclusão do dono**: apesar da saturação, o jogo **se chama VibeCraft** (decisão
+final). Riscos de SEO/marca/domínio aceitos; mitigação por identidade visual e
+gameplay próprios. Antes do lançamento: verificar disponibilidade de domínio/social
+e diferenciar visualmente dos modpacks de Minecraft.
+
+### Candidatos anteriores (arquivo)
 
 | Nome | Significado | Prós | Contras |
 |---|---|---|---|
-| **PixVale** ⭐ (recomendado) | "Pixel" + "Vale" (vale fértil). Ecoa "Pixels" sem colidir. | Funciona PT/EN; fácil de dizer; evoca fazenda/território. | Verificar disponibilidade de `pixvale.com`/handle. |
+| **PixVale** | "Pixel" + "Vale" (vale fértil). | Funciona PT/EN; evoca fazenda. | Descartado pelo dono; usar só como referência. |
 | **Terrapix** | "Terra" + "Pixel". | Foco em terra/farming. | Menos fluido. |
-| **Gleba** | Solo fértil (PT). | Único, identidade forte, raiz BR. | Pode soar estranho em EN; domínio raro. |
+| **Gleba** | Solo fértil (PT). | Único, identidade forte, raiz BR. | Pode soar estranho em EN. |
 | **Pixaria** | "Pixel" + sufixo lúdico. | Leve e memorável. | Parece genérico. |
-| **Solanum** | Gênero botânico (plantas) + eco de "Solana". | Sofisticado; liga chain+natureza. | Pronuncia ambígua; já usado por outros projetos. |
+| **Solanum** | Gênero botânico + eco de "Solana". | Sofisticado; liga chain+natureza. | Pronuncia ambígua; já usado. |
 | **BlockFarm / BitFarm** | Literal. | Óbvio. | Genérico, sem identidade. |
 
-**Recomendação**: **PixVale** como nome provisório de trabalho (usado neste doc),
-com decisão final após checagem de domínio/marca. Manter um **nome de código
-interno** (`cloudcraft`, `reldens-web3`) para não bloquear desenvolvimento.
+**Decisão**: **VibeCraft** é o nome final (usado neste doc e no tema). Não usar
+"PixVale" em artefatos novos do jogo.
+
+> **Token atrelado ao nome**: definido após o nome final (ex.: `$CRAFT`, `$FARM`).
+> Evitar "VIBE" (colide com o token `VIBE` de outros projetos). O símbolo depende
+> da chain escolhida (ver §2.1 abaixo).
+
+### 2.1 Rede (chain) - Ronin ou Solana
+
+O usuário indicou que a rede será **Ronin** ou **Solana**. Decisão em aberto;
+recomendação técnica abaixo (não bloqueia dev):
+
+| Critério | Solana | Ronin (sidechain EVM) |
+|---|---|---|
+| Custo por tx | Baixo (~$0.00025) | Muito baixo (subsid. pelo ecossistema Ronin) |
+| Ecossistema gaming | Forte (Star Atlas, Aurory, etc.) | Focado (Axie Infinity, Pixels.xyz) |
+| Referência Pixels.xyz | - | [ok] Pixels roda em Ronin |
+| Padrão NFT | Metaplex (Token-2022) | ERC-721/1155 |
+| Wallet padrão | Phantom/Backpack | Ronin Wallet (EVM, MetaMask-compat) |
+| Integração Reldens atual | [ok] `lib/blockchain` já valida Solana (Token-2022) | [!] exige adaptar o `lib/blockchain` para EVM/ERC |
+
+**Observação importante**: o `lib/blockchain` atual já implementa verificação
+**Solana** (challenge + token balance + NFT Token-2022). Escolher **Ronin**
+implica portar a camada de verificação para EVM (web3/ethers, ERC-20/721). O
+custo de migração não é trivial. Decisão recomendada: manter **Solana** para o
+MVP (já funcional) e avaliar Ronin como segunda chain no futuro, se o
+posicionamento exigir (ex.: proximidade com Pixels.xyz).
 
 ### Diretrizes de marca
 

@@ -10,6 +10,7 @@
  */
 
 const { ServerManager } = require('./server');
+const { ServerPlugin } = require('./theme/plugins/server-plugin');
 
 let appServer = new ServerManager({
     projectRoot: __dirname,
@@ -17,7 +18,7 @@ let appServer = new ServerManager({
     reldensModulePath: __dirname,
     reldensModuleLibPath: __dirname + '/lib',
     reldensModuleThemePath: __dirname + '/theme',
-    customPlugin: null
+    customPlugin: ServerPlugin
 });
 
 // events debug:

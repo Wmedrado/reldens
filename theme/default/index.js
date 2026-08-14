@@ -28,8 +28,62 @@ let reldens = new GameManager();
 // reldens.appServerUrl = 'https://localhost:8000';
 reldens.setupCustomClientPlugin('customPluginKey', ClientPlugin);
 window.addEventListener('DOMContentLoaded', () => {
+    setupAuthTabs();
     reldens.clientStart();
+    setupEditorOverlay();
 });
+
+function setupAuthTabs()
+{
+    let tabs = document.querySelectorAll('[data-auth-tab]');
+    if(0 === tabs.length){
+        return;
+    }
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            let panelKey = tab.getAttribute('data-auth-tab');
+            tabs.forEach((t) => {
+                let active = t === tab;
+                t.classList.toggle('active', active);
+                t.setAttribute('aria-selected', active ? 'true' : 'false');
+            });
+            document.querySelectorAll('[data-auth-panel]').forEach((panel) => {
+                panel.classList.toggle('active', panelKey === panel.getAttribute('data-auth-panel'));
+            });
+        });
+    });
+}
+
+function setupEditorOverlay()
+{
+    let openButton = document.getElementById('open-editor');
+    let overlay = document.getElementById('editor-overlay');
+    let closeButton = document.getElementById('close-editor');
+    let frame = document.getElementById('editor-frame');
+    if(!openButton || !overlay || !closeButton){
+        return;
+    }
+    openButton.addEventListener('click', () => {
+        overlay.classList.remove('hidden');
+        frame.src = '/editor';
+        document.body.classList.add('editor-open');
+    });
+    let close = () => {
+        overlay.classList.add('hidden');
+        document.body.classList.remove('editor-open');
+    };
+    closeButton.addEventListener('click', close);
+    window.addEventListener('message', (event) => {
+        if(event.data && 'reldens-editor-close' === event.data.type){
+            close();
+        }
+    });
+    window.addEventListener('keydown', (event) => {
+        if('Escape' === event.key){
+            close();
+        }
+    });
+}
 
 // client event listener example with version display:
 reldens.events.on('reldens.afterInitEngineAndStartGame', () => {

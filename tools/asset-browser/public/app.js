@@ -169,7 +169,7 @@ function renderGallery() {
         if (state.selMode) {
             const chk = document.createElement('div');
             chk.className = 'sel-check';
-            chk.textContent = isSel ? '✓' : '';
+            chk.textContent = isSel ? '[x]' : '';
             card.appendChild(chk);
         }
         const thumb = document.createElement('div');

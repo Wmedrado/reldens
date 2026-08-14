@@ -1,0 +1,721 @@
+/**
+ *
+ * Vibecraft - Landing, Auth and UI theme
+ *
+ * Styles the custom landing page (pixel landscape, hero, auth panel), the
+ * in-game panels and the footer. Accent: Vibecraft green.
+ *
+ */
+
+@use "variables" as *;
+
+$vcGreen: #b7f34e;
+$vcGreenDim: #8ec72f;
+$vcBg0: #0b1023;
+$vcBg1: #1a1f3d;
+$vcPanel: rgba(22, 27, 54, 0.92);
+$vcBorder: rgba(183, 243, 78, 0.35);
+$vcText: #eef2ff;
+$vcMuted: #9aa5c9;
+
+/* ---------- base layout ---------- */
+
+body {
+    background: $vcBg0;
+}
+
+body .wrapper {
+    position: relative;
+    background:
+        radial-gradient(1200px 500px at 75% -10%, rgba(74, 96, 220, 0.55), transparent 60%),
+        radial-gradient(900px 420px at 12% 8%, rgba(183, 243, 78, 0.12), transparent 55%),
+        linear-gradient(180deg, #0b1023 0%, #141a36 55%, #1c1633 100%);
+}
+
+/* ---------- pixel landscape (sun / hills / floaties) ---------- */
+
+body .wrapper .content {
+    position: relative;
+    z-index: 2;
+}
+
+.px-scene {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 300px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.px-scene-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.px-ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 70px;
+    background: linear-gradient(180deg, #378f3f 0%, #2e7d32 70%, #256b2a 100%);
+    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.px-ground::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 34px;
+    background: url('../assets/web/scene/grass.png') repeat-x top;
+    background-size: auto 34px;
+    image-rendering: pixelated;
+    opacity: 0.85;
+}
+
+.px-tree-line img {
+    position: absolute;
+    bottom: 64px;
+    width: auto;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.45));
+}
+
+.px-details img {
+    position: absolute;
+    bottom: 58px;
+    width: auto;
+    image-rendering: pixelated;
+}
+
+@media (max-height: 760px) {
+    .px-scene {
+        height: 220px;
+    }
+
+    .px-tree-line img {
+        bottom: 48px;
+    }
+
+    .px-details img {
+        bottom: 44px;
+    }
+}
+
+@media (max-height: 620px) {
+    .px-scene {
+        display: none;
+    }
+}
+
+.px-sun {
+    position: absolute;
+    top: 60px;
+    right: 8%;
+    width: 120px;
+    height: 120px;
+    background: #ffd166;
+    box-shadow: 0 0 0 14px rgba(255, 209, 102, 0.25), 0 0 90px 30px rgba(255, 209, 102, 0.35);
+    border-radius: 10px;
+    image-rendering: pixelated;
+    z-index: 0;
+    animation: px-sun-pulse 6s ease-in-out infinite;
+}
+
+@keyframes px-sun-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+
+.px-hills {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 34%;
+    background:
+        linear-gradient(115deg, transparent 22%, rgba(64, 42, 120, 0.55) 22%, rgba(64, 42, 120, 0.55) 30%, transparent 30%),
+        linear-gradient(65deg, transparent 55%, rgba(39, 32, 96, 0.6) 55%, rgba(39, 32, 96, 0.6) 66%, transparent 66%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.px-float {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #b7f34e;
+    border-radius: 3px;
+    z-index: 0;
+    opacity: 0.55;
+    animation: px-floaty 5s ease-in-out infinite;
+}
+
+.px-float.float-a { left: 12%; top: 30%; animation-delay: 0s; }
+.px-float.float-b { left: 26%; top: 48%; width: 10px; height: 10px; animation-delay: 1.2s; background: #ff9ff3; }
+.px-float.float-c { right: 16%; top: 42%; width: 12px; height: 12px; animation-delay: 2.1s; background: #ffd166; }
+
+@keyframes px-floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+}
+
+/* ---------- site header ---------- */
+
+.header.site-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 16, 35, 0.55);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid $vcBorder;
+    flex: 0 0 auto;
+    flex-grow: 0;
+    height: auto;
+    min-height: 0;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1180px;
+    padding: 7px 18px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: $vcText;
+    font-family: $reldensFont;
+}
+
+.brand:hover .brand-name {
+    text-shadow: 0 0 16px rgba(183, 243, 78, 0.55);
+}
+
+.brand-mark {
+    width: 20px;
+    height: 20px;
+    background:
+        linear-gradient(135deg, $vcGreen 25%, transparent 25%) 0 0 / 50% 50% no-repeat,
+        linear-gradient(315deg, $vcGreen 25%, transparent 25%) 100% 0 / 50% 50% no-repeat,
+        linear-gradient(45deg, #ff9ff3 25%, transparent 25%) 0 100% / 50% 50% no-repeat,
+        linear-gradient(225deg, #ffd166 25%, transparent 25%) 100% 100% / 50% 50% no-repeat,
+        #141a36;
+    border: 2px solid $vcGreen;
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(183, 243, 78, 0.5);
+}
+
+.brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.brand-accent {
+    color: $vcGreen;
+    text-shadow: 0 0 12px rgba(183, 243, 78, 0.6);
+}
+
+.server-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: $vcMuted;
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 3px 10px;
+}
+
+.server-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $vcGreen;
+    box-shadow: 0 0 8px $vcGreen;
+    animation: px-dot 1.4s ease-in-out infinite;
+}
+
+@keyframes px-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+}
+
+/* ---------- auth landing ---------- */
+
+.forms-container.auth-wrap {
+    max-width: 1180px;
+    margin: 24px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.auth-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 34px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-hero {
+    flex: 1 1 55%;
+    color: $vcText;
+}
+
+.hero-kicker {
+    display: inline-block;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: $vcGreen;
+    background: rgba(183, 243, 78, 0.12);
+    border: 1px solid $vcBorder;
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin-bottom: 18px;
+}
+
+.game-title {
+    font-size: clamp(48px, 8vw, 92px);
+    line-height: 0.95;
+    font-weight: 900;
+    letter-spacing: 4px;
+    margin: 0 0 18px;
+    color: #fff;
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.title-accent {
+    color: $vcGreen;
+    text-shadow: 0 0 22px rgba(183, 243, 78, 0.55);
+}
+
+.game-tagline {
+    font-size: 17px;
+    line-height: 1.55;
+    color: $vcMuted;
+    max-width: 560px;
+    margin: 0 0 22px;
+}
+
+.feature-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 26px;
+}
+
+.chip {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    color: #0b1023;
+}
+
+.chip-green { background: $vcGreen; color: #10200a; }
+.chip-gold { background: #ffd166; color: #3a2a00; }
+.chip-cyan { background: #56e5ff; color: #002b33; }
+.chip-purple { background: #c792ff; color: #1c0b33; }
+.chip-pink { background: #ff9ff3; color: #33001f; }
+
+.hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stat-value {
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    font-family: $reldensFont;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: $vcMuted;
+    letter-spacing: 1px;
+}
+
+/* ---------- auth panel ---------- */
+
+.auth-panel-wrap {
+    flex: 0 1 420px;
+}
+
+.auth-panel {
+    background: $vcPanel;
+    border: 1px solid rgba(183, 243, 78, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45), 0 0 0 4px rgba(183, 243, 78, 0.06);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+.auth-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 14px 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: $vcMuted;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-family: $reldensFont;
+    letter-spacing: 1px;
+}
+
+.auth-tab:hover {
+    color: $vcText;
+}
+
+.auth-tab.active {
+    color: $vcGreen;
+    border-bottom-color: $vcGreen;
+    background: rgba(183, 243, 78, 0.07);
+}
+
+.auth-panels {
+    padding: 22px 24px 26px;
+}
+
+.auth-panel-body {
+    display: none;
+}
+
+.auth-panel-body.active {
+    display: block;
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: $vcMuted;
+    margin-bottom: 6px;
+}
+
+.field-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.field-control input {
+    width: 100%;
+    padding: 11px 12px;
+    font-size: 15px;
+    color: $vcText;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+.field-control input:focus {
+    border-color: $vcGreen;
+    box-shadow: 0 0 0 3px rgba(183, 243, 78, 0.18);
+}
+
+.reveal-password {
+    position: absolute;
+    right: 6px;
+    font-size: 11px;
+    color: $vcMuted;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+}
+
+.reveal-password:hover { color: $vcGreen; }
+
+.wallet-connect-button {
+    width: 100%;
+    padding: 11px 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(90deg, #7c4dff, #56e5ff);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.wallet-connect-button:hover { filter: brightness(1.1); }
+
+.wallet-connect-status {
+    margin-top: 8px;
+    font-size: 12px;
+    color: $vcMuted;
+}
+
+.auth-submit {
+    margin-top: 18px;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.08s, filter 0.15s, box-shadow 0.15s;
+    font-family: $reldensFont;
+    color: #0b1023;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+    width: 100%;
+    background: linear-gradient(180deg, #c4f76a, $vcGreen 55%, $vcGreenDim);
+    color: #14200b;
+    box-shadow: 0 6px 22px rgba(183, 243, 78, 0.35);
+}
+
+.btn-primary:hover { filter: brightness(1.06); }
+
+.btn-secondary {
+    width: 100%;
+    background: linear-gradient(180deg, #6ea0ff, #4f7cf0);
+    color: #fff;
+}
+
+.btn-ghost {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.07);
+    color: $vcText;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.12); }
+
+.btn-block { display: flex; }
+
+/* ---------- loading / spinner ---------- */
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+}
+
+.loading-container.hidden {
+    display: none !important;
+}
+
+.pixel-spinner {
+    width: 18px;
+    height: 18px;
+    background: $vcGreen;
+    animation: px-spin 0.9s steps(4) infinite;
+    border-radius: 3px;
+}
+
+@keyframes px-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ---------- response error ---------- */
+
+.response-error {
+    color: #ff6b6b;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px 0 0;
+    min-height: 0;
+    background: transparent;
+}
+
+.response-error:empty { padding: 0; }
+
+/* ---------- forgot / divider ---------- */
+
+.forgot-trigger {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: $vcMuted;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 14px;
+    font-family: inherit;
+}
+
+.forgot-trigger:hover { color: $vcGreen; }
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: $vcMuted;
+    font-size: 12px;
+    margin: 18px 0 6px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- overlays: instructions / game over / wallet ---------- */
+
+#instructions,
+#game-over {
+    color: $vcText;
+    background: $vcPanel;
+    border: 1px solid $vcBorder;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+#instructions .instructions-content h3,
+#game-over .game-over-content h3 {
+    color: $vcGreen;
+    text-align: center;
+}
+
+#wallet-link-area,
+#holder-tier-badge {
+    position: relative;
+    z-index: 3;
+}
+
+/* ---------- player selection / terms (wooden boxes) ---------- */
+
+.player-selection-form,
+.player-create-form {
+    border-radius: 14px;
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+    position: relative;
+    z-index: 2;
+}
+
+.footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 4px 16px;
+    color: rgba(154, 165, 201, 0.55);
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 0.3px;
+}
+
+.footer-inner a {
+    color: rgba(183, 243, 78, 0.6);
+    text-decoration: none;
+}
+
+.footer-inner a:hover {
+    color: $vcGreen;
+    text-decoration: underline;
+}
+
+/* ---------- in-game UI green accents ---------- */
+
+.ui-dialog-box,
+.inventory-ui,
+.equipment-ui,
+.chat-ui,
+.player-stats-ui,
+.settings-ui {
+    border-radius: 12px;
+}
+
+.wooden-box {
+    border-radius: 14px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+    .auth-layout {
+        flex-direction: column;
+    }
+
+    .auth-hero {
+        text-align: center;
+    }
+
+    .feature-chips,
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .auth-panel-wrap {
+        width: 100%;
+        flex: none;
+    }
+
+    .game-title {
+        font-size: clamp(40px, 12vw, 64px);
+    }
+}
