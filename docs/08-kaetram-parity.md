@@ -15,7 +15,10 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **35/35 PASS, 0 FAIL** (38 arquivos; 3 admin exigem servidor vivo).
+- Suite de testes puros: **42/42 PASS, 0 FAIL** (42 arquivos; 3 admin exigem servidor vivo).
+- T2.3 + T2.4 + T2.5 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b, 9435ffb2):
+  curva de XP 1-100 (beta.48), kill XP via rewards verificado (test-kill-xp),
+  questline inicial de 6 missoes na capital (beta.49), wiki expandida.
 - Working tree: trabalho em voo das IAs (professions XP, VIP, daily-tasks, drop-boost,
   shop, land gate, achievements, bank, pets, enchant, energy-regen) — testado verde,
   NAO commitado (dono = IAs que o criaram; T1.1).
@@ -69,7 +72,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
 | Stats base | classless: health/mana derivados de skill lvl; atk/def do equip | `stats` table + `lib/actions` battle | PARTIAL | stats de personagem completos (T2.1) |
-| Nivel/XP de personagem | curva RuneScape (max 120), XP = damage*2/hit + quest/skill | XP de profissoes existe; XP de personagem nao | GAP | T2.3 (curva + acao + quest) |
+| Nivel/XP de personagem | curva RuneScape (max 120), XP = damage*2/hit + quest/skill | curva 1-100 round(15*L^2.4) + atk/def/hp/mp por nivel (beta.48); alimentada por quests/coleta/crafting/farming | DONE | - |
 | Skills treinaveis | 17 (6 combate + 11 utilidade) | `lib/skills` + `lib/professions` (XP) | PARTIAL | consolidar skills treinaveis (T2.1/T4.1) |
 | Atributos por level | skill-based (sem pontos) | parcial (modifiers) | PARTIAL | T2.1 |
 | Classe / path | Kaetram e CLASSLESS (vantagem nossa: classe/path e depth extra) | nao existe | GAP | T2.1 (classe/path = "melhor") |
@@ -86,7 +89,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Mobs | 148 mobs, lvl 1-485, HP 15-50k, aggro range, aggressive/alwaysAggressive | `enemy-object` + creature sheets | PARTIAL | presenca de mobs no mundo (T3.7) |
 | Drops | dropTables compartilhadas + drops por mob, chance/100.000 | `lib/rewards` drop-tables (testado) | DONE | - |
 | Bosses | 7 bosses com plugin (fases/minions) | padrao documentado (05 §7.3); sem boss real | GAP | T3.8 (preparar) |
-| XP por kill | damage*2/hit (health+skill) | rewards XP por kill (parcial) | PARTIAL | T2.3/T4.1 |
+| XP por kill | damage*2/hit (health+skill) | rewards.experience por kill -> classPath (verificado test-kill-xp; rato 5, goblin 10, orc 20, golem 50) | DONE | T4.1 balance |
 | Status/efeitos | poison/freezing/burning/enchant (9 efeitos) | `lib/status-effects` (testado) | DONE | vantagem nossa |
 
 ## 4. Mundo, mapas e ambiente
@@ -106,7 +109,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
 | NPCs com dialogo | npcs.json (nomes/dialogos) | poucos NPCs com dialogo raso | PARTIAL | T3.4 (dialogo + funcao) |
-| Quest-givers | sim | quests via objects | PARTIAL | T2.4/T3.4 |
+| Quest-givers | sim | quadro de missoes na capital (object 118) + questline inicial (beta.49) | PARTIAL | T3.4 mais NPCs de quest |
 | Merchant / loja | shop NPC | `lib/shop` (cliente) + TraderObject | PARTIAL | T3.5 loja de ferramentas |
 | Healer/banker/enchanter/blacksmith | sim | existem no mapa | PARTIAL | T3.4 funcao/dialogo |
 | Loja de ferramentas | - (tools no shop) | NAO EXISTE | GAP | T3.5 (MAXIMA) |
@@ -116,7 +119,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
-| Quest system | 21 quests / 82 stages (talk/kill/door/cooking/tree/fish) | `lib/quests` (maquina de estagios talk/kill/collect/door/resource/timer) | PARTIAL | questline inicial + lore (T2.4); maquina ja cobre tipos Kaetram |
+| Quest system | 21 quests / 82 stages (talk/kill/door/cooking/tree/fish) | `lib/quests` (maquina kill/gather/craft) + questline inicial 6 missoes (beta.49) | PARTIAL | mais quests + tipos talk/door (T2.4/T4.1) |
 | Farming | - (nao no kaetram core) | `lib/farming` (crops/timers/yields) | DONE | vantagem nossa (T4.1 balance) |
 | Gathering | 4 skills lvl-gated: fishing/foraging/lumberjacking/mining | `lib/gathering` (resources) | PARTIAL | nivelar skills de coleta (T3.3/T4.1) |
 | Crafting | 7 profissoes / 93 receitas, level gate 1-62 | `lib/crafting` (receitas) + `lib/professions` (XP) | PARTIAL | volume de receitas + gating por skill (T4.1) |
@@ -156,7 +159,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Settings | sliders audio/brilho, joystick, nomes, levels | existe (settings) | DONE | T5.1 |
 | Floating text/splats | dano/cura/xp/skill + MISS | actions damage texts | DONE | - |
 | Warp menu | sim (level/quest/cooldown gated) | portais de room | PARTIAL | T3.2/T5.1 |
-| Wiki no jogo | - | `wiki.html` (PT-BR) | PARTIAL | T2.5 expandir+linkar |
+| Wiki no jogo | - | `wiki.html` (PT-BR), secoes farming/gathering/crafting/energia/combate/quest/progressao/mundo | PARTIAL | T2.5 linkar mais areas + lore |
 | Mobile/touch | joystick virtual + responsive | `lib/joystick` existe; nao validado | PARTIAL | T5.4 |
 | Audio | musica/sfx manager | `lib/audio` existe | PARTIAL | T5.3 |
 | Minimap | NAO existe no Kaetram | `lib/minimap` existe | DONE | vantagem nossa |
