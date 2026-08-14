@@ -24,7 +24,7 @@ REPLACE INTO `objects` (`id`, `room_id`, `layer_name`, `tile_index`, `class_type
     (204, 101, 'house-collisions-over-player', 370, 10, 'capital_chest', 'capital_chest', 'Treasure Chest',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"A chest filled with loot.","ui":true}', 1),
-    (205, 101, 'house-collisions-over-player', 363, 8, 'capital_craft', 'capital_craft', 'Crafting Table',
+    (205, 101, 'house-collisions-over-player', 411, 8, 'capital_craft', 'capital_craft', 'Crafting Table',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"What would you like to craft?","options":{"craft":{"label":"Craft","value":"craft"}},"ui":true}', 1),
     (206, 101, 'house-collisions-over-player', 354, 9, 'capital_board', 'capital_board', 'Quest Board',
@@ -33,16 +33,16 @@ REPLACE INTO `objects` (`id`, `room_id`, `layer_name`, `tile_index`, `class_type
     (207, 101, 'house-collisions-over-player', 391, 11, 'capital_farm_1', 'capital_farm_1', 'Farm Plot',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"A farm plot. Plant a seed and come back to harvest.","ui":true}', 1),
-    (208, 101, 'house-collisions-over-player', 393, 11, 'capital_farm_2', 'capital_farm_2', 'Farm Plot',
+    (208, 101, 'house-collisions-over-player', 441, 11, 'capital_farm_2', 'capital_farm_2', 'Farm Plot',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"A farm plot. Plant a seed and come back to harvest.","ui":true}', 1),
-    (209, 101, 'house-collisions-over-player', 598, 11, 'capital_tree_1', 'capital_tree_1', 'Wooden Tree',
+    (209, 101, 'house-collisions-over-player', 769, 11, 'capital_tree_1', 'capital_tree_1', 'Wooden Tree',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"A tree full of wood.","ui":true}', 1),
-    (210, 101, 'house-collisions-over-player', 550, 11, 'capital_tree_2', 'capital_tree_2', 'Wooden Tree',
+    (210, 101, 'house-collisions-over-player', 771, 11, 'capital_tree_2', 'capital_tree_2', 'Wooden Tree',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"A tree full of wood.","ui":true}', 1),
-    (211, 101, 'house-collisions-over-player', 702, 11, 'capital_tree_3', 'capital_tree_3', 'Wooden Tree',
+    (211, 101, 'house-collisions-over-player', 779, 11, 'capital_tree_3', 'capital_tree_3', 'Wooden Tree',
      '{"runOnAction":true,"playerVisible":true}',
      '{"content":"A tree full of wood.","ui":true}', 1);
 
@@ -56,8 +56,8 @@ REPLACE INTO `objects_assets` (`object_asset_id`, `object_id`, `asset_type`, `as
     (206, 206, 'spritesheet', 'capital_board', 'people-d-x2.png', '{"frameWidth":52,"frameHeight":71}'),
     (207, 207, 'spritesheet', 'capital_farm_1', 'people-d-x2.png', '{"frameWidth":52,"frameHeight":71}'),
     (208, 208, 'spritesheet', 'capital_farm_2', 'people-d-x2.png', '{"frameWidth":52,"frameHeight":71}'),
-    (209, 209, 'spritesheet', 'capital_tree_1', 'monster-treant.png', '{"frameWidth":47,"frameHeight":50}'),
-    (210, 210, 'spritesheet', 'capital_tree_2', 'monster-treant.png', '{"frameWidth":47,"frameHeight":50}'),
-    (211, 211, 'spritesheet', 'capital_tree_3', 'monster-treant.png', '{"frameWidth":47,"frameHeight":50}');
+    (209, 209, 'spritesheet', 'capital_tree_1', 'tree_oak.png', '{"frameWidth":63,"frameHeight":112}'),
+    (210, 210, 'spritesheet', 'capital_tree_2', 'tree_pineTallB.png', '{"frameWidth":45,"frameHeight":177}'),
+    (211, 211, 'spritesheet', 'capital_tree_3', 'tree_blocks.png', '{"frameWidth":77,"frameHeight":108}');
 
 SET FOREIGN_KEY_CHECKS = 1;

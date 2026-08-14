@@ -28,15 +28,15 @@ REPLACE INTO `rooms` (`id`, `name`, `title`, `map_filename`, `scene_images`, `ro
 --   598  (plaza portal)-> town        (capital <-> town hub)
 -- ============================================================
 REPLACE INTO `rooms_change_points` (`id`, `room_id`, `tile_index`, `next_room_id`) VALUES
-	(21, 11, 18, 5),
-	(22, 11, 19, 5),
-	(23, 11, 444, 2),
-	(24, 11, 951, 3),
-	(25, 11, 598, 4);
+	(21, 101, 18, 5),
+	(22, 101, 19, 5),
+	(23, 101, 444, 2),
+	(24, 101, 951, 3),
+	(25, 101, 598, 4);
 
 -- town plaza portal -> capital (symmetric with capital 598 -> town)
 REPLACE INTO `rooms_change_points` (`id`, `room_id`, `tile_index`, `next_room_id`) VALUES
-	(26, 4, 598, 11);
+	(26, 4, 598, 101);
 
 -- ============================================================
 -- RETURN POINTS
@@ -44,12 +44,12 @@ REPLACE INTO `rooms_change_points` (`id`, `room_id`, `tile_index`, `next_room_id
 --   (fetchNewPosition matches by from_room_id). Capital's default = spawn.
 -- ============================================================
 REPLACE INTO `rooms_return_points` (`id`, `room_id`, `direction`, `x`, `y`, `is_default`, `from_room_id`) VALUES
-	(102, 4, 'down', 720, 400, 0, 11),   -- town: arrive from capital (plaza)
-	(103, 5, 'down', 690, 768, 0, 11),   -- forest: arrive from capital
-	(104, 2, 'down', 560, 600, 0, 11),   -- house-1: arrive from capital
-	(105, 3, 'down', 650, 590, 0, 11),   -- house-2: arrive from capital
-	(106, 11, 'down', 720, 400, 0, 4),   -- capital: arrive from town (plaza portal)
-	(107, 11, 'down', 720, 480, 1, NULL); -- capital: default spawn (player spawn)
+	(102, 4, 'down', 720, 400, 0, 101),   -- town: arrive from capital (plaza)
+	(103, 5, 'down', 690, 768, 0, 101),   -- forest: arrive from capital
+	(104, 2, 'down', 560, 600, 0, 101),   -- house-1: arrive from capital
+	(105, 3, 'down', 650, 590, 0, 101),   -- house-2: arrive from capital
+	(106, 101, 'down', 720, 400, 0, 4),   -- capital: arrive from town (plaza portal)
+	(107, 101, 'down', 720, 480, 1, NULL); -- capital: default spawn (player spawn)
 
 -- ============================================================
 -- CONFIG: capital is the initial room for new players
@@ -63,32 +63,32 @@ REPLACE INTO `config` (`id`, `scope`, `path`, `value`, `type`) VALUES
 -- OBJECTS (room 11) - ids 110+
 -- ============================================================
 REPLACE INTO `objects` (`id`, `room_id`, `layer_name`, `tile_index`, `class_type`, `object_class_key`, `client_key`, `title`, `private_params`, `client_params`, `enabled`) VALUES
-	(110, 11, 'ground-collisions', 444, 2, 'capital_door_1', 'door_house_1', 'House Door', '{"runOnHit":true,"roomVisible":true,"yFix":6}', '{"positionFix":{"y":-18},"frameStart":0,"frameEnd":3,"repeat":0,"hideOnComplete":false,"autoStart":false,"restartTime":2000}', 1),
-	(111, 11, 'ground-collisions', 951, 2, 'capital_door_2', 'door_house_2', 'House Door', '{"runOnHit":true,"roomVisible":true,"yFix":6}', '{"positionFix":{"y":-18},"frameStart":0,"frameEnd":3,"repeat":0,"hideOnComplete":false,"autoStart":false,"restartTime":2000}', 1),
-	(112, 11, 'house-collisions-over-player', 498, 5, 'capital_mercador', 'merchant_1', 'Mercador da Capital', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hi there! What would you like to do?","options":{"buy":{"label":"Buy","value":"buy"},"sell":{"label":"Sell","value":"sell"}}}', 1),
-	(113, 11, 'house-collisions-over-player', 508, 3, 'capital_ferreiro', 'weapons_master_1', 'Ferreiro da Capital', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hi, I am the weapons master of the capital, choose your weapon and go kill some monsters!","options":{"1":{"key":"axe","label":"Axe","value":1,"icon":"axe"},"2":{"key":"spear","label":"Spear","value":2,"icon":"spear"}},"ui":true}', 1),
-	(114, 11, 'house-collisions-over-player', 358, 3, 'capital_quests', 'quest_npc_1', 'Avisos da Capital', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hi there! Do you want a coin? I can give you one if you give me a tree branch.","options":{"1":{"label":"Sure!","value":1},"2":{"label":"No, thank you.","value":2}},"ui":true}', 1),
-	(115, 11, 'house-collisions-over-player', 554, 3, 'capital_healer', 'healer_1', 'Curadora', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hello traveler! I can restore your health, would you like me to do it?","options":{"1":{"label":"Heal HP","value":1},"2":{"label":"Nothing...","value":2},"3":{"label":"Need some MP","value":3}},"ui":true}', 1),
-	(116, 11, 'house-collisions-over-player', 560, 12, 'capital_banker', 'banker_1', 'Banqueiro', '{"runOnAction":true,"playerVisible":true}', '{"content":"Welcome to the capital bank.","ui":true}', 1),
-	(117, 11, 'house-collisions-over-player', 411, 8, 'capital_craft', 'crafting_station_1', 'Bancada de Trabalho', '{"runOnAction":true,"playerVisible":true}', '{"content":"What would you like to craft?","options":{"craft":{"label":"Craft","value":"craft"}},"ui":true}', 1),
-	(118, 11, 'house-collisions-over-player', 354, 9, 'capital_board', 'quest_board_1', 'Quadro de Missões', '{"runOnAction":true,"playerVisible":true}', '{"content":"Choose an option to manage your quests.","ui":true}', 1),
-	(119, 11, 'house-collisions-over-player', 391, 3, 'capital_farm_1', 'farm_plot_1', 'Plantação', '{"runOnAction":true,"playerVisible":true}', '{"content":"A farm plot. Plant a seed and come back to harvest.","ui":true}', 1),
-	(120, 11, 'house-collisions-over-player', 441, 3, 'capital_farm_2', 'farm_plot_2', 'Plantação', '{"runOnAction":true,"playerVisible":true}', '{"content":"A farm plot. Plant a seed and come back to harvest.","ui":true}', 1),
-	(121, 11, 'house-collisions-over-player', 370, 10, 'capital_chest', 'chest_1', 'Baú do Tesouro', '{"runOnAction":true,"playerVisible":true}', '{"content":"A chest. Open it to receive loot.","ui":true}', 1),
-	(122, 11, 'over-player', 550, 2, 'capital_fonte', 'fonte_praca', 'Fonte da Praça', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(123, 11, 'over-player', 294, 2, 'capital_portal', 'portal_capital', 'Portal da Capital', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(124, 11, 'forest-collisions', 769, 11, 'capital_tree_1', 'tree_1', 'Carvalho', '{"runOnAction":true,"playerVisible":true}', '{"content":"A tree full of wood.","ui":true}', 1),
-	(125, 11, 'forest-collisions', 771, 11, 'capital_tree_2', 'tree_2', 'Pinheiro', '{"runOnAction":true,"playerVisible":true}', '{"content":"A tree full of wood.","ui":true}', 1),
-	(126, 11, 'forest-collisions', 779, 11, 'capital_tree_3', 'tree_3', 'Árvore de Blocos', '{"runOnAction":true,"playerVisible":true}', '{"content":"A tree full of wood.","ui":true}', 1),
-	(127, 11, 'over-player', 738, 2, 'capital_bush_1', 'bush_1', 'Arbusto', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(128, 11, 'over-player', 739, 2, 'capital_flower_red', 'flower_red_1', 'Flor Vermelha', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(129, 11, 'over-player', 740, 2, 'capital_flower_yellow', 'flower_yellow_1', 'Flor Amarela', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(130, 11, 'over-player', 741, 2, 'capital_grass', 'grass_1', 'Grama', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(131, 11, 'over-player', 560, 2, 'capital_rock', 'rock_1', 'Pedra', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(132, 11, 'over-player', 558, 2, 'capital_log', 'log_1', 'Tronco', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(133, 11, 'over-player', 555, 2, 'capital_mushroom', 'mushroom_1', 'Cogumelo', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
-	(134, 11, 'house-collisions-over-player', 602, 3, 'capital_sign_1', 'sign_1', 'Placa', '{"runOnAction":true,"playerVisible":true}', '{"content":"Bem-vindo à Capital! Fale com o Mercador, o Ferreiro e a Curadora. Use o Portal Central para viajar."}', 1),
-	(135, 11, 'house-collisions-over-player', 603, 3, 'capital_sign_2', 'sign_2', 'Placa', '{"runOnAction":true,"playerVisible":true}', '{"content":"A floresta fica a oeste. Corte árvores para coletar madeira e complete missões no quadro de avisos."}', 1);
+	(110, 101, 'ground-collisions', 444, 2, 'capital_door_1', 'door_house_1', 'House Door', '{"runOnHit":true,"roomVisible":true,"yFix":6}', '{"positionFix":{"y":-18},"frameStart":0,"frameEnd":3,"repeat":0,"hideOnComplete":false,"autoStart":false,"restartTime":2000}', 1),
+	(111, 101, 'ground-collisions', 951, 2, 'capital_door_2', 'door_house_2', 'House Door', '{"runOnHit":true,"roomVisible":true,"yFix":6}', '{"positionFix":{"y":-18},"frameStart":0,"frameEnd":3,"repeat":0,"hideOnComplete":false,"autoStart":false,"restartTime":2000}', 1),
+	(112, 101, 'house-collisions-over-player', 498, 5, 'capital_mercador', 'merchant_1', 'Mercador da Capital', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hi there! What would you like to do?","options":{"buy":{"label":"Buy","value":"buy"},"sell":{"label":"Sell","value":"sell"}}}', 1),
+	(113, 101, 'house-collisions-over-player', 508, 3, 'capital_ferreiro', 'weapons_master_1', 'Ferreiro da Capital', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hi, I am the weapons master of the capital, choose your weapon and go kill some monsters!","options":{"1":{"key":"axe","label":"Axe","value":1,"icon":"axe"},"2":{"key":"spear","label":"Spear","value":2,"icon":"spear"}},"ui":true}', 1),
+	(114, 101, 'house-collisions-over-player', 358, 3, 'capital_quests', 'quest_npc_1', 'Avisos da Capital', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hi there! Do you want a coin? I can give you one if you give me a tree branch.","options":{"1":{"label":"Sure!","value":1},"2":{"label":"No, thank you.","value":2}},"ui":true}', 1),
+	(115, 101, 'house-collisions-over-player', 554, 3, 'capital_healer', 'healer_1', 'Curadora', '{"runOnAction":true,"playerVisible":true,"sendInvalidOptionMessage":true}', '{"content":"Hello traveler! I can restore your health, would you like me to do it?","options":{"1":{"label":"Heal HP","value":1},"2":{"label":"Nothing...","value":2},"3":{"label":"Need some MP","value":3}},"ui":true}', 1),
+	(116, 101, 'house-collisions-over-player', 560, 12, 'capital_banker', 'banker_1', 'Banqueiro', '{"runOnAction":true,"playerVisible":true}', '{"content":"Welcome to the capital bank.","ui":true}', 1),
+	(117, 101, 'house-collisions-over-player', 411, 8, 'capital_craft', 'crafting_station_1', 'Bancada de Trabalho', '{"runOnAction":true,"playerVisible":true}', '{"content":"What would you like to craft?","options":{"craft":{"label":"Craft","value":"craft"}},"ui":true}', 1),
+	(118, 101, 'house-collisions-over-player', 354, 9, 'capital_board', 'quest_board_1', 'Quadro de Missões', '{"runOnAction":true,"playerVisible":true}', '{"content":"Choose an option to manage your quests.","ui":true}', 1),
+	(119, 101, 'house-collisions-over-player', 391, 3, 'capital_farm_1', 'farm_plot_1', 'Plantação', '{"runOnAction":true,"playerVisible":true}', '{"content":"A farm plot. Plant a seed and come back to harvest.","ui":true}', 1),
+	(120, 101, 'house-collisions-over-player', 441, 3, 'capital_farm_2', 'farm_plot_2', 'Plantação', '{"runOnAction":true,"playerVisible":true}', '{"content":"A farm plot. Plant a seed and come back to harvest.","ui":true}', 1),
+	(121, 101, 'house-collisions-over-player', 370, 10, 'capital_chest', 'chest_1', 'Baú do Tesouro', '{"runOnAction":true,"playerVisible":true}', '{"content":"A chest. Open it to receive loot.","ui":true}', 1),
+	(122, 101, 'over-player', 550, 2, 'capital_fonte', 'fonte_praca', 'Fonte da Praça', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(123, 101, 'over-player', 294, 2, 'capital_portal', 'portal_capital', 'Portal da Capital', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(124, 101, 'forest-collisions', 769, 101, 'capital_tree_1', 'tree_1', 'Carvalho', '{"runOnAction":true,"playerVisible":true}', '{"content":"A tree full of wood.","ui":true}', 1),
+	(125, 101, 'forest-collisions', 771, 101, 'capital_tree_2', 'tree_2', 'Pinheiro', '{"runOnAction":true,"playerVisible":true}', '{"content":"A tree full of wood.","ui":true}', 1),
+	(126, 101, 'forest-collisions', 779, 101, 'capital_tree_3', 'tree_3', 'Árvore de Blocos', '{"runOnAction":true,"playerVisible":true}', '{"content":"A tree full of wood.","ui":true}', 1),
+	(127, 101, 'over-player', 738, 2, 'capital_bush_1', 'bush_1', 'Arbusto', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(128, 101, 'over-player', 739, 2, 'capital_flower_red', 'flower_red_1', 'Flor Vermelha', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(129, 101, 'over-player', 740, 2, 'capital_flower_yellow', 'flower_yellow_1', 'Flor Amarela', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(130, 101, 'over-player', 741, 2, 'capital_grass', 'grass_1', 'Grama', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(131, 101, 'over-player', 560, 2, 'capital_rock', 'rock_1', 'Pedra', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(132, 101, 'over-player', 558, 2, 'capital_log', 'log_1', 'Tronco', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(133, 101, 'over-player', 555, 2, 'capital_mushroom', 'mushroom_1', 'Cogumelo', '{}', '{"frameStart":0,"frameEnd":0,"repeat":-1,"autoStart":true,"depthByPlayer":"above"}', 1),
+	(134, 101, 'house-collisions-over-player', 602, 3, 'capital_sign_1', 'sign_1', 'Placa', '{"runOnAction":true,"playerVisible":true}', '{"content":"Bem-vindo à Capital! Fale com o Mercador, o Ferreiro e a Curadora. Use o Portal Central para viajar."}', 1),
+	(135, 101, 'house-collisions-over-player', 603, 3, 'capital_sign_2', 'sign_2', 'Placa', '{"runOnAction":true,"playerVisible":true}', '{"content":"A floresta fica a oeste. Corte árvores para coletar madeira e complete missões no quadro de avisos."}', 1);
 
 -- ============================================================
 -- OBJECTS ASSETS
