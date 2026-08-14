@@ -22,6 +22,9 @@ const { ServerEventsPlugin } = require('reldens/lib/events/server/plugin');
 const { EnchantObject } = require('reldens/lib/enchant/server/enchant-object');
 const { PetObject } = require('reldens/lib/pets/server/pet-object');
 const { PetPlugin } = require('reldens/lib/pets/server/plugin');
+const { DailyTaskBoardObject } = require('reldens/lib/daily-tasks/server/daily-task-board-object');
+const { DailyTasksPlugin } = require('reldens/lib/daily-tasks/server/plugin');
+const { VIPPlugin } = require('reldens/lib/vip/server/plugin');
 const { LandPlugin } = require('reldens/lib/land/server/plugin');
 const { ProfessionsPlugin } = require('reldens/lib/professions/server/plugin');
 const { EditorPlugin } = require('reldens/lib/editor/server/plugin');
@@ -75,6 +78,16 @@ class ServerPlugin extends PluginInterface
                 config: event.serverManager.configManager
             });
             professionsPlugin.setup();
+            let dailyTasksPlugin = new DailyTasksPlugin({
+                events: this.events,
+                dataServer: event.serverManager.dataServer
+            });
+            await dailyTasksPlugin.setup();
+            let vipPlugin = new VIPPlugin({
+                events: this.events,
+                config: event.serverManager.configManager
+            });
+            vipPlugin.setup();
             let editorPlugin = new EditorPlugin({events: this.events});
             editorPlugin.attachRoutes(event);
         });
@@ -103,6 +116,7 @@ class ServerPlugin extends PluginInterface
         customClasses.objects['enchanter_1'] = EnchantObject;
         customClasses.objects['petdealer_1'] = PetObject;
         customClasses.objects['achievement_board_1'] = AchievementBoardObject;
+        customClasses.objects['dailytask_board_1'] = DailyTaskBoardObject;
         // capital (room 11) - unique object_class_key per objects.object_class_key UNIQUE constraint:
         customClasses.objects['capital_ferreiro'] = WeaponsMaster;
         customClasses.objects['capital_quests'] = QuestNpc;

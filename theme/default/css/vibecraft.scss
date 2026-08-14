@@ -719,3 +719,74 @@ body .wrapper .content {
         font-size: clamp(40px, 12vw, 64px);
     }
 }
+
+/* ---------- daily task board ---------- */
+
+.dailytask-board {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dailytask-date {
+    color: $vcGreen;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.dailytask-row {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(183, 243, 78, 0.18);
+    border-radius: 8px;
+    padding: 8px 10px;
+}
+
+.dailytask-row.claimed {
+    opacity: 0.6;
+    border-color: rgba(154, 165, 201, 0.3);
+}
+
+.dailytask-row.met {
+    border-color: rgba(183, 243, 78, 0.55);
+}
+
+.dailytask-title {
+    color: $vcText;
+    font-weight: 600;
+}
+
+.dailytask-desc {
+    color: $vcMuted;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.dailytask-progress {
+    color: $vcMuted;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.dailytask-claim {
+    margin-top: 8px;
+    background: $vcGreenDim;
+    border: 0;
+    border-radius: 6px;
+    color: #0b1023;
+    font-weight: 700;
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+.dailytask-claim:hover {
+    background: $vcGreen;
+}
+
+.dailytask-claimed-tag {
+    display: inline-block;
+    margin-top: 6px;
+    color: $vcMuted;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}

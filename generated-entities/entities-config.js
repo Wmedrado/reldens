@@ -66,6 +66,7 @@ const { PlayersAchievementsEntity } = require('./entities/players-achievements-e
 const { PlayersEnergyEntity } = require('./entities/players-energy-entity');
 const { PlayersEntity } = require('./entities/players-entity');
 const { PlayersPetsEntity } = require('./entities/players-pets-entity');
+const { PlayersProfessionSkillsEntity } = require('./entities/players-profession-skills-entity');
 const { PlayersQuestsEntity } = require('./entities/players-quests-entity');
 const { PlayersStateEntity } = require('./entities/players-state-entity');
 const { PlayersStatsEntity } = require('./entities/players-stats-entity');
@@ -109,7 +110,8 @@ const { TargetOptionsEntity } = require('./entities/target-options-entity');
 const { UsersEntity } = require('./entities/users-entity');
 const { UsersLocaleEntity } = require('./entities/users-locale-entity');
 const { UsersLoginEntity } = require('./entities/users-login-entity');
-const { PlayersProfessionSkillsEntity } = require('./entities/players-profession-skills-entity');
+const { DailyTasksEntity } = require('./entities/daily-tasks-entity');
+const { PlayersDailyTasksEntity } = require('./entities/players-daily-tasks-entity');
 
 let entitiesConfig = {
     achievements: AchievementsEntity.propertiesConfig(),
@@ -174,6 +176,7 @@ let entitiesConfig = {
     playersEnergy: PlayersEnergyEntity.propertiesConfig(),
     players: PlayersEntity.propertiesConfig(),
     playersPets: PlayersPetsEntity.propertiesConfig(),
+    playersProfessionSkills: PlayersProfessionSkillsEntity.propertiesConfig(),
     playersQuests: PlayersQuestsEntity.propertiesConfig(),
     playersState: PlayersStateEntity.propertiesConfig(),
     playersStats: PlayersStatsEntity.propertiesConfig(),
@@ -217,7 +220,8 @@ let entitiesConfig = {
     users: UsersEntity.propertiesConfig(),
     usersLocale: UsersLocaleEntity.propertiesConfig(),
     usersLogin: UsersLoginEntity.propertiesConfig(),
-    playersProfessionSkills: PlayersProfessionSkillsEntity.propertiesConfig()
+    dailyTasks: DailyTasksEntity.propertiesConfig(),
+    playersDailyTasks: PlayersDailyTasksEntity.propertiesConfig()
 };
 
 module.exports.entitiesConfig = entitiesConfig;

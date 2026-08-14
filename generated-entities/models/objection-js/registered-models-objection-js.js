@@ -66,6 +66,7 @@ const { PlayersAchievementsModel } = require('./players-achievements-model');
 const { PlayersEnergyModel } = require('./players-energy-model');
 const { PlayersModel } = require('./players-model');
 const { PlayersPetsModel } = require('./players-pets-model');
+const { PlayersProfessionSkillsModel } = require('./players-profession-skills-model');
 const { PlayersQuestsModel } = require('./players-quests-model');
 const { PlayersStateModel } = require('./players-state-model');
 const { PlayersStatsModel } = require('./players-stats-model');
@@ -109,7 +110,8 @@ const { TargetOptionsModel } = require('./target-options-model');
 const { UsersModel } = require('./users-model');
 const { UsersLocaleModel } = require('./users-locale-model');
 const { UsersLoginModel } = require('./users-login-model');
-const { PlayersProfessionSkillsModel } = require('./players-profession-skills-model');
+const { DailyTasksModel } = require('./daily-tasks-model');
+const { PlayersDailyTasksModel } = require('./players-daily-tasks-model');
 const { entitiesConfig } = require('../../entities-config');
 const { entitiesTranslations } = require('../../entities-translations');
 
@@ -176,6 +178,7 @@ let rawRegisteredEntities = {
     playersEnergy: PlayersEnergyModel,
     players: PlayersModel,
     playersPets: PlayersPetsModel,
+    playersProfessionSkills: PlayersProfessionSkillsModel,
     playersQuests: PlayersQuestsModel,
     playersState: PlayersStateModel,
     playersStats: PlayersStatsModel,
@@ -219,7 +222,8 @@ let rawRegisteredEntities = {
     users: UsersModel,
     usersLocale: UsersLocaleModel,
     usersLogin: UsersLoginModel,
-    playersProfessionSkills: PlayersProfessionSkillsModel
+    dailyTasks: DailyTasksModel,
+    playersDailyTasks: PlayersDailyTasksModel
 };
 
 module.exports.rawRegisteredEntities = rawRegisteredEntities;

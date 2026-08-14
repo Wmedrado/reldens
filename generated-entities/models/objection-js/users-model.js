@@ -26,6 +26,7 @@ class UsersModel extends ObjectionJsRawModel
         const { ChatQuotasModel } = require('./chat-quotas-model');
         const { PlayersModel } = require('./players-model');
         const { PlayersAchievementsModel } = require('./players-achievements-model');
+        const { PlayersDailyTasksModel } = require('./players-daily-tasks-model');
         const { PlayersPetsModel } = require('./players-pets-model');
         const { UsersLocaleModel } = require('./users-locale-model');
         const { UsersLoginModel } = require('./users-login-model');
@@ -108,6 +109,14 @@ class UsersModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.id',
                     to: PlayersAchievementsModel.tableName+'.player_id'
+                }
+            },
+            related_players_daily_tasks: {
+                relation: this.HasManyRelation,
+                modelClass: PlayersDailyTasksModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: PlayersDailyTasksModel.tableName+'.player_id'
                 }
             },
             related_players_pets: {

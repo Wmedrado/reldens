@@ -20,6 +20,7 @@ class ItemsItemModel extends ObjectionJsRawModel
         const { ItemsGroupModel } = require('./items-group-model');
         const { AchievementsModel } = require('./achievements-model');
         const { CraftingRecipesItemsModel } = require('./crafting-recipes-items-model');
+        const { DailyTasksModel } = require('./daily-tasks-model');
         const { DropTablesItemsModel } = require('./drop-tables-items-model');
         const { DropsAnimationsModel } = require('./drops-animations-model');
         const { EnchantmentsModel } = require('./enchantments-model');
@@ -64,6 +65,14 @@ class ItemsItemModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.id',
                     to: CraftingRecipesItemsModel.tableName+'.item_id'
+                }
+            },
+            related_daily_tasks: {
+                relation: this.HasManyRelation,
+                modelClass: DailyTasksModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: DailyTasksModel.tableName+'.reward_item_id'
                 }
             },
             related_drop_tables_items: {

@@ -26,6 +26,8 @@ const { AchievementBoardObject } = require('../lib/achievements/server/achieveme
 const { ServerEventsManager } = require('../lib/events/server/events-manager');
 const { EnchantObject } = require('../lib/enchant/server/enchant-object');
 const { PetObject } = require('../lib/pets/server/pet-object');
+const { DailyTasksManager } = require('../lib/daily-tasks/server/daily-tasks-manager');
+const { VIPPlugin } = require('../lib/vip/server/plugin');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -530,6 +532,49 @@ function questPlayer(items)
     assert.strictEqual(owned.pet_key, 'pixel_slime', 'pet owned');
     const adoptAgain = await petDealer.adoptPet(petPlayer, 'pixel_slime');
     assert.strictEqual(adoptAgain, false, 'cannot adopt twice');
+
+    // --- Daily tasks ---
+    const dtDb = {rows: []};
+    const dtData = {getEntity: (name) => ({
+        loadByWithRelations: async () => [
+            {id: 1, code: 'daily_gather', label: 'Collect Wood', type: 'gather', target_key: 'tree_wood', quantity: 2, reward_item_id: 1, reward_exp: 10, is_active: 1, related_items_item: {key: 'coins', label: 'Coins'}}
+        ],
+        loadOne: async (flt) => (dtDb.rows || []).find(r => Object.entries(flt).every(([k,v]) => r[k] === v)) || null,
+        create: async (row) => { const r = Object.assign({id: (dtDb.rows||[]).length + 1}, row); (dtDb.rows || (dtDb.rows=[])).push(r); return r; },
+        updateById: async (id, row) => Object.assign((dtDb.rows||[]).find(r => r.id === id), row)
+    })};
+    const dtManager = new DailyTasksManager({dataServer: dtData, events: {emit: async () => {}}});
+    await dtManager.loadTasks();
+    const today = dtManager.today();
+    await dtManager.increment(1, 'gather:tree_wood');
+    await dtManager.increment(1, 'gather:tree_wood');
+    let dtProgress = await dtManager.progressForPlayer(1, 1, today);
+    assert.strictEqual(dtProgress['gather:tree_wood'], 2, 'daily task progress');
+    const dtPlayer = makeGatherPlayer(1, {});
+    const dtClaim = await dtManager.claim(dtManager.tasksById[1], dtPlayer);
+    assert.strictEqual(dtClaim.success, true, 'daily task claim ok');
+    assert.strictEqual(dtPlayer.expAdded, 10, 'daily task exp');
+    const dtClaim2 = await dtManager.claim(dtManager.tasksById[1], dtPlayer);
+    assert.strictEqual(dtClaim2.success, false, 'no double daily claim');
+
+    // --- VIP ---
+    const vipCfg = {getWithoutLogs: (path, dflt) => path === 'server/vip/tiers'
+        ? {'0': {label: 'Free', expBoost: 1, energyRegenBoost: 1}, '1': {label: 'VIP', expBoost: 1.5, energyRegenBoost: 1.5}}
+        : dflt};
+    const vipPlugin = new VIPPlugin({events: {on: () => {}}, config: vipCfg});
+    vipPlugin.setup();
+    assert.strictEqual(vipPlugin.tierFor(1).energyRegenBoost, 1.5, 'VIP energy boost');
+    assert.strictEqual(vipPlugin.tierFor(0).energyRegenBoost, 1, 'free energy boost');
+    // energy regen applies vip boost
+    const vipEnergyData = {getEntity: (name) => ({
+        loadOneBy: async (f, v) => ({id: 1, player_id: 1, last_regen_at: new Date(Date.now() - 10 * 60000)}),
+        create: async (r) => r, updateById: async (id, r) => r
+    })};
+    const vipEnergy = new EnergyManager({dataServer: vipEnergyData});
+    const vipRoom = {config: {getWithoutLogs: (p, d) => d}};
+    const vipPlayer = {player_id: 1, stats: {energy: 0}, statsBase: {energy: 100}, vip: {energyRegenBoost: 1.5}};
+    const vipCur = await vipEnergy.regen(vipPlayer, vipRoom);
+    assert.strictEqual(vipCur, 45, 'energy regen with VIP boost (3/min * 1.5 * 10min)');
 
     console.log('test-crafting-quests-energy: all tests passed');
 })().catch((err) => {

@@ -68,6 +68,7 @@ module.exports.entitiesTranslations = {
         'players_energy': 'Players Energy',
         'players': 'Players',
         'players_pets': 'Players Pets',
+        'players_profession_skills': 'Players Profession Skills',
         'players_quests': 'Players Quests',
         'players_state': 'Players State',
         'players_stats': 'Players Stats',
@@ -111,7 +112,8 @@ module.exports.entitiesTranslations = {
         'users': 'Users',
         'users_locale': 'Users Locale',
         'users_login': 'Users Login',
-        'players_profession_skills': 'Players Profession Skills'
+        'daily_tasks': 'Daily Tasks',
+        'players_daily_tasks': 'Players Daily Tasks'
     },
     fields: {
         'achievements': {
@@ -606,6 +608,15 @@ module.exports.entitiesTranslations = {
             'level': 'Level',
             'exp': 'Exp'
         },
+        'players_profession_skills': {
+            'id': 'ID',
+            'player_id': 'Player ID',
+            'skill_key': 'Skill Key',
+            'current_level': 'Current Level',
+            'current_exp': 'Current Exp',
+            'created_at': 'Created At',
+            'updated_at': 'Updated At'
+        },
         'players_quests': {
             'id': 'ID',
             'player_id': 'Player ID',
@@ -985,14 +996,25 @@ module.exports.entitiesTranslations = {
             'login_date': 'Login Date',
             'logout_date': 'Logout Date'
         },
-        'players_profession_skills': {
+        'daily_tasks': {
+            'id': 'ID',
+            'code': 'Code',
+            'label': 'Label',
+            'description': 'Description',
+            'type': 'Type',
+            'target_key': 'Target Key',
+            'quantity': 'Quantity',
+            'reward_item_id': 'Reward Item ID',
+            'reward_exp': 'Reward Exp',
+            'is_active': 'Is Active'
+        },
+        'players_daily_tasks': {
             'id': 'ID',
             'player_id': 'Player ID',
-            'skill_key': 'Skill Key',
-            'current_level': 'Current Level',
-            'current_exp': 'Current Exp',
-            'created_at': 'Created At',
-            'updated_at': 'Updated At'
+            'task_id': 'Task ID',
+            'task_date': 'Task Date',
+            'status': 'Status',
+            'progress': 'Progress'
         }
     }
 };

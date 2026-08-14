@@ -13,6 +13,7 @@ const { BankClientPlugin } = require('reldens/lib/bank/client/plugin');
 const { AchievementsClientPlugin } = require('reldens/lib/achievements/client/plugin');
 const { EnchantClientPlugin } = require('reldens/lib/enchant/client/plugin');
 const { PetsClientPlugin } = require('reldens/lib/pets/client/plugin');
+const { DailyTasksClientPlugin } = require('reldens/lib/daily-tasks/client/plugin');
 const { FarmingClientPlugin } = require('reldens/lib/farming/client/plugin');
 
 class ClientPlugin extends PluginInterface
@@ -32,6 +33,7 @@ class ClientPlugin extends PluginInterface
             new AchievementsClientPlugin().setup(props);
             new EnchantClientPlugin().setup(props);
             new PetsClientPlugin().setup(props);
+            new DailyTasksClientPlugin().setup(props);
         });
     }
 
