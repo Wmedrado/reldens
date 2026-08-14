@@ -271,11 +271,37 @@ function killGame(){
     gameProc = null;
 }
 
+/**
+ * Kills the game child then waits for GAME_PORT to actually free up before
+ * spawning the new one. On Windows taskkill of the node tree + a fixed 300ms
+ * wait is often not enough: the old listener is still bound when the new
+ * process boots, the boot dies with EADDRINUSE and the edit is never loaded.
+ * Polling the port instead makes hot reload reliable.
+ */
+function killGameAndRespawn(){
+    killGame();
+    const deadline = Date.now() + 8000;
+    const attempt = () => {
+        if(gameProc) return; // a concurrent spawn already happened
+        isPortOpen(GAME_PORT).then((busy) => {
+            if(!busy){
+                spawnGame();
+                return;
+            }
+            if(Date.now() > deadline){
+                pushLine('dev', C.red, 'port ' + GAME_PORT + ' nao liberou apos matar o processo - deixando o listener atual; verifique orfaos (8080/4300/4310)');
+                return;
+            }
+            setTimeout(attempt, 150);
+        });
+    };
+    attempt();
+}
+
 function restartGame(){
     clearTimeout(restartTimer);
     pushLine('dev', C.yellow, 'restarting game server...');
-    killGame();
-    restartTimer = setTimeout(() => { if(!gameProc) spawnGame(); }, 300);
+    killGameAndRespawn();
 }
 
 function startGameWithWatch(){
@@ -308,8 +334,7 @@ function startGameWithWatch(){
                 return;
             }
             pushLine('dev', C.yellow, 'code change detected - restarting game server...');
-            killGame();
-            setTimeout(() => { if(!gameProc) spawnGame(); }, 300);
+            killGameAndRespawn();
         }, 500);
     };
     let diagCount = 0;
