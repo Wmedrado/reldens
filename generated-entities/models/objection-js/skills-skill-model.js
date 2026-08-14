@@ -17,6 +17,7 @@ class SkillsSkillModel extends ObjectionJsRawModel
     static get relationMappings()
     {
         const { SkillsSkillTypeModel } = require('./skills-skill-type-model');
+        const { CraftingRecipesModel } = require('./crafting-recipes-model');
         const { ObjectsSkillsModel } = require('./objects-skills-model');
         const { SkillsClassPathLevelSkillsModel } = require('./skills-class-path-level-skills-model');
         const { SkillsSkillAnimationsModel } = require('./skills-skill-animations-model');
@@ -33,6 +34,14 @@ class SkillsSkillModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.type',
                     to: SkillsSkillTypeModel.tableName+'.id'
+                }
+            },
+            related_crafting_recipes: {
+                relation: this.HasManyRelation,
+                modelClass: CraftingRecipesModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: CraftingRecipesModel.tableName+'.skill_id'
                 }
             },
             related_objects_skills: {

@@ -22,6 +22,8 @@ const { ClanLevelsModifiersModel } = require('./clan-levels-modifiers-model');
 const { ClanMembersModel } = require('./clan-members-model');
 const { ConfigModel } = require('./config-model');
 const { ConfigTypesModel } = require('./config-types-model');
+const { CraftingRecipesModel } = require('./crafting-recipes-model');
+const { CraftingRecipesItemsModel } = require('./crafting-recipes-items-model');
 const { DropsAnimationsModel } = require('./drops-animations-model');
 const { FeaturesModel } = require('./features-model');
 const { ItemsGroupModel } = require('./items-group-model');
@@ -41,8 +43,12 @@ const { ObjectsStatsModel } = require('./objects-stats-model');
 const { ObjectsTypesModel } = require('./objects-types-model');
 const { OperationTypesModel } = require('./operation-types-model');
 const { PlayersModel } = require('./players-model');
+const { PlayersQuestsModel } = require('./players-quests-model');
 const { PlayersStateModel } = require('./players-state-model');
 const { PlayersStatsModel } = require('./players-stats-model');
+const { QuestsModel } = require('./quests-model');
+const { QuestsObjectivesModel } = require('./quests-objectives-model');
+const { QuestsRewardsModel } = require('./quests-rewards-model');
 const { RespawnModel } = require('./respawn-model');
 const { RewardsModel } = require('./rewards-model');
 const { RewardsEventsModel } = require('./rewards-events-model');
@@ -80,6 +86,7 @@ const { TargetOptionsModel } = require('./target-options-model');
 const { UsersModel } = require('./users-model');
 const { UsersLocaleModel } = require('./users-locale-model');
 const { UsersLoginModel } = require('./users-login-model');
+const { PlayersEnergyModel } = require('./players-energy-model');
 const { entitiesConfig } = require('../../entities-config');
 const { entitiesTranslations } = require('../../entities-translations');
 
@@ -102,6 +109,8 @@ let rawRegisteredEntities = {
     clanMembers: ClanMembersModel,
     config: ConfigModel,
     configTypes: ConfigTypesModel,
+    craftingRecipes: CraftingRecipesModel,
+    craftingRecipesItems: CraftingRecipesItemsModel,
     dropsAnimations: DropsAnimationsModel,
     features: FeaturesModel,
     itemsGroup: ItemsGroupModel,
@@ -121,8 +130,12 @@ let rawRegisteredEntities = {
     objectsTypes: ObjectsTypesModel,
     operationTypes: OperationTypesModel,
     players: PlayersModel,
+    playersQuests: PlayersQuestsModel,
     playersState: PlayersStateModel,
     playersStats: PlayersStatsModel,
+    quests: QuestsModel,
+    questsObjectives: QuestsObjectivesModel,
+    questsRewards: QuestsRewardsModel,
     respawn: RespawnModel,
     rewards: RewardsModel,
     rewardsEvents: RewardsEventsModel,
@@ -159,7 +172,8 @@ let rawRegisteredEntities = {
     targetOptions: TargetOptionsModel,
     users: UsersModel,
     usersLocale: UsersLocaleModel,
-    usersLogin: UsersLoginModel
+    usersLogin: UsersLoginModel,
+    playersEnergy: PlayersEnergyModel
 };
 
 module.exports.rawRegisteredEntities = rawRegisteredEntities;

@@ -23,6 +23,8 @@ class PlayersModel extends ObjectionJsRawModel
         const { ClanModel } = require('./clan-model');
         const { ClanMembersModel } = require('./clan-members-model');
         const { ItemsInventoryModel } = require('./items-inventory-model');
+        const { PlayersEnergyModel } = require('./players-energy-model');
+        const { PlayersQuestsModel } = require('./players-quests-model');
         const { PlayersStateModel } = require('./players-state-model');
         const { PlayersStatsModel } = require('./players-stats-model');
         const { RewardsEventsStateModel } = require('./rewards-events-state-model');
@@ -92,6 +94,22 @@ class PlayersModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.id',
                     to: ItemsInventoryModel.tableName+'.owner_id'
+                }
+            },
+            related_players_energy: {
+                relation: this.HasOneRelation,
+                modelClass: PlayersEnergyModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: PlayersEnergyModel.tableName+'.player_id'
+                }
+            },
+            related_players_quests: {
+                relation: this.HasManyRelation,
+                modelClass: PlayersQuestsModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: PlayersQuestsModel.tableName+'.player_id'
                 }
             },
             related_players_state: {

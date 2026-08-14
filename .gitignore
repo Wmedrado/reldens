@@ -17,3 +17,11 @@ winpty.exe.stackdump
 /.claude/instructions.md
 /CLAUDE.local.md
 /.claude/skills/
+
+/_upstream-games
+/dist
+/install.lock
+
+/server.log
+/tests/_q*.js
+/tests/_quota-trace.js

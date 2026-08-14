@@ -270,3 +270,11 @@ When working on code issues:
 - **Storage Architecture**: `.claude/storage-architecture.md` - Entity management deep dive
 - **Entities**: `.claude/entities-reference.md` - All 60+ entity types
 - **Installer**: `.claude/installer-guide.md` - Web-based installation wizard guide
+
+## AI Rules
+
+- **Claude Code hooks** (`.claude/hooks/`): `deny-generated-edit.sh` blocks Edit/Write to `generated-entities/` and `*.generated.js`; `qa-stop.sh` blocks em/en dashes, emojis, stray `.only(`, leftover `debugger`, and `console.log` in `lib/` server files on every turn; `ensure-hooks.sh` points this clone's `core.hooksPath` at `.githooks`. All hooks fail open - a broken guard must never wedge the edit loop. See `.claude/hooks/README.md`.
+- **Pre-push floor** (`.githooks/pre-push`): runs the fast pure unit tests (`tests/test-*.js`, no live server) plus the same copy guards. Full `npm test` (live server) is the manual release-candidate step.
+- **Reviewer agents** (`.claude/agents/`): `hot-path-reviewer.md`, `security-reviewer.md`, `migration-safety.md` - read-only, scope-gated, advisory.
+- **Per-directory guidance**: `lib/blockchain/CLAUDE.md` and `lib/chat/CLAUDE.md` document module invariants, persistence, and tests.
+

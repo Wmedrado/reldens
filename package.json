@@ -35,6 +35,15 @@
     "engines": {
         "node": ">=20.0.0"
     },
+    "browserslist": [
+        "> 0.5%, last 2 versions, not dead"
+    ],
+    "targets": {
+        "main": false
+    },
+    "alias": {
+        "process": false
+    },
     "bin": {
         "reldens": "bin/reldens-commands.js",
         "reldens-generate": "bin/generate.js",
@@ -48,6 +57,7 @@
         "@colyseus/monitor": "0.16.7",
         "@colyseus/schema": "3.0.76",
         "@colyseus/ws-transport": "0.16.5",
+        "@noble/curves": "^1.9.7",
         "@parcel/bundler-default": "2.16.4",
         "@parcel/compressor-raw": "2.16.4",
         "@parcel/core": "2.16.4",
@@ -96,6 +106,8 @@
         "@parcel/transformer-worklet": "2.16.4",
         "@parcel/transformer-xml": "2.16.4",
         "@parcel/transformer-yaml": "2.16.4",
+        "@reown/appkit": "1.8.22",
+        "@reown/appkit-adapter-solana": "1.8.22",
         "@reldens/cms": "^0.59.0",
         "@reldens/game-data-generator": "^0.25.0",
         "@reldens/items-system": "^0.49.0",
@@ -106,6 +118,13 @@
         "@reldens/tile-map-generator": "^0.31.0",
         "@reldens/utils": "^0.54.0",
         "@sendgrid/mail": "8.1.6",
+        "@solana/wallet-standard-chains": "^1.1.2",
+        "@solana/wallet-standard-features": "^1.4.0",
+        "@solana/web3.js": "^1.98.0",
+        "@wallet-standard/app": "^1.1.1",
+        "@wallet-standard/base": "^1.1.1",
+        "@wallet-standard/features": "^1.1.1",
+        "bs58": "^5.0.0",
         "buffer": "6.0.3",
         "colyseus.js": "0.16.22",
         "core-js": "3.48.0",

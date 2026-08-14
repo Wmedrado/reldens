@@ -6,6 +6,8 @@
 
 const { PluginInterface } = require('reldens/lib/features/plugin-interface');
 const { Npc1 } = require('./objects/client/npc1');
+const { CraftingClientPlugin } = require('reldens/lib/crafting/client/plugin');
+const { QuestsClientPlugin } = require('reldens/lib/quests/client/plugin');
 
 class ClientPlugin extends PluginInterface
 {
@@ -15,6 +17,10 @@ class ClientPlugin extends PluginInterface
         this.events = props.events;
         this.events.on('reldens.beforeJoinGame', (props) => {
             this.defineCustomClasses(props);
+        });
+        this.events.on('reldens.beforeJoinGame', (props) => {
+            new CraftingClientPlugin().setup(props);
+            new QuestsClientPlugin().setup(props);
         });
     }
 

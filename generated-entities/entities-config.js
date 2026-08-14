@@ -22,6 +22,8 @@ const { ClanLevelsModifiersEntity } = require('./entities/clan-levels-modifiers-
 const { ClanMembersEntity } = require('./entities/clan-members-entity');
 const { ConfigEntity } = require('./entities/config-entity');
 const { ConfigTypesEntity } = require('./entities/config-types-entity');
+const { CraftingRecipesEntity } = require('./entities/crafting-recipes-entity');
+const { CraftingRecipesItemsEntity } = require('./entities/crafting-recipes-items-entity');
 const { DropsAnimationsEntity } = require('./entities/drops-animations-entity');
 const { FeaturesEntity } = require('./entities/features-entity');
 const { ItemsGroupEntity } = require('./entities/items-group-entity');
@@ -41,8 +43,12 @@ const { ObjectsStatsEntity } = require('./entities/objects-stats-entity');
 const { ObjectsTypesEntity } = require('./entities/objects-types-entity');
 const { OperationTypesEntity } = require('./entities/operation-types-entity');
 const { PlayersEntity } = require('./entities/players-entity');
+const { PlayersQuestsEntity } = require('./entities/players-quests-entity');
 const { PlayersStateEntity } = require('./entities/players-state-entity');
 const { PlayersStatsEntity } = require('./entities/players-stats-entity');
+const { QuestsEntity } = require('./entities/quests-entity');
+const { QuestsObjectivesEntity } = require('./entities/quests-objectives-entity');
+const { QuestsRewardsEntity } = require('./entities/quests-rewards-entity');
 const { RespawnEntity } = require('./entities/respawn-entity');
 const { RewardsEntity } = require('./entities/rewards-entity');
 const { RewardsEventsEntity } = require('./entities/rewards-events-entity');
@@ -80,6 +86,7 @@ const { TargetOptionsEntity } = require('./entities/target-options-entity');
 const { UsersEntity } = require('./entities/users-entity');
 const { UsersLocaleEntity } = require('./entities/users-locale-entity');
 const { UsersLoginEntity } = require('./entities/users-login-entity');
+const { PlayersEnergyEntity } = require('./entities/players-energy-entity');
 
 let entitiesConfig = {
     adsBanner: AdsBannerEntity.propertiesConfig(),
@@ -100,6 +107,8 @@ let entitiesConfig = {
     clanMembers: ClanMembersEntity.propertiesConfig(),
     config: ConfigEntity.propertiesConfig(),
     configTypes: ConfigTypesEntity.propertiesConfig(),
+    craftingRecipes: CraftingRecipesEntity.propertiesConfig(),
+    craftingRecipesItems: CraftingRecipesItemsEntity.propertiesConfig(),
     dropsAnimations: DropsAnimationsEntity.propertiesConfig(),
     features: FeaturesEntity.propertiesConfig(),
     itemsGroup: ItemsGroupEntity.propertiesConfig(),
@@ -119,8 +128,12 @@ let entitiesConfig = {
     objectsTypes: ObjectsTypesEntity.propertiesConfig(),
     operationTypes: OperationTypesEntity.propertiesConfig(),
     players: PlayersEntity.propertiesConfig(),
+    playersQuests: PlayersQuestsEntity.propertiesConfig(),
     playersState: PlayersStateEntity.propertiesConfig(),
     playersStats: PlayersStatsEntity.propertiesConfig(),
+    quests: QuestsEntity.propertiesConfig(),
+    questsObjectives: QuestsObjectivesEntity.propertiesConfig(),
+    questsRewards: QuestsRewardsEntity.propertiesConfig(),
     respawn: RespawnEntity.propertiesConfig(),
     rewards: RewardsEntity.propertiesConfig(),
     rewardsEvents: RewardsEventsEntity.propertiesConfig(),
@@ -157,7 +170,8 @@ let entitiesConfig = {
     targetOptions: TargetOptionsEntity.propertiesConfig(),
     users: UsersEntity.propertiesConfig(),
     usersLocale: UsersLocaleEntity.propertiesConfig(),
-    usersLogin: UsersLoginEntity.propertiesConfig()
+    usersLogin: UsersLoginEntity.propertiesConfig(),
+    playersEnergy: PlayersEnergyEntity.propertiesConfig()
 };
 
 module.exports.entitiesConfig = entitiesConfig;

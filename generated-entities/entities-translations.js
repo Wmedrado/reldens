@@ -24,6 +24,8 @@ module.exports.entitiesTranslations = {
         'clan_members': 'Clan Members',
         'config': 'Config',
         'config_types': 'Config Types',
+        'crafting_recipes': 'Crafting Recipes',
+        'crafting_recipes_items': 'Crafting Recipes Items',
         'drops_animations': 'Drops Animations',
         'features': 'Features',
         'items_group': 'Items Group',
@@ -43,8 +45,12 @@ module.exports.entitiesTranslations = {
         'objects_types': 'Objects Types',
         'operation_types': 'Operation Types',
         'players': 'Players',
+        'players_quests': 'Players Quests',
         'players_state': 'Players State',
         'players_stats': 'Players Stats',
+        'quests': 'Quests',
+        'quests_objectives': 'Quests Objectives',
+        'quests_rewards': 'Quests Rewards',
         'respawn': 'Respawn',
         'rewards': 'Rewards',
         'rewards_events': 'Rewards Events',
@@ -81,7 +87,8 @@ module.exports.entitiesTranslations = {
         'target_options': 'Target Options',
         'users': 'Users',
         'users_locale': 'Users Locale',
-        'users_login': 'Users Login'
+        'users_login': 'Users Login',
+        'players_energy': 'Players Energy'
     },
     fields: {
         'ads_banner': {
@@ -219,6 +226,24 @@ module.exports.entitiesTranslations = {
         'config_types': {
             'id': 'ID',
             'label': 'Label'
+        },
+        'crafting_recipes': {
+            'id': 'ID',
+            'code': 'Code',
+            'label': 'Label',
+            'description': 'Description',
+            'object_id': 'Object ID',
+            'skill_id': 'Skill ID',
+            'skill_level_required': 'Skill Level Required',
+            'crafting_time_seconds': 'Crafting Time Seconds',
+            'is_active': 'Is Active'
+        },
+        'crafting_recipes_items': {
+            'id': 'ID',
+            'recipe_id': 'Recipe ID',
+            'item_id': 'Item ID',
+            'quantity': 'Quantity',
+            'type': 'Type'
         },
         'drops_animations': {
             'id': 'ID',
@@ -369,6 +394,13 @@ module.exports.entitiesTranslations = {
             'created_at': 'Created At',
             'updated_at': 'Updated At'
         },
+        'players_quests': {
+            'id': 'ID',
+            'player_id': 'Player ID',
+            'quest_id': 'Quest ID',
+            'status': 'Status',
+            'progress': 'Progress'
+        },
         'players_state': {
             'id': 'ID',
             'player_id': 'Player ID',
@@ -383,6 +415,29 @@ module.exports.entitiesTranslations = {
             'stat_id': 'Stat ID',
             'base_value': 'Base Value',
             'value': 'Value'
+        },
+        'quests': {
+            'id': 'ID',
+            'code': 'Code',
+            'label': 'Label',
+            'description': 'Description',
+            'object_id': 'Object ID',
+            'reward_exp': 'Reward Exp',
+            'is_active': 'Is Active'
+        },
+        'quests_objectives': {
+            'id': 'ID',
+            'quest_id': 'Quest ID',
+            'type': 'Type',
+            'target_key': 'Target Key',
+            'quantity': 'Quantity',
+            'label': 'Label'
+        },
+        'quests_rewards': {
+            'id': 'ID',
+            'quest_id': 'Quest ID',
+            'item_id': 'Item ID',
+            'quantity': 'Quantity'
         },
         'respawn': {
             'id': 'ID',
@@ -715,6 +770,10 @@ module.exports.entitiesTranslations = {
             'user_id': 'User ID',
             'login_date': 'Login Date',
             'logout_date': 'Logout Date'
+        },
+        'players_energy': {
+            'player_id': 'Player ID',
+            'last_regen_at': 'Last Regen At'
         }
     }
 };

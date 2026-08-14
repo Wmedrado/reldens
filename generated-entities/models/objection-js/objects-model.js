@@ -18,6 +18,7 @@ class ObjectsModel extends ObjectionJsRawModel
     {
         const { RoomsModel } = require('./rooms-model');
         const { ObjectsTypesModel } = require('./objects-types-model');
+        const { CraftingRecipesModel } = require('./crafting-recipes-model');
         const { ObjectsAnimationsModel } = require('./objects-animations-model');
         const { ObjectsAssetsModel } = require('./objects-assets-model');
         const { ObjectsItemsInventoryModel } = require('./objects-items-inventory-model');
@@ -25,6 +26,7 @@ class ObjectsModel extends ObjectionJsRawModel
         const { ObjectsItemsRewardsModel } = require('./objects-items-rewards-model');
         const { ObjectsSkillsModel } = require('./objects-skills-model');
         const { ObjectsStatsModel } = require('./objects-stats-model');
+        const { QuestsModel } = require('./quests-model');
         const { RespawnModel } = require('./respawn-model');
         const { RewardsModel } = require('./rewards-model');
         return {
@@ -42,6 +44,14 @@ class ObjectsModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.class_type',
                     to: ObjectsTypesModel.tableName+'.id'
+                }
+            },
+            related_crafting_recipes: {
+                relation: this.HasManyRelation,
+                modelClass: CraftingRecipesModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: CraftingRecipesModel.tableName+'.object_id'
                 }
             },
             related_objects_animations: {
@@ -98,6 +108,14 @@ class ObjectsModel extends ObjectionJsRawModel
                 join: {
                     from: this.tableName+'.id',
                     to: ObjectsStatsModel.tableName+'.object_id'
+                }
+            },
+            related_quests: {
+                relation: this.HasManyRelation,
+                modelClass: QuestsModel,
+                join: {
+                    from: this.tableName+'.id',
+                    to: QuestsModel.tableName+'.object_id'
                 }
             },
             related_respawn: {

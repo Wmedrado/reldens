@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# Reldens pre-push QA floor.
+#
+# Runs the fast, pure unit tests (no live server, no DB) once per push, plus the same
+# instant copy-rule scan as .claude/hooks/qa-stop.sh over the working tree. It deliberately
+# does NOT run the full `npm test` (needs a live server and database) - that is the
+# documented manual step for release candidates. Bypass in a genuine emergency with
+# `git push --no-verify`.
+set -uo pipefail
+
+command -v node >/dev/null 2>&1 || { echo "pre-push: node not found on PATH" >&2; exit 1; }
+command -v git >/dev/null 2>&1 || exit 0
+command -v perl >/dev/null 2>&1 || exit 0
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || exit 0
+
+dir="$(git rev-parse --show-toplevel 2>/dev/null || echo "$PWD")"
+cd "$dir" || exit 1
+
+fail=0
+
+# Fast pure tests. Each file is skipped when absent (not yet added on this branch) so the
+# floor degrades gracefully instead of blocking unrelated pushes.
+for test_file in \
+    tests/test-totp.js \
+    tests/test-auth-throttle.js \
+    tests/test-scrypt.js \
+    tests/test-chat-filter.js \
+    tests/test-moderation-commands.js \
+    tests/test-msg-rate-limit.js \
+    tests/test-blockchain-wallet-verify.js \
+    tests/test-blockchain-token-balance.js \
+    tests/test-blockchain-holder-tier.js; do
+    if [ -f "$test_file" ]; then
+        node "$test_file" || { echo "pre-push floor FAILED: $test_file" >&2; fail=1; }
+    fi
+done
+
+# Copy-rule scan of the uncommitted added lines, mirroring .claude/hooks/qa-stop.sh:
+# em/en dash, emoji, stray .only(, leftover debugger, console.log in lib/ server files.
+pathspec=(
+  .
+  ':(exclude)*.lock'
+  ':(exclude)package-lock.json'
+)
+stream=$(
+  git diff HEAD -U0 --no-color -- "${pathspec[@]}" 2>/dev/null
+  git ls-files --others --exclude-standard -- "${pathspec[@]}" 2>/dev/null \
+    | grep -Ei '\.(ts|js|mjs|cjs|json|md|css|html|ya?ml|sh|toml|txt)$' \
+    | while IFS= read -r f; do
+        [ -f "$f" ] || continue
+        printf '+++ b/%s\n' "$f"
+        sed 's/^/+/' "$f" 2>/dev/null
+      done
+)
+if [ -n "$stream" ]; then
+  hits=$(printf '%s' "$stream" | perl -CSD -e '
+    my @hits; my $file = "";
+    while (my $line = <STDIN>) {
+      if ($line =~ m{^\+\+\+\s+b/(.+)$}) { $file = $1; $file =~ s/\s+$//; next; }
+      next unless $line =~ /^\+/;
+      next if $line =~ /^\+\+\+/;
+      my $c = substr($line, 1);
+      chomp $c;
+      my $cat = "";
+      if ($c =~ /[\x{2013}\x{2014}\x{2015}]/) {
+        $cat = "em or en dash";
+      } elsif ($c =~ /[\x{1F000}-\x{1FAFF}\x{1F1E6}-\x{1F1FF}\x{2600}-\x{27BF}\x{FE0F}]/) {
+        $cat = "emoji";
+      } elsif (($file =~ /\.test\.(ts|js)$/ || $file =~ m{(^|/)tests/} || $file =~ m{(^|/)test-[^/]+\.(ts|js)$})
+               && $c =~ /\b(?:it|test|describe|bench|suite)\.only\s*\(/) {
+        $cat = "stray .only( disables the suite";
+      } elsif ($file =~ /\.(ts|js|mjs|cjs)$/ && $c =~ /^\s*debugger\s*;?\s*$/) {
+        $cat = "leftover debugger";
+      } elsif ($file =~ m{^lib/.*/server/.*\.js$} && $c !~ m{^\s*(?://|\*|/\*)}
+               && $c =~ /\bconsole\.log\s*\(/) {
+        $cat = "console.log in server code (use @reldens/utils Logger)";
+      }
+      next unless $cat;
+      my $snip = $c; $snip =~ s/^\s+//; $snip =~ s/\s+$//; $snip = substr($snip, 0, 80);
+      push @hits, "$file [$cat]: $snip";
+      last if @hits >= 20;
+    }
+    print join("\n", @hits);
+  ')
+  if [ -n "$hits" ]; then
+    echo "pre-push copy scan blocked:" >&2
+    printf '%s\n' "$hits" >&2
+    fail=1
+  fi
+fi
+
+exit $fail

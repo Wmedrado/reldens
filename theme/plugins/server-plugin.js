@@ -7,6 +7,10 @@
 const { Healer } = require('./objects/server/healer');
 const { QuestNpc } = require('./objects/server/quest-npc');
 const { WeaponsMaster } = require('./objects/server/weapons-master');
+const { CraftingObject } = require('reldens/lib/crafting/server/crafting-object');
+const { QuestGiverObject } = require('reldens/lib/quests/server/quest-giver-object');
+const { QuestPlugin } = require('reldens/lib/quests/server/plugin');
+const { EnergyPlugin } = require('reldens/lib/energy/server/plugin');
 const { PluginInterface } = require('reldens/lib/features/plugin-interface');
 
 class ServerPlugin extends PluginInterface
@@ -17,6 +21,18 @@ class ServerPlugin extends PluginInterface
         this.events = props.events;
         this.events.on('reldens.beforeInitializeManagers', (props) => {
             this.defineCustomClasses(props);
+        });
+        this.events.on('reldens.serverBeforeListen', async (event) => {
+            let questPlugin = new QuestPlugin({
+                events: this.events,
+                dataServer: event.serverManager.dataServer
+            });
+            await questPlugin.setup();
+            let energyPlugin = new EnergyPlugin({
+                events: this.events,
+                dataServer: event.serverManager.dataServer
+            });
+            energyPlugin.setup();
         });
     }
 
@@ -34,6 +50,8 @@ class ServerPlugin extends PluginInterface
         customClasses.objects['npc_2'] = Healer;
         customClasses.objects['npc_4'] = WeaponsMaster;
         customClasses.objects['npc_5'] = QuestNpc;
+        customClasses.objects['crafting'] = CraftingObject;
+        customClasses.objects['quest'] = QuestGiverObject;
     }
 
 }
