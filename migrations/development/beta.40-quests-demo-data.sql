@@ -27,8 +27,10 @@ REPLACE INTO `quests_objectives` (`id`, `quest_id`, `type`, `target_key`, `quant
     (2, 2, 'gather', 'wood', 5, 'Collect Wood'),
     (3, 3, 'craft', 'wood_plank', 1, 'Craft Wood Plank');
 
+-- NOTE: item 1 was "coins" in the original base migration (beta.12) and was later
+--   renumbered to 102, so quest rewards must point at coins (102).
 REPLACE INTO `quests_rewards` (`id`, `quest_id`, `item_id`, `quantity`) VALUES
-    (1, 2, 1, 5),
-    (2, 3, 1, 3);
+    (1, 2, 102, 5),
+    (2, 3, 102, 3);
 
 SET FOREIGN_KEY_CHECKS = 1;
