@@ -34,3 +34,6 @@ winpty.exe.stackdump
 /server-run.err.log
 /assets-browser.log
 /server.log
+
+/server4300.log
+/tools/asset-browser/*.log
