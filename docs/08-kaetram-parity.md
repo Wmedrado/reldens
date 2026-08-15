@@ -15,12 +15,14 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **44/44 PASS, 0 FAIL** (44 arquivos; 3 admin exigem servidor vivo).
-- T2.3 + T2.4 + T2.5 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b, 9435ffb2,
-  d85a6fb1, 9cd50a17): curva de XP 1-100 (beta.48), kill XP via rewards verificado (test-kill-xp),
-  questline inicial de 6 missoes na capital (beta.49), loop de quest verificado ponta a ponta
-  (test-quest-tracking: kill/craft avancam objetivo sem falso positivo; test-quest-rewards:
-  turn-in concede item + reward_exp e marca claimed), wiki expandida.
+- Suite de testes puros: **47/47 PASS, 0 FAIL** (47 arquivos; 3 admin exigem servidor vivo).
+- T2.3 + T2.4 + T2.5 + T2.6 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b,
+  9435ffb2, d85a6fb1, 9cd50a17, 68488370): curva de XP 1-100 (beta.48), kill XP via rewards
+  verificado (test-kill-xp), questline inicial de 6 missoes na capital (beta.49), loop de quest
+  verificado ponta a ponta (test-quest-tracking: kill/craft avancam objetivo sem falso positivo;
+  test-quest-rewards: turn-in concede item + reward_exp e marca claimed), 2+ players no mesmo
+  room validado (test-multiplayer-state: state real + reflection handshake carrega 2 players),
+  wiki expandida.
 - Working tree: trabalho em voo das IAs (professions XP, VIP, daily-tasks, drop-boost,
   shop, land gate, achievements, bank, pets, enchant, energy-regen) — testado verde,
   NAO commitado (dono = IAs que o criaram; T1.1).
@@ -78,7 +80,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Skills treinaveis | 17 (6 combate + 11 utilidade) | `lib/skills` + `lib/professions` (XP) | PARTIAL | consolidar skills treinaveis (T2.1/T4.1) |
 | Atributos por level | skill-based (sem pontos) | parcial (modifiers) | PARTIAL | T2.1 |
 | Classe / path | Kaetram e CLASSLESS (vantagem nossa: classe/path e depth extra) | nao existe | GAP | T2.1 (classe/path = "melhor") |
-| Equipamento / paper-doll | 12 slots (helmet/pendant/arrows/chest/weapon/shield/ring/skins/legs/cape/boots) | inventario existe; paper-doll/equip slots nao | GAP | T2.1 (12 slots, "melhor" que Kaetram) |
+| Equipamento / paper-doll | 12 slots (helmet/pendant/arrows/chest/weapon/shield/ring/skins/legs/cape/boots) | 12 slot groups + 13 starter items com modifiers (beta.50), obtainable no merchant 112 (beta.51); equip/unequip + modifier pipeline ja existia | PARTIAL | T2.1 look muda com equip (sprites, unico gap restante) |
 | Visual do personagem | look muda com equip/skins | sprites base | PARTIAL | T2.1 |
 | Respawn | morte -> respawn | `lib/respawn` | DONE | - |
 
@@ -140,7 +142,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
 | Multiplayer em tempo real | ws | Colyseus 0.16 | DONE | - |
-| 2+ players no mesmo room | sim | base existe | PARTIAL | validar multi (T2.6) |
+| 2+ players no mesmo room | sim | State + reflection handshake carrega 2 players (test-multiplayer-state) | DONE | - |
 | Sync de estado | sim | Colyseus state sync | DONE | - |
 | Chat | global/privado/guild/local + bolhas + profanity filter | `lib/chat` + moderacao + msg-lanes (testado) | DONE | - |
 | Amigos | sim (cross-server) | nao existe | GAP | SECUNDARIO (fase 7) |
