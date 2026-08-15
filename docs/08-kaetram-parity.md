@@ -15,7 +15,7 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **48/48 PASS, 0 FAIL** (48 arquivos; 3 admin exigem servidor vivo).
+- Suite de testes puros: **49/49 PASS, 0 FAIL** (49 arquivos; 3 admin exigem servidor vivo).
 - T2.3 + T2.4 + T2.5 + T2.6 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b,
   9435ffb2, d85a6fb1, 9cd50a17, 68488370): curva de XP 1-100 (beta.48), kill XP via rewards
   verificado (test-kill-xp), questline inicial de 6 missoes na capital (beta.49), loop de quest
@@ -90,7 +90,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 |---|---|---|---|---|
 | Habilidade/ataque | 8 abilities (debuff/sprint/dmg/tank/passivas), quickslots | `lib/actions` + skills | PARTIAL | consolidar abilities (T2.1) |
 | Tipos de dano | melee crush/slash/stab + archery + magic, rock-paper-scissors | `objects_damage_types` 5 eixos (testado) | DONE | vantagem nossa (5 eixos > 3 melee) |
-| Mobs | 148 mobs, lvl 1-485, HP 15-50k, aggro range, aggressive/alwaysAggressive | `enemy-object` + creature sheets | PARTIAL | presenca de mobs no mundo (T3.7) |
+| Mobs | 148 mobs, lvl 1-485, HP 15-50k, aggro range, aggressive/alwaysAggressive | `enemy-object` + creature sheets; 6 mobs na fazenda (rat/goblin/orc/golem + kobold/gnoll beta.53) com ficha completa (stats/dmg/drop/respawn) | PARTIAL | presenca de mobs no mundo (T3.7) |
 | Drops | dropTables compartilhadas + drops por mob, chance/100.000 | `lib/rewards` drop-tables (testado) | DONE | - |
 | Bosses | 7 bosses com plugin (fases/minions) | padrao documentado (05 §7.3); sem boss real | GAP | T3.8 (preparar) |
 | XP por kill | damage*2/hit (health+skill) | rewards.experience por kill -> classPath (verificado test-kill-xp; rato 5, goblin 10, orc 20, golem 50) | DONE | T4.1 balance |
@@ -106,7 +106,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 | Terra/grama/caminhos | sim | parcial | PARTIAL | T3.3 |
 | Casas/construcoes | sim | nao desenhado | GAP | T3.3 |
 | Pontos de interesse/portais | sim | portais 101-102-103 | PARTIAL | T3.2 |
-| Criaturas no mundo | sim | parcial (poucos mobs) | GAP | T3.7 |
+| Criaturas no mundo | sim | 6 mobs na fazenda (room 103) | PARTIAL | T3.7 (capital/town sem mobs) |
 
 ## 5. NPCs e interacao social no mundo
 
