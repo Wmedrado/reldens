@@ -15,7 +15,7 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **49/49 PASS, 0 FAIL** (49 arquivos; 3 admin exigem servidor vivo).
+- Suite de testes puros: **47/47 PASS, 0 FAIL** (50 arquivos no total; 3 admin exigem servidor vivo).
 - T2.3 + T2.4 + T2.5 + T2.6 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b,
   9435ffb2, d85a6fb1, 9cd50a17, 68488370): curva de XP 1-100 (beta.48), kill XP via rewards
   verificado (test-kill-xp), questline inicial de 6 missoes na capital (beta.49), loop de quest
@@ -26,6 +26,12 @@
 - Working tree: trabalho em voo das IAs (professions XP, VIP, daily-tasks, drop-boost,
   shop, land gate, achievements, bank, pets, enchant, energy-regen) — testado verde,
   NAO commitado (dono = IAs que o criaram; T1.1).
+- Conteudo de equip/NPC/mobs entregue e commitado (c050a7aa, ef83d1f0, bd3267d3): 12 slots de
+  equip + 13 itens com modifiers (beta.50) + stock no merchant 112 (beta.51), dialogo PT-BR dos
+  5 NPCs da capital (beta.52), 2 mobs na fazenda kobold/gnoll (beta.53), 2 NPCs ambientais na
+  fazenda Fazendeiro/Camponesa (beta.54). Cada slice com teste de integridade de conteudo
+  (test-paperdoll-content, test-equipment-shop-content, test-npc-dialogue-content,
+  test-more-mobs-content, test-ambient-npcs-content).
 
 ## Kaetram-Open v0.5.5 - superficie levantada (survey 2026-08-14)
 
@@ -112,7 +118,7 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
-| NPCs com dialogo | npcs.json (nomes/dialogos) | 5 NPCs da capital com dialogo PT-BR enriquecido (beta.52); falta enchanter + ambientacao + funcao | PARTIAL | T3.4 (enchanter + funcao) |
+| NPCs com dialogo | npcs.json (nomes/dialogos) | 5 NPCs da capital com dialogo PT-BR (beta.52) + 2 NPCs ambientais na fazenda (beta.54); falta enchanter na capital + funcao | PARTIAL | T3.4 (enchanter + funcao) |
 | Quest-givers | sim | quadro de missoes na capital (object 118) + questline inicial (beta.49) | PARTIAL | T3.4 mais NPCs de quest |
 | Merchant / loja | shop NPC | `lib/shop` (cliente) + TraderObject | PARTIAL | T3.5 loja de ferramentas |
 | Healer/banker/enchanter/blacksmith | sim | healer/banker/blacksmith no mapa com dialogo; EnchantObject existe no codigo mas falta NPC posicionado | PARTIAL | T3.4 posicionar enchanter + funcao |
