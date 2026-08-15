@@ -15,7 +15,7 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **47/47 PASS, 0 FAIL** (50 arquivos no total; 3 admin exigem servidor vivo).
+- Suite de testes puros: **50/50 PASS, 0 FAIL** (50 arquivos no total; 3 admin exigem servidor vivo).
 - T2.3 + T2.4 + T2.5 + T2.6 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b,
   9435ffb2, d85a6fb1, 9cd50a17, 68488370): curva de XP 1-100 (beta.48), kill XP via rewards
   verificado (test-kill-xp), questline inicial de 6 missoes na capital (beta.49), loop de quest
@@ -32,6 +32,11 @@
   fazenda Fazendeiro/Camponesa (beta.54). Cada slice com teste de integridade de conteudo
   (test-paperdoll-content, test-equipment-shop-content, test-npc-dialogue-content,
   test-more-mobs-content, test-ambient-npcs-content).
+- E2E mapa-fazenda validado 2026-08-14: mobs kobold/gnoll e NPCs Fazendeiro/Camponesa existem no
+  banco (404-407) E no tilemap (vibecraft-farm.json, layers respawn-area-monsters/ground,
+  tiles 412/458/454/260) com tiles livres de colisao (ground/forest/house/bridge = 0). Conteudo
+  novo aplicado ao dev DB (shop stock 112 = 17 linhas, slots 200-205, 13 itens equip, dialogo
+  PT-BR 112-116 confirmados). Wiki atualizada com kobold (8 XP) e gnoll (15 XP).
 
 ## Kaetram-Open v0.5.5 - superficie levantada (survey 2026-08-14)
 
