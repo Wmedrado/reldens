@@ -15,7 +15,7 @@
 
 - Game server sobe limpo do working tree atual (PID 58408, `Server listening` 20:00:21,
   HTTP 200 em 8080/4300/4310). Sem erros de runtime pos-boot.
-- Suite de testes puros: **47/47 PASS, 0 FAIL** (47 arquivos; 3 admin exigem servidor vivo).
+- Suite de testes puros: **48/48 PASS, 0 FAIL** (48 arquivos; 3 admin exigem servidor vivo).
 - T2.3 + T2.4 + T2.5 + T2.6 entregues 2026-08-14 e commitados (68e03962, ec3e59ea, c899d60b,
   9435ffb2, d85a6fb1, 9cd50a17, 68488370): curva de XP 1-100 (beta.48), kill XP via rewards
   verificado (test-kill-xp), questline inicial de 6 missoes na capital (beta.49), loop de quest
@@ -112,10 +112,10 @@ de PARIDADE (features e numeros), nunca de copia (licenca OPL).
 
 | Dimensao | Kaetram (referencia) | VibeCraft / Reldens | Status | Gap -> acao |
 |---|---|---|---|---|
-| NPCs com dialogo | npcs.json (nomes/dialogos) | poucos NPCs com dialogo raso | PARTIAL | T3.4 (dialogo + funcao) |
+| NPCs com dialogo | npcs.json (nomes/dialogos) | 5 NPCs da capital com dialogo PT-BR enriquecido (beta.52); falta enchanter + ambientacao + funcao | PARTIAL | T3.4 (enchanter + funcao) |
 | Quest-givers | sim | quadro de missoes na capital (object 118) + questline inicial (beta.49) | PARTIAL | T3.4 mais NPCs de quest |
 | Merchant / loja | shop NPC | `lib/shop` (cliente) + TraderObject | PARTIAL | T3.5 loja de ferramentas |
-| Healer/banker/enchanter/blacksmith | sim | existem no mapa | PARTIAL | T3.4 funcao/dialogo |
+| Healer/banker/enchanter/blacksmith | sim | healer/banker/blacksmith no mapa com dialogo; EnchantObject existe no codigo mas falta NPC posicionado | PARTIAL | T3.4 posicionar enchanter + funcao |
 | Loja de ferramentas | - (tools no shop) | NAO EXISTE | GAP | T3.5 (MAXIMA) |
 | Instrutores de profissoes | - (skills abertas) | NAO EXISTE | GAP | T3.6 (MAXIMA) |
 
